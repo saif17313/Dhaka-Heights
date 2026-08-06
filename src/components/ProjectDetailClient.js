@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
+import { getYouTubeEmbedUrl } from '@/lib/youtube';
 
 const EMPTY_FORM = { name: '', phone: '', email: '', message: '', honeypot: '' };
 
@@ -20,6 +21,7 @@ export default function ProjectDetailClient({ project, projectsPage, previewMode
   const [submitError, setSubmitError] = useState('');
   const [success, setSuccess] = useState('');
   const activeImage = images.find((image) => image.mediaId === activeMediaId) || images[0];
+  const videoEmbedUrl = useMemo(() => getYouTubeEmbedUrl(project.videoUrl), [project.videoUrl]);
 
   const update = (field, value) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -49,6 +51,7 @@ export default function ProjectDetailClient({ project, projectsPage, previewMode
       <div className="lg-col-span-2 flex flex-col gap-8">
         <div className="project-detail-hero-wrapper"><img src={activeImage?.media?.secureUrl} alt={activeImage?.alt || project.coverAlt} style={{ width: '100%', maxHeight: '500px', objectFit: 'cover' }} /></div>
         {images.length > 1 && <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', flexWrap: 'wrap' }}>{images.map((image, index) => <button type="button" key={`${image.mediaId}-${index}`} onClick={() => setActiveMediaId(image.mediaId)} className={`project-detail-thumbnail ${activeMediaId === image.mediaId ? 'active' : ''}`} aria-label={`View ${image.alt}`} style={{ padding: 0, border: 0, background: 'transparent', cursor: 'pointer' }}><img src={image.media.secureUrl} alt={image.alt} /></button>)}</div>}
+        {videoEmbedUrl && <div className="project-detail-video-wrapper"><h3 className="text-navy font-serif text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--primary-navy)' }}>Project Video Tour</h3><div className="project-detail-video-frame"><iframe src={videoEmbedUrl} title={`${project.name} video tour`} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" /></div></div>}
         <div className="project-text-block" style={{ marginTop: '45px' }}><h3 className="text-navy font-serif text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--primary-navy)' }}>{detail.overviewTitle}</h3><p className="text-gray-600 leading-relaxed mb-6" style={{ fontSize: '1.05rem', lineHeight: '1.8' }}>{project.description}</p><p className="text-gray-600 leading-relaxed" style={{ fontSize: '1rem', lineHeight: '1.8' }}>{detail.secondaryDescription}</p></div>
       </div>
       <div className="flex flex-col gap-8">
