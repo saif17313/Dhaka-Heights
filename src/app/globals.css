@@ -753,7 +753,7 @@ body.loading-active {
 }
 
 .brand-subtitle {
-  font-size: 0.75rem;
+  font-size: 0.90rem;
   letter-spacing: 6px;
   color: var(--accent-gold);
   text-transform: uppercase;
@@ -4506,6 +4506,7 @@ body.loading-active {
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
+  background-attachment: fixed;
 }
 
 .projects-portfolio-layout {
@@ -4758,6 +4759,7 @@ body.loading-active {
 }
 
 .media-content-section {
+  background-attachment: fixed;
   padding: 100px 0;
   background-color: #FAF9F6;
   background-image: url("/assets/properties_bg_skyline.png");
@@ -5271,6 +5273,7 @@ body.loading-active {
 
 /* Project Details Page Custom Styles */
 .project-details-body-section {
+  background-attachment: fixed;
   background-color: #FAF9F6;
   background-image: url("/assets/properties_bg_skyline.png");
   background-position: center bottom;
