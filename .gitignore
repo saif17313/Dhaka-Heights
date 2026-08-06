@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Next.js and build output
+.next/
+out/
+build/
+dist/
+
+# Testing and coverage
+coverage/
+
+# Environment files and local credentials
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+!.env.example
+
+# Hosting and tooling
+.vercel/
+supabase/.temp/
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local backups, extracted fix packages, and archives
+.fix-backups/
+_static_backup/
+Dhaka-Heights-Fix-*/
+*.zip
+*.7z
+*.rar
+
+# Sensitive key material
+*.pem
+*.key
+.env*.local

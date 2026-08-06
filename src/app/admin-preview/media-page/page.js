@@ -1,0 +1,1 @@
+import MediaPageSavedPreview from '@/components/admin/MediaPageSavedPreview';import { getAdminMediaPage } from '@/lib/mediaPageRepository';export default async function MediaPreview(){return <MediaPageSavedPreview mediaPage={await getAdminMediaPage()}/>;}

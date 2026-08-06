@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <!-- Definition of gradients -->
+  <defs>
+    <!-- Premium Gold Gradient -->
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3E7C4" />
+      <stop offset="30%" stop-color="#D4AF37" />
+      <stop offset="70%" stop-color="#AA7C11" />
+      <stop offset="100%" stop-color="#E2C578" />
+    </linearGradient>
+
+    <!-- Drop Shadow for building depth -->
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Logo Group -->
+  <g filter="url(#shadow)">
+    <!-- STYLIZED 'D' (LEFT BUILDING TOWER) -->
+    <path d="M 190,140 
+             L 225,120 
+             L 225,380 
+             L 190,380 
+             Z" 
+          fill="var(--logo-color, url(#gold-grad))" />
+          
+    <path d="M 190,148 
+             L 135,180 
+             L 135,235 
+             L 165,235 
+             L 165,200 
+             L 190,185 
+             Z" 
+          fill="var(--logo-color, url(#gold-grad))" />
+
+    <path d="M 190,372 
+             L 135,340 
+             L 135,265 
+             L 165,265 
+             L 165,300 
+             L 190,315 
+             Z" 
+          fill="var(--logo-color, url(#gold-grad))" />
+
+    <!-- STYLIZED 'H' (MIDDLE AND RIGHT BUILDING TOWERS) -->
+    <!-- Middle Tower -->
+    <path d="M 245,160 
+             L 280,140 
+             L 280,380 
+             L 245,380 
+             Z" 
+          fill="var(--logo-color, url(#gold-grad))" />
+          
+    <!-- Right Tower -->
+    <path d="M 300,110 
+             L 335,90 
+             L 335,380 
+             L 300,380 
+             Z" 
+          fill="var(--logo-color, url(#gold-grad))" />
+          
+    <!-- Connecting Bridge -->
+    <path d="M 280,240 
+             L 300,240 
+             L 300,275 
+             L 280,275 
+             Z" 
+          fill="var(--logo-color, url(#gold-grad))" />
+  </g>
+</svg>

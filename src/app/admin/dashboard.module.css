@@ -1,0 +1,213 @@
+.dashboard {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgb(226 232 240 / 0.8);
+}
+
+.headerActions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.headerControl {
+  min-height: 42px;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kpiCard {
+  min-height: 116px;
+  padding: 18px;
+}
+
+.managementPanel,
+.panel {
+  min-width: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px rgb(15 23 42 / 0.035);
+}
+
+.managementPanel {
+  padding: 18px;
+}
+
+.panel {
+  padding: 18px;
+}
+
+.sectionHeader,
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sectionHeader {
+  margin-bottom: 16px;
+}
+
+.panelHeader {
+  margin-bottom: 16px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.moduleGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.moduleCard {
+  min-height: 80px;
+  padding: 14px 16px;
+}
+
+.primaryGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 16px;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+  align-items: stretch;
+  gap: 16px;
+}
+
+.shortcutsGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.shortcutCard {
+  min-height: 88px;
+}
+
+.interactiveCard:focus-visible,
+.headerControl:focus-visible {
+  outline: 3px solid rgb(197 168 128 / 0.45);
+  outline-offset: 2px;
+}
+
+.analyticsEmpty {
+  display: flex;
+  min-height: 236px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  padding: 24px;
+  text-align: center;
+}
+
+@media (max-width: 1439px) {
+  .kpiGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1279px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .kpiGrid,
+  .moduleGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .primaryGrid,
+  .bottomGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .shortcutsGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .headerActions {
+    flex-wrap: wrap;
+  }
+
+  .shortcutsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .dashboard {
+    gap: 20px;
+  }
+
+  .header {
+    gap: 16px;
+    padding-bottom: 16px;
+  }
+
+  .headerActions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .dateControl {
+    grid-column: 1 / -1;
+  }
+
+  .kpiGrid,
+  .moduleGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .kpiCard,
+  .managementPanel,
+  .panel {
+    padding: 16px;
+  }
+
+  .sectionHeader,
+  .panelHeader {
+    align-items: flex-start;
+  }
+
+  .moduleCard {
+    min-height: 82px;
+  }
+
+  .analyticsEmpty {
+    min-height: 180px;
+  }
+}
