@@ -134,14 +134,15 @@ function TeamCard({ member, onOpen }) {
           loading="lazy"
           decoding="async"
         />
-        <div className="about-team-card-overlay" />
-        <div className="about-team-card-copy">
-          <h3>{member.name}</h3>
-          <p>{member.role}</p>
-          <span aria-hidden="true">
+        <div className="about-team-card-overlay" aria-hidden="true">
+          <span className="about-team-card-view">
             View Profile <i className="fa-solid fa-arrow-right-long" />
           </span>
         </div>
+      </div>
+      <div className="about-team-card-copy">
+        <h3>{member.name}</h3>
+        <p>{member.role}</p>
       </div>
     </button>
   );
