@@ -99,17 +99,17 @@ export default function LandownerEnquiryForm({ infoCards = [], map }) {
                   <div className="flex flex-col gap-6">
                     <div className="grid-2 gap-6">
                       <input type="text" placeholder="Locality" maxLength={160} value={form.locality} onChange={(event) => setField('locality', event.target.value)} className="luxury-input-field" />
-                      <input type="text" placeholder="Address *" required maxLength={220} value={form.address} onChange={(event) => setField('address', event.target.value)} className="luxury-input-field" />
+                      <input type="text" placeholder="Address" maxLength={220} value={form.address} onChange={(event) => setField('address', event.target.value)} className="luxury-input-field" />
                     </div>
                     <div className="grid-2 gap-6">
-                      <input type="text" placeholder="Size of the Land in Kathas *" required maxLength={60} value={form.sizeOfLand} onChange={(event) => setField('sizeOfLand', event.target.value)} className="luxury-input-field" />
-                      <input type="text" placeholder="Width of the Road in Front (in Feet) *" required maxLength={60} value={form.roadWidth} onChange={(event) => setField('roadWidth', event.target.value)} className="luxury-input-field" />
+                      <input type="text" placeholder="Size of the Land in Kathas" maxLength={60} value={form.sizeOfLand} onChange={(event) => setField('sizeOfLand', event.target.value)} className="luxury-input-field" />
+                      <input type="text" placeholder="Width of the Road in Front (in Feet)" maxLength={60} value={form.roadWidth} onChange={(event) => setField('roadWidth', event.target.value)} className="luxury-input-field" />
                     </div>
                     <div className="grid-2 gap-6">
-                      <select required value={form.category} onChange={(event) => setField('category', event.target.value)} className="luxury-select-boxed">
+                      <select value={form.category} onChange={(event) => setField('category', event.target.value)} className="luxury-select-boxed">
                         {CATEGORY_OPTIONS.map((option) => <option value={option.value} key={option.value || 'placeholder'} disabled={!option.value}>{option.label}</option>)}
                       </select>
-                      <input type="text" placeholder="Facing *" required maxLength={60} value={form.facing} onChange={(event) => setField('facing', event.target.value)} className="luxury-input-field" />
+                      <input type="text" placeholder="Facing" maxLength={60} value={form.facing} onChange={(event) => setField('facing', event.target.value)} className="luxury-input-field" />
                     </div>
                     <input type="text" placeholder="Attractive Features (If Any)" maxLength={500} value={form.attractiveFeatures} onChange={(event) => setField('attractiveFeatures', event.target.value)} className="luxury-input-field" />
                   </div>
@@ -120,7 +120,7 @@ export default function LandownerEnquiryForm({ infoCards = [], map }) {
                   <div className="flex flex-col gap-6">
                     <input type="text" placeholder="Name of the Landowner *" required maxLength={120} value={form.landownerName} onChange={(event) => setField('landownerName', event.target.value)} className="luxury-input-field" />
                     <div className="grid-2 gap-6">
-                      <input type="email" placeholder="Email ID *" required maxLength={254} value={form.email} onChange={(event) => setField('email', event.target.value)} className="luxury-input-field" />
+                      <input type="email" placeholder="Email ID" maxLength={254} value={form.email} onChange={(event) => setField('email', event.target.value)} className="luxury-input-field" />
                       <input type="tel" placeholder="Contact Number *" required maxLength={40} value={form.contactNumber} onChange={(event) => setField('contactNumber', event.target.value)} className="luxury-input-field" />
                     </div>
                   </div>
