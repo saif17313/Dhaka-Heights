@@ -38,33 +38,35 @@ export async function POST(request) {
     const attractiveFeatures = clean(body?.attractive_features);
 
     if (!landownerName || landownerName.length > 120) return NextResponse.json({ error: "Please provide the landowner's name." }, { status: 400 });
-    if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return NextResponse.json({ error: 'Please provide a valid email address.' }, { status: 400 });
     if (contactNumber.length < 8 || contactNumber.length > 40 || !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(contactNumber)) return NextResponse.json({ error: 'Please provide a valid contact number.' }, { status: 400 });
-    if (!address || address.length > 220) return NextResponse.json({ error: 'Please provide the land address.' }, { status: 400 });
-    if (!sizeOfLand || sizeOfLand.length > 60) return NextResponse.json({ error: 'Please provide the size of the land.' }, { status: 400 });
-    if (!roadWidth || roadWidth.length > 60) return NextResponse.json({ error: 'Please provide the road width in front of the land.' }, { status: 400 });
-    if (!CATEGORY_LABELS[category]) return NextResponse.json({ error: 'Please select a valid property category.' }, { status: 400 });
-    if (!facing || facing.length > 60) return NextResponse.json({ error: 'Please provide the facing direction of the land.' }, { status: 400 });
+    if (email && (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) return NextResponse.json({ error: 'Please provide a valid email address.' }, { status: 400 });
+    if (address.length > 220) return NextResponse.json({ error: 'Address must be 220 characters or fewer.' }, { status: 400 });
+    if (sizeOfLand.length > 60) return NextResponse.json({ error: 'Size of land must be 60 characters or fewer.' }, { status: 400 });
+    if (roadWidth.length > 60) return NextResponse.json({ error: 'Road width must be 60 characters or fewer.' }, { status: 400 });
+    if (category && !CATEGORY_LABELS[category]) return NextResponse.json({ error: 'Please select a valid property category.' }, { status: 400 });
+    if (facing.length > 60) return NextResponse.json({ error: 'Facing must be 60 characters or fewer.' }, { status: 400 });
     if (locality.length > 160) return NextResponse.json({ error: 'Locality must be 160 characters or fewer.' }, { status: 400 });
     if (attractiveFeatures.length > 500) return NextResponse.json({ error: 'Attractive features must be 500 characters or fewer.' }, { status: 400 });
 
     const message = [
       locality && `Locality: ${locality}`,
-      `Address: ${address}`,
-      `Size of land: ${sizeOfLand} katha`,
-      `Road width in front: ${roadWidth} ft`,
-      `Property category: ${CATEGORY_LABELS[category]}`,
-      `Facing: ${facing}`,
+      address && `Address: ${address}`,
+      sizeOfLand && `Size of land: ${sizeOfLand} katha`,
+      roadWidth && `Road width in front: ${roadWidth} ft`,
+      category && `Property category: ${CATEGORY_LABELS[category]}`,
+      facing && `Facing: ${facing}`,
       attractiveFeatures && `Attractive features: ${attractiveFeatures}`,
-    ].filter(Boolean).join('\n');
+    ].filter(Boolean).join('\n') || 'No additional land details provided.';
+
+    const subject = ['Landowner Submission', category && CATEGORY_LABELS[category], address].filter(Boolean).join(' · ');
 
     const supabase = createAdminClient();
     const { data, error } = await supabase.from('inquiries').insert({
       submission_type: 'landowner_lead',
       full_name: landownerName,
-      email,
+      email: email || null,
       phone: contactNumber,
-      subject: `Landowner Submission · ${CATEGORY_LABELS[category]} · ${address}`,
+      subject,
       message,
       status: 'new',
     }).select('id').single();
