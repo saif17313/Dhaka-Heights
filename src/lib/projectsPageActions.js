@@ -9,6 +9,7 @@ import {
   promoteProjectsPageDraft,
 } from '@/lib/projectsPageRepository';
 import { PROJECT_FILTER_GROUPS, PROJECT_FILTER_KEY_PATTERN, normalizeProjectFilterOptions } from '@/lib/projectFilterOptions';
+import { extractYouTubeVideoId } from '@/lib/youtube';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -47,6 +48,7 @@ function validate(input) {
     if (!project.coverMediaId) errors[`projects.${index}.coverMediaId`] = 'Select a cover image.';
     if (!project.coverAlt?.trim()) errors[`projects.${index}.coverAlt`] = 'Cover alt text is required.';
     if (!project.description?.trim()) errors[`projects.${index}.description`] = 'Project description is required.';
+    if (project.videoUrl?.trim() && !extractYouTubeVideoId(project.videoUrl.trim())) errors[`projects.${index}.videoUrl`] = 'Enter a valid YouTube video URL.';
     for (const group of PROJECT_FILTER_GROUPS) {
       if (!filterOptions[group.key].some((option) => option.key === project[group.projectField])) {
         errors[`projects.${index}.${group.projectField}`] = `Select a valid ${group.title.toLowerCase()} option.`;
