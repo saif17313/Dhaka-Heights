@@ -753,7 +753,7 @@ body.loading-active {
 }
 
 .brand-subtitle {
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 6px;
   color: var(--accent-gold);
   text-transform: uppercase;
