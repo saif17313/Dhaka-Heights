@@ -3227,22 +3227,22 @@ body.loading-active {
 .scroll-to-top-btn {
   position: fixed;
   bottom: 40px;
-  left: 40px;
-  width: 48px;
-  height: 48px;
+  right: 40px;
+  width: 54px;
+  height: 54px;
   background-color: var(--primary-navy);
   color: var(--accent-gold);
   border: 1px solid rgba(197, 168, 128, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   z-index: 997;
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
-  transition: opacity 0.35s ease, transform 0.35s ease, background-color 0.25s ease;
+  transition: opacity 0.35s ease, transform 0.35s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .scroll-to-top-btn.visible {
@@ -3260,9 +3260,9 @@ body.loading-active {
 @media (max-width: 768px) {
   .scroll-to-top-btn {
     bottom: 20px;
-    left: 20px;
-    width: 42px;
-    height: 42px;
+    right: 20px;
+    width: 46px;
+    height: 46px;
   }
 
   .quick-inquiry-drawer {
@@ -6369,11 +6369,11 @@ body.loading-active {
 .scroll-to-top-btn {
   overflow: visible;
   isolation: isolate;
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
   background-color: transparent !important;
-  border: 1px solid rgba(11, 27, 61, 0.24) !important;
-  color: rgba(11, 27, 61, 0.55) !important;
-  box-shadow: 0 8px 24px rgba(11, 27, 61, 0.07) !important;
+  border: 1px solid rgba(197, 168, 128, 0.38) !important;
+  color: rgba(11, 27, 61, 0.6) !important;
+  box-shadow: 0 10px 26px rgba(11, 27, 61, 0.1) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -6384,7 +6384,7 @@ body.loading-active {
   position: absolute;
   inset: -1px;
   z-index: -1;
-  border: 1px solid rgba(11, 27, 61, 0.2);
+  border: 1px solid rgba(197, 168, 128, 0.45);
   border-radius: 50%;
   opacity: 0;
   pointer-events: none;
@@ -6400,15 +6400,41 @@ body.loading-active {
 
 .scroll-to-top-btn:hover,
 .scroll-to-top-btn:focus-visible {
-  background: rgba(255, 255, 255, 0.28) !important;
-  background-color: rgba(255, 255, 255, 0.28) !important;
-  border-color: rgba(181, 148, 16, 0.5) !important;
+  background: rgba(255, 255, 255, 0.32) !important;
+  background-color: rgba(255, 255, 255, 0.32) !important;
+  border-color: rgba(181, 148, 16, 0.55) !important;
   color: var(--primary-navy) !important;
-  box-shadow: 0 12px 30px rgba(11, 27, 61, 0.12) !important;
+  box-shadow: 0 14px 34px rgba(11, 27, 61, 0.16), 0 0 0 4px rgba(197, 168, 128, 0.14) !important;
   outline: none;
 }
 
+.scroll-to-top-progress {
+  position: absolute;
+  inset: -6px;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.scroll-to-top-progress-track {
+  fill: none;
+  stroke: rgba(11, 27, 61, 0.1);
+  stroke-width: 2.5;
+}
+
+.scroll-to-top-progress-fill {
+  fill: none;
+  stroke: var(--accent-gold);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.12s linear;
+  filter: drop-shadow(0 0 4px rgba(197, 168, 128, 0.5));
+}
+
 .scroll-to-top-arrow {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
