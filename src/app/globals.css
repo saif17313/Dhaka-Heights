@@ -6294,8 +6294,8 @@ body.loading-active {
 
 .about-team-heading {
   max-width: 760px;
-  margin: 0 0 clamp(36px, 5vw, 58px);
-  text-align: left;
+  margin: 0 auto clamp(36px, 5vw, 58px);
+  text-align: center;
 }
 
 .about-team-heading .section-title {
@@ -6307,7 +6307,7 @@ body.loading-active {
 
 .about-team-heading p {
   max-width: 680px;
-  margin: 0;
+  margin: 0 auto;
   color: #5f6b7c;
   font-size: 1rem;
   line-height: 1.8;
