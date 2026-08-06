@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePublicShell } from './PublicShellProvider';
@@ -10,49 +10,12 @@ function ExternalProps({ target }) {
 }
 
 function BrandLockup({ shell, logoUrl }) {
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const [aligned, setAligned] = useState(false);
-
-  useEffect(() => {
-    const title = titleRef.current;
-    const subtitle = subtitleRef.current;
-    if (!title || !subtitle) return undefined;
-
-    const syncAlignment = () => {
-      const titleWidth = title.getBoundingClientRect().width;
-      const subtitleWidth = subtitle.scrollWidth;
-      if (titleWidth <= 0 || subtitleWidth <= 0) return;
-      subtitle.style.setProperty('--brand-subtitle-scale', String(titleWidth / subtitleWidth));
-      setAligned(true);
-    };
-
-    syncAlignment();
-    document.fonts?.ready?.then(syncAlignment)?.catch(() => {});
-    document.fonts?.addEventListener?.('loadingdone', syncAlignment);
-
-    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(syncAlignment) : null;
-    observer?.observe(title);
-    observer?.observe(subtitle);
-    window.addEventListener('resize', syncAlignment);
-
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener('resize', syncAlignment);
-      document.fonts?.removeEventListener?.('loadingdone', syncAlignment);
-    };
-  }, [shell.brand.brandTitle, shell.brand.brandSubtitle]);
-
   return (
     <div className="logo-container">
       <img src={logoUrl} alt={shell.brand.logoAlt} className="header-logo" />
       <div className="logo-text nav-brand-lockup">
-        <span ref={titleRef} className="brand-title nav-brand-title">
-          {shell.brand.brandTitle}
-        </span>
-        <span ref={subtitleRef} className={`brand-subtitle nav-brand-subtitle${aligned ? ' is-aligned' : ''}`}>
-          {shell.brand.brandSubtitle}
-        </span>
+        <span className="brand-title nav-brand-title">{shell.brand.brandTitle}</span>
+        <span className="brand-subtitle nav-brand-subtitle">{shell.brand.brandSubtitle}</span>
       </div>
     </div>
   );

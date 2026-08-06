@@ -5986,21 +5986,16 @@ body.loading-active {
   width: max-content;
 }
 
-.nav-brand-title,
-.nav-brand-subtitle {
+.nav-brand-title {
   align-self: flex-start;
   white-space: nowrap;
 }
 
 .nav-brand-subtitle {
-  width: max-content;
-  transform-origin: left center;
-  will-change: transform;
-}
-
-.nav-brand-subtitle.is-aligned {
-  transform: scaleX(var(--brand-subtitle-scale, 1));
-  transition: transform 0.2s ease;
+  width: 100%;
+  white-space: nowrap;
+  text-align: justify;
+  text-align-last: justify;
 }
 
 .about-preview-surface .scroll-reveal {
