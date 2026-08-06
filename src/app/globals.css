@@ -5339,6 +5339,40 @@ body.loading-active {
   box-shadow: 0 10px 30px rgba(11,27,61,0.02);
 }
 
+.project-description-rich p,
+.project-description-rich div {
+  margin: 0 0 14px;
+}
+
+.project-description-rich p:last-child,
+.project-description-rich div:last-child {
+  margin-bottom: 0;
+}
+
+.project-description-rich ul,
+.project-description-rich ol {
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+
+.project-description-rich ul {
+  list-style: disc;
+}
+
+.project-description-rich ol {
+  list-style: decimal;
+}
+
+.project-description-rich li {
+  margin-bottom: 6px;
+}
+
+.project-description-rich strong,
+.project-description-rich b {
+  color: var(--primary-navy);
+  font-weight: 700;
+}
+
 .project-detail-video-frame {
   position: relative;
   aspect-ratio: 16 / 9;
