@@ -4,17 +4,22 @@ import Footer from '@/components/Footer';
 import ProjectDetailClient from '@/components/ProjectDetailClient';
 import { getPublishedProject, getPublishedProjectsPage } from '@/lib/projectsPageRepository';
 
+function stripHtml(value) {
+  return String(value || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const result = await getPublishedProject(id);
   if (!result) return { title: 'Project Not Found | Dhaka Heights Properties Limited' };
   const { project } = result;
+  const description = project.descriptionShort || stripHtml(project.description);
   return {
     title: `${project.name} | Dhaka Heights Properties Limited`,
-    description: project.descriptionShort || project.description,
+    description,
     alternates: { canonical: `/project/${project.slug}` },
-    openGraph: { title: project.name, description: project.descriptionShort || project.description, images: project.coverMedia?.secureUrl ? [project.coverMedia.secureUrl] : [], type: 'website', url: `/project/${project.slug}` },
-    twitter: { card: 'summary_large_image', title: project.name, description: project.descriptionShort || project.description, images: project.coverMedia?.secureUrl ? [project.coverMedia.secureUrl] : [] },
+    openGraph: { title: project.name, description, images: project.coverMedia?.secureUrl ? [project.coverMedia.secureUrl] : [], type: 'website', url: `/project/${project.slug}` },
+    twitter: { card: 'summary_large_image', title: project.name, description, images: project.coverMedia?.secureUrl ? [project.coverMedia.secureUrl] : [] },
   };
 }
 

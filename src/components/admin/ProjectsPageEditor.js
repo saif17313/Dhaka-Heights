@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ProjectsPageClient from '@/components/ProjectsPageClient';
@@ -38,6 +38,65 @@ function normalizeOrders(items) { return items.map((item, index) => ({ ...item, 
 function move(items, index, direction) { const destination = index + direction; if (destination < 0 || destination >= items.length) return items; const next = [...items]; [next[index], next[destination]] = [next[destination], next[index]]; return normalizeOrders(next); }
 function mapAsset(asset) { return { id: asset.id, secureUrl: asset.secure_url || asset.secureUrl || asset.url, displayName: asset.display_name || asset.displayName || asset.filename, altText: asset.alt_text || asset.altText || '', format: asset.format, width: asset.width, height: asset.height }; }
 function Field({ label, value, onChange, multiline = false, type = 'text' }) { const Control = multiline ? 'textarea' : 'input'; return <label><span className={LABEL}>{label}</span><Control type={type} rows={multiline ? 4 : undefined} value={value ?? ''} onChange={(event) => onChange(event.target.value)} className={INPUT} /></label>; }
+
+const RICH_TEXT_TOOLBAR = [
+  ['bold', 'fa-bold', 'Bold'],
+  ['italic', 'fa-italic', 'Italic'],
+  ['insertUnorderedList', 'fa-list-ul', 'Bullet list'],
+  ['insertOrderedList', 'fa-list-ol', 'Numbered list'],
+  ['removeFormat', 'fa-eraser', 'Clear formatting'],
+];
+
+function RichTextField({ label, value, onChange, hint }) {
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    if (editorRef.current) editorRef.current.innerHTML = value || '';
+    // Runs once per mount only - the field is remounted (via a key on the
+    // project's id) whenever the admin switches to a different project, so
+    // this never needs to re-sync while the admin is actively typing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const emitChange = () => onChange(editorRef.current?.innerHTML || '');
+  const runCommand = (command) => {
+    editorRef.current?.focus();
+    document.execCommand(command);
+    emitChange();
+  };
+
+  return (
+    <label>
+      <span className={LABEL}>{label}</span>
+      {hint && <p className="mb-1 text-[10px] text-slate-500">{hint}</p>}
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white focus-within:border-[#C5A880] focus-within:ring-2 focus-within:ring-[#C5A880]/20">
+        <div className="flex gap-1 border-b border-slate-200 bg-slate-50 p-1.5">
+          {RICH_TEXT_TOOLBAR.map(([command, icon, title]) => (
+            <button
+              key={command}
+              type="button"
+              title={title}
+              aria-label={title}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => runCommand(command)}
+              className="grid h-7 w-7 place-items-center rounded text-xs text-slate-700 hover:bg-slate-200"
+            >
+              <i className={`fa-solid ${icon}`} />
+            </button>
+          ))}
+        </div>
+        <div
+          ref={editorRef}
+          contentEditable
+          suppressContentEditableWarning
+          onInput={emitChange}
+          onBlur={emitChange}
+          className="min-h-[140px] px-3 py-2 text-xs font-medium leading-relaxed text-slate-800 outline-none [&_li]:ml-4 [&_ol]:list-decimal [&_p]:mb-2 [&_ul]:list-disc"
+        />
+      </div>
+    </label>
+  );
+}
 function Select({ label, value, onChange, options }) { return <label><span className={LABEL}>{label}</span><select value={value} onChange={(event) => onChange(event.target.value)} className={INPUT}>{options.map(([key, text]) => <option value={key} key={key}>{text}</option>)}</select></label>; }
 
 function FilterOptionRow({ option, index, options, usageCount, onCommitKey, onChangeLabel, onDelete }) {
@@ -167,7 +226,7 @@ function ProjectForm({ project, filterOptions, onChange, onChooseCover, onChoose
     <div className="grid gap-3 md:grid-cols-4"><Select label="Lifecycle" value={project.lifecycle} onChange={(value) => set('lifecycle', value)} options={filterOptions.status.map((option) => [option.key, option.label])} /><Select label="Property category" value={project.propertyCategory} onChange={(value) => set('propertyCategory', value)} options={filterOptions.category.map((option) => [option.key, option.label])} /><Select label="Location filter" value={project.locationKey} onChange={(value) => set('locationKey', value)} options={filterOptions.location.map((option) => [option.key, option.label])} /><Select label="Size filter" value={project.sizeCategory} onChange={(value) => set('sizeCategory', value)} options={filterOptions.size.map((option) => [option.key, option.label])} /></div>
     <div className="grid gap-3 md:grid-cols-2"><Field label="Badge text" value={project.badgeText} onChange={(value) => set('badgeText', value)} /><Field label="City/zone" value={project.cityZone} onChange={(value) => set('cityZone', value)} /><Field label="Card location" value={project.cardLocation} onChange={(value) => set('cardLocation', value)} /><Field label="Card size" value={project.cardSize} onChange={(value) => set('cardSize', value)} /><Field label="Project type" value={project.projectType} onChange={(value) => set('projectType', value)} /><Field label="Short description/SEO" value={project.descriptionShort} onChange={(value) => set('descriptionShort', value)} multiline /></div>
     <div className="grid gap-3 md:grid-cols-3"><Field label="Detail status label" value={project.detailCategoryLabel} onChange={(value) => set('detailCategoryLabel', value)} /><Field label="Detail location" value={project.detailLocation} onChange={(value) => set('detailLocation', value)} /><Field label="Detail size" value={project.detailSize} onChange={(value) => set('detailSize', value)} /><Field label="Floor structure" value={project.floors} onChange={(value) => set('floors', value)} /><Field label="Parking" value={project.parking} onChange={(value) => set('parking', value)} /><Field label="Elevators" value={project.elevators} onChange={(value) => set('elevators', value)} /><Field label="Power backup" value={project.power} onChange={(value) => set('power', value)} /><Field label="Land area" value={project.landArea} onChange={(value) => set('landArea', value)} /><Field label="Building height" value={project.buildingHeight} onChange={(value) => set('buildingHeight', value)} /></div>
-    <Field label="Full project overview" value={project.description} onChange={(value) => set('description', value)} multiline />
+    <RichTextField key={project.projectId} label="Full project overview" hint="Bold, italic, and bullet/numbered lists are supported." value={project.description} onChange={(value) => set('description', value)} />
     <div className="rounded-xl border p-4"><h3 className="font-serif text-sm font-bold text-[#0B1B3D]">Cover image</h3><div className="mt-3 flex flex-col gap-4 sm:flex-row">{project.coverMedia?.secureUrl && <img src={project.coverMedia.secureUrl} alt="" className="h-32 w-48 rounded-lg object-cover" />}<div className="flex-1"><Field label="Accessible image description" value={project.coverAlt} onChange={(value) => set('coverAlt', value)} /><button type="button" onClick={onChooseCover} className="mt-3 rounded-lg bg-[#0B1B3D] px-3 py-2 text-xs font-bold text-white">Choose cover image</button></div></div></div>
     <div className="rounded-xl border p-4"><h3 className="font-serif text-sm font-bold text-[#0B1B3D]">Video tour (optional)</h3><p className="text-[10px] text-slate-500">Paste a YouTube link. It renders as a video frame on the project detail page next to the photo gallery.</p><div className="mt-3"><Field label="YouTube video URL" value={project.videoUrl} onChange={(value) => set('videoUrl', value)} /></div>{project.videoUrl?.trim() && !extractYouTubeVideoId(project.videoUrl.trim()) && <p className="mt-2 text-[10px] font-semibold text-red-600">This does not look like a valid YouTube link.</p>}</div>
     <div className="rounded-xl border p-4"><div className="flex items-center justify-between"><div><h3 className="font-serif text-sm font-bold text-[#0B1B3D]">Gallery images</h3><p className="text-[10px] text-slate-500">The cover remains the first thumbnail. Add up to eight additional images.</p></div><button type="button" disabled={project.gallery.length >= 8} onClick={onChooseGallery} className="rounded-lg border px-3 py-2 text-xs font-bold disabled:opacity-40">+ Gallery image</button></div><div className="mt-4 grid gap-3 md:grid-cols-2">{project.gallery.map((image, index) => <div key={`${image.mediaId}-${index}`} className="rounded-xl bg-slate-50 p-3">{image.media?.secureUrl && <img src={image.media.secureUrl} alt="" className="h-28 w-full rounded-lg object-cover" />}<div className="mt-2"><Field label="Accessible image description" value={image.alt} onChange={(value) => set('gallery', project.gallery.map((item, itemIndex) => itemIndex === index ? { ...item, alt: value } : item))} /></div><div className="mt-2 flex items-center justify-between"><label className="text-xs"><input type="checkbox" checked={image.isVisible !== false} onChange={(event) => set('gallery', project.gallery.map((item, itemIndex) => itemIndex === index ? { ...item, isVisible: event.target.checked } : item))} /> Visible</label><button type="button" onClick={() => onRemoveGallery(index)} className="text-xs font-bold text-red-600">Remove</button></div></div>)}</div></div>
