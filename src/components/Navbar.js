@@ -12,6 +12,7 @@ function ExternalProps({ target }) {
 function BrandLockup({ shell, logoUrl }) {
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
+  const [aligned, setAligned] = useState(false);
 
   useEffect(() => {
     const title = titleRef.current;
@@ -21,13 +22,14 @@ function BrandLockup({ shell, logoUrl }) {
     const syncAlignment = () => {
       const titleWidth = title.getBoundingClientRect().width;
       const subtitleWidth = subtitle.scrollWidth;
-      const scale = titleWidth > 0 && subtitleWidth > 0 ? titleWidth / subtitleWidth : 1;
-      subtitle.style.setProperty('--brand-subtitle-scale', String(scale));
+      if (titleWidth <= 0 || subtitleWidth <= 0) return;
+      subtitle.style.setProperty('--brand-subtitle-scale', String(titleWidth / subtitleWidth));
+      setAligned(true);
     };
 
     syncAlignment();
-    const fontReady = document.fonts?.ready;
-    if (fontReady) fontReady.then(syncAlignment).catch(() => {});
+    document.fonts?.ready?.then(syncAlignment)?.catch(() => {});
+    document.fonts?.addEventListener?.('loadingdone', syncAlignment);
 
     const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(syncAlignment) : null;
     observer?.observe(title);
@@ -37,6 +39,7 @@ function BrandLockup({ shell, logoUrl }) {
     return () => {
       observer?.disconnect();
       window.removeEventListener('resize', syncAlignment);
+      document.fonts?.removeEventListener?.('loadingdone', syncAlignment);
     };
   }, [shell.brand.brandTitle, shell.brand.brandSubtitle]);
 
@@ -47,7 +50,7 @@ function BrandLockup({ shell, logoUrl }) {
         <span ref={titleRef} className="brand-title nav-brand-title">
           {shell.brand.brandTitle}
         </span>
-        <span ref={subtitleRef} className="brand-subtitle nav-brand-subtitle">
+        <span ref={subtitleRef} className={`brand-subtitle nav-brand-subtitle${aligned ? ' is-aligned' : ''}`}>
           {shell.brand.brandSubtitle}
         </span>
       </div>

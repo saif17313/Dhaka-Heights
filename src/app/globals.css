@@ -5994,9 +5994,13 @@ body.loading-active {
 
 .nav-brand-subtitle {
   width: max-content;
-  transform: scaleX(var(--brand-subtitle-scale, 1));
   transform-origin: left center;
   will-change: transform;
+}
+
+.nav-brand-subtitle.is-aligned {
+  transform: scaleX(var(--brand-subtitle-scale, 1));
+  transition: transform 0.2s ease;
 }
 
 .about-preview-surface .scroll-reveal {
