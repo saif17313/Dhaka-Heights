@@ -1,4 +1,5 @@
 import LandownerEnquiryForm from '@/components/LandownerEnquiryForm';
+import { getPublishedContactPage } from '@/lib/contactPageRepository';
 
 export async function generateMetadata() {
   return {
@@ -8,6 +9,7 @@ export async function generateMetadata() {
   };
 }
 
-export default function LandownerContactPage() {
-  return <LandownerEnquiryForm />;
+export default async function LandownerContactPage() {
+  const contactPage = await getPublishedContactPage();
+  return <LandownerEnquiryForm infoCards={contactPage.content.infoCards} map={contactPage.content.map} />;
 }

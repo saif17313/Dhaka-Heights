@@ -1,5 +1,6 @@
 import BuyerEnquiryForm from '@/components/BuyerEnquiryForm';
 import { getPublishedProjectsPage } from '@/lib/projectsPageRepository';
+import { getPublishedContactPage } from '@/lib/contactPageRepository';
 
 export async function generateMetadata() {
   return {
@@ -10,9 +11,9 @@ export async function generateMetadata() {
 }
 
 export default async function BuyerContactPage() {
-  const page = await getPublishedProjectsPage();
-  const projects = page.content.projects
+  const [projectsPage, contactPage] = await Promise.all([getPublishedProjectsPage(), getPublishedContactPage()]);
+  const projects = projectsPage.content.projects
     .filter((project) => project.isVisible !== false)
     .map((project) => ({ slug: project.slug, name: project.name }));
-  return <BuyerEnquiryForm projects={projects} />;
+  return <BuyerEnquiryForm projects={projects} infoCards={contactPage.content.infoCards} map={contactPage.content.map} />;
 }
