@@ -6716,21 +6716,11 @@ body.loading-active {
 }
 
 .about-team-category-heading {
-  position: relative;
   max-width: 880px;
-  margin: 0 0 clamp(28px, 4vw, 38px);
-  padding: 0 0 20px 22px;
+  margin: 0 auto clamp(28px, 4vw, 38px);
+  padding: 0 0 20px;
   border-bottom: 1px solid rgba(11, 27, 61, 0.12);
-}
-
-.about-team-category-heading::before {
-  position: absolute;
-  top: 0.22em;
-  bottom: 20px;
-  left: 0;
-  width: 3px;
-  background: var(--accent-gold);
-  content: '';
+  text-align: center;
 }
 
 .about-team-category-heading h3 {
@@ -6738,13 +6728,13 @@ body.loading-active {
   color: var(--primary-navy);
   font-family: var(--font-heading);
   font-size: clamp(1.75rem, 3.2vw, 2.8rem);
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1.14;
 }
 
 .about-team-category-heading p {
   max-width: 720px;
-  margin: 10px 0 0;
+  margin: 10px auto 0;
   color: #647084;
   font-size: 0.95rem;
   line-height: 1.75;
@@ -6757,11 +6747,6 @@ body.loading-active {
 
   .about-team-category-heading {
     padding-bottom: 16px;
-    padding-left: 17px;
-  }
-
-  .about-team-category-heading::before {
-    bottom: 16px;
   }
 }
 
