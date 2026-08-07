@@ -6348,16 +6348,18 @@ body.loading-active {
 }
 
 .about-team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 300px));
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: clamp(24px, 3vw, 34px);
 }
 
 .about-team-card {
   display: flex;
+  flex: 0 1 300px;
   flex-direction: column;
-  width: 100%;
+  min-width: 240px;
+  max-width: 300px;
   padding: 0;
   overflow: hidden;
   border: 1px solid var(--border-light);
