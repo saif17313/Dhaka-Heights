@@ -120,11 +120,27 @@ export async function getAdminConcernsPage() {
   const [{ data: snapshot, error: snapshotError }, { data: history, error: historyError }, { data: projects, error: projectsError }] = await Promise.all([
     admin.rpc('concerns_page_snapshot', { p_section_id: sections[0].id }),
     admin.from('content_revisions').select('id,version_number,change_summary,created_at,created_by').eq('table_name', 'page_sections').eq('record_id', sections[0].id).order('created_at', { ascending: false }).limit(10),
-    admin.from('projects').select('id,slug,name,status,sort_order').eq('status', 'published').order('sort_order'),
+    admin.from('projects').select('id,slug,name,status,sort_order,category,badge_text,location_address,project_type,cover_image_id').eq('status', 'published').order('sort_order'),
   ]);
   fail(snapshotError || historyError || projectsError, 'Concerns editor snapshot could not be loaded.');
   const hydrated = await hydrate(admin, snapshot);
-  return { ...hydrated, history: history || [], availableProjects: projects || [] };
+  const coverIds = [...new Set((projects || []).map((item) => item.cover_image_id).filter(Boolean))];
+  const { data: covers, error: coversError } = coverIds.length
+    ? await admin.from('media_assets').select('id,secure_url,display_name,alt_text,format,width,height').in('id', coverIds)
+    : { data: [], error: null };
+  fail(coversError, 'Project cover media could not be loaded.');
+  const coverMap = new Map((covers || []).map((item) => [item.id, media(item)]));
+  const availableProjects = (projects || []).map((item) => ({
+    id: item.id,
+    slug: item.slug,
+    name: item.name,
+    category: item.category,
+    badgeText: item.badge_text,
+    locationText: item.location_address,
+    type: item.project_type,
+    coverMedia: coverMap.get(item.cover_image_id) || null,
+  }));
+  return { ...hydrated, history: history || [], availableProjects };
 }
 
 async function mutate(name, args) {
