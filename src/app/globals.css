@@ -6086,15 +6086,11 @@ body.loading-active {
   overflow: visible;
   isolation: isolate;
   border-radius: 50% !important;
-  background: rgba(11, 27, 61, 0.28) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+  background: transparent !important;
+  border: 1px solid rgba(197, 168, 128, 0.3) !important;
   color: var(--accent-gold) !important;
-  box-shadow:
-    0 8px 24px rgba(5, 12, 28, 0.18),
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-    0 0 14px rgba(197, 168, 128, 0.16) !important;
+  font-size: 0.85rem !important;
+  box-shadow: 0 0 10px rgba(197, 168, 128, 0.1) !important;
 }
 
 .scroll-to-top-btn::before,
@@ -6119,13 +6115,10 @@ body.loading-active {
 
 .scroll-to-top-btn:hover,
 .scroll-to-top-btn:focus-visible {
-  background: rgba(11, 27, 61, 0.45) !important;
-  border-color: rgba(197, 168, 128, 0.7) !important;
+  background: rgba(197, 168, 128, 0.08) !important;
+  border-color: rgba(197, 168, 128, 0.5) !important;
   color: var(--accent-gold) !important;
-  box-shadow:
-    0 12px 30px rgba(5, 12, 28, 0.25),
-    0 0 0 1px rgba(197, 168, 128, 0.2) inset,
-    0 0 22px rgba(197, 168, 128, 0.32) !important;
+  box-shadow: 0 0 16px rgba(197, 168, 128, 0.22) !important;
   outline: none;
 }
 
@@ -6140,17 +6133,16 @@ body.loading-active {
 
 .scroll-to-top-progress-track {
   fill: none;
-  stroke: rgba(197, 168, 128, 0.25);
-  stroke-width: 2.5;
+  stroke: rgba(197, 168, 128, 0.15);
+  stroke-width: 1;
 }
 
 .scroll-to-top-progress-fill {
   fill: none;
-  stroke: var(--accent-gold);
-  stroke-width: 2.5;
+  stroke: rgba(197, 168, 128, 0.55);
+  stroke-width: 1;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.12s linear;
-  filter: drop-shadow(0 0 5px rgba(197, 168, 128, 0.75));
 }
 
 .scroll-to-top-arrow {
