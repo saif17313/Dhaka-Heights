@@ -56,7 +56,7 @@ function LoginForm() {
 
   return (
     <div className="admin-login-card">
-      <div className="admin-login-badge"><i className="fa-solid fa-building-columns" aria-hidden="true"></i></div>
+      <div className="admin-login-badge"><i className="fa-solid fa-city" aria-hidden="true"></i></div>
       <h1 className="admin-login-title">Dhaka Heights</h1>
       <p className="admin-login-subtitle">Admin Authentication Portal</p>
       <div className="admin-login-divider" aria-hidden="true"><span></span><i className="fa-solid fa-diamond"></i><span></span></div>

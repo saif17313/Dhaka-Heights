@@ -7160,17 +7160,17 @@ button.video-card-thumbnail-wrapper {
   background-image: url('/assets/properties_bg.png');
   background-size: cover;
   background-position: center;
-  opacity: 0.32;
-  filter: saturate(0.85);
+  opacity: 0.75;
+  filter: saturate(1.05);
 }
 
 .admin-login-bg-overlay {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 12% 18%, rgba(197, 168, 128, 0.14), transparent 45%),
-    radial-gradient(circle at 88% 82%, rgba(197, 168, 128, 0.12), transparent 45%),
-    linear-gradient(160deg, rgba(5, 11, 28, 0.92) 0%, rgba(11, 27, 61, 0.86) 55%, rgba(5, 11, 28, 0.95) 100%);
+    radial-gradient(circle at 12% 18%, rgba(197, 168, 128, 0.16), transparent 45%),
+    radial-gradient(circle at 88% 82%, rgba(197, 168, 128, 0.14), transparent 45%),
+    linear-gradient(160deg, rgba(5, 11, 28, 0.62) 0%, rgba(11, 27, 61, 0.42) 55%, rgba(5, 11, 28, 0.7) 100%);
 }
 
 .admin-login-card {
@@ -7298,6 +7298,16 @@ button.video-card-thumbnail-wrapper {
 .admin-login-input-wrap input:focus {
   border-color: var(--accent-gold);
   box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15);
+}
+
+.admin-login-input-wrap input:-webkit-autofill,
+.admin-login-input-wrap input:-webkit-autofill:hover,
+.admin-login-input-wrap input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0 1000px rgba(3, 8, 20, 0.92) inset;
+  box-shadow: 0 0 0 1000px rgba(3, 8, 20, 0.92) inset;
+  transition: background-color 9999s ease-in-out 0s;
+  caret-color: #fff;
 }
 
 .admin-login-toggle-visibility {
