@@ -27,6 +27,9 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+  const [showForgotHint, setShowForgotHint] = useState(false);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -52,63 +55,92 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md bg-[#0D1E42] border border-[#C5A880]/30 rounded-2xl shadow-2xl p-8 space-y-6">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center justify-center w-14 h-14 bg-gray-900 border border-[#C5A880] rounded-2xl text-[#C5A880]">
-          <i className="fa-solid fa-building-user text-2xl"></i>
-        </div>
-        <h1 className="text-2xl font-bold font-serif tracking-wider text-white">Dhaka Heights</h1>
-        <p className="text-xs text-[#C5A880] uppercase tracking-widest font-semibold">Admin Authentication Portal</p>
-      </div>
+    <div className="admin-login-card">
+      <div className="admin-login-badge"><i className="fa-solid fa-city" aria-hidden="true"></i></div>
+      <h1 className="admin-login-title">Dhaka Heights</h1>
+      <p className="admin-login-subtitle">Admin Authentication Portal</p>
+      <div className="admin-login-divider" aria-hidden="true"><span></span><i className="fa-solid fa-diamond"></i><span></span></div>
 
       {errorMsg && (
-        <div className="p-3 bg-red-950/80 border border-red-800 rounded-xl text-red-200 text-xs text-center" role="alert">
-          {errorMsg}
+        <div className="admin-login-error" role="alert">
+          <i className="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+          <span>{errorMsg}</span>
         </div>
       )}
 
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label className="block text-xs font-semibold text-gray-300 mb-1">Email Address</label>
-          <input
-            type="email"
-            required
-            autoComplete="username"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            className="w-full px-4 py-2.5 bg-gray-950 border border-gray-800 rounded-xl text-xs text-white focus:border-[#C5A880] outline-none"
-            placeholder="admin@dhakaheights.com"
-          />
-        </div>
+      <form onSubmit={handleLogin} className="admin-login-form">
+        <label className="admin-login-field">
+          <span>Email Address</span>
+          <div className="admin-login-input-wrap">
+            <i className="fa-solid fa-envelope" aria-hidden="true"></i>
+            <input
+              type="email"
+              required
+              autoComplete="username"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="admin@dhakaheights.com"
+            />
+          </div>
+        </label>
 
-        <div>
-          <label className="block text-xs font-semibold text-gray-300 mb-1">Password</label>
-          <input
-            type="password"
-            required
-            autoComplete="current-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className="w-full px-4 py-2.5 bg-gray-950 border border-gray-800 rounded-xl text-xs text-white focus:border-[#C5A880] outline-none"
-            placeholder="••••••••••••"
-          />
-        </div>
+        <label className="admin-login-field">
+          <span>Password</span>
+          <div className="admin-login-input-wrap">
+            <i className="fa-solid fa-lock" aria-hidden="true"></i>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="••••••••••••"
+            />
+            <button
+              type="button"
+              className="admin-login-toggle-visibility"
+              onClick={() => setShowPassword((current) => !current)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} aria-hidden="true"></i>
+            </button>
+          </div>
+        </label>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 bg-[#C5A880] hover:bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg transition disabled:cursor-not-allowed disabled:opacity-60"
-        >
+        <div className="admin-login-row">
+          <label className="admin-login-remember">
+            <input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
+            Remember me
+          </label>
+          <button type="button" className="admin-login-forgot" onClick={() => setShowForgotHint((current) => !current)}>
+            Forgot password?
+          </button>
+        </div>
+        {showForgotHint && (
+          <p className="admin-login-forgot-hint">Please contact a Super Admin to reset your password.</p>
+        )}
+
+        <button type="submit" disabled={loading} className="admin-login-submit">
+          <i className="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
           {loading ? 'Authenticating...' : 'Sign In to Dashboard'}
         </button>
       </form>
+
+      <div className="admin-login-footer" aria-hidden="true">
+        <span></span>
+        <i className="fa-solid fa-shield-halved"></i>
+        Secure Admin Access
+        <span></span>
+      </div>
     </div>
   );
 }
 
 export default function AdminLoginPage() {
   return (
-    <div className="min-h-screen bg-[#051026] text-white flex items-center justify-center p-4">
+    <div className="admin-login-page">
+      <div className="admin-login-bg"></div>
+      <div className="admin-login-bg-overlay"></div>
       <Suspense fallback={<div className="text-xs text-gray-400">Loading Portal...</div>}>
         <LoginForm />
       </Suspense>
