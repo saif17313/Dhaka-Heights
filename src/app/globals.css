@@ -3239,8 +3239,8 @@ body.loading-active {
   position: fixed;
   bottom: 40px;
   right: 40px;
-  width: 54px;
-  height: 54px;
+  width: 46px;
+  height: 46px;
   background-color: var(--primary-navy);
   color: var(--accent-gold);
   border: 1px solid rgba(197, 168, 128, 0.3);
@@ -3272,8 +3272,8 @@ body.loading-active {
   .scroll-to-top-btn {
     bottom: 20px;
     right: 20px;
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
   }
 
   .quick-inquiry-drawer {
@@ -6086,14 +6086,11 @@ body.loading-active {
   overflow: visible;
   isolation: isolate;
   border-radius: 50% !important;
-  background: linear-gradient(145deg, #16294f 0%, #0B1B3D 60%, #081530 100%) !important;
-  background-color: var(--primary-navy) !important;
-  border: 1.5px solid rgba(197, 168, 128, 0.6) !important;
+  background: transparent !important;
+  border: none !important;
   color: var(--accent-gold) !important;
-  box-shadow:
-    0 14px 30px rgba(5, 12, 28, 0.4),
-    0 0 0 1px rgba(197, 168, 128, 0.12) inset,
-    0 0 16px rgba(197, 168, 128, 0.22) !important;
+  font-size: 0.85rem !important;
+  box-shadow: none !important;
 }
 
 .scroll-to-top-btn::before,
@@ -6118,39 +6115,33 @@ body.loading-active {
 
 .scroll-to-top-btn:hover,
 .scroll-to-top-btn:focus-visible {
-  background: linear-gradient(145deg, #e2c78f 0%, var(--accent-gold) 65%, #b5940f 100%) !important;
-  background-color: var(--accent-gold) !important;
-  border-color: var(--accent-gold) !important;
-  color: var(--primary-navy) !important;
-  box-shadow:
-    0 18px 38px rgba(5, 12, 28, 0.45),
-    0 0 0 1px rgba(197, 168, 128, 0.3) inset,
-    0 0 26px rgba(197, 168, 128, 0.5) !important;
+  background: rgba(197, 168, 128, 0.08) !important;
+  color: var(--accent-gold) !important;
+  box-shadow: 0 0 14px rgba(197, 168, 128, 0.18) !important;
   outline: none;
 }
 
 .scroll-to-top-progress {
   position: absolute;
-  inset: -7px;
-  width: calc(100% + 14px);
-  height: calc(100% + 14px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   transform: rotate(-90deg);
   pointer-events: none;
 }
 
 .scroll-to-top-progress-track {
   fill: none;
-  stroke: rgba(197, 168, 128, 0.25);
-  stroke-width: 2.5;
+  stroke: rgba(197, 168, 128, 0.15);
+  stroke-width: 1;
 }
 
 .scroll-to-top-progress-fill {
   fill: none;
-  stroke: var(--accent-gold);
-  stroke-width: 2.5;
+  stroke: rgba(197, 168, 128, 0.55);
+  stroke-width: 1;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.12s linear;
-  filter: drop-shadow(0 0 5px rgba(197, 168, 128, 0.75));
 }
 
 .scroll-to-top-arrow {
