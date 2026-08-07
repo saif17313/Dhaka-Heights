@@ -3239,8 +3239,8 @@ body.loading-active {
   position: fixed;
   bottom: 40px;
   right: 40px;
-  width: 54px;
-  height: 54px;
+  width: 46px;
+  height: 46px;
   background-color: var(--primary-navy);
   color: var(--accent-gold);
   border: 1px solid rgba(197, 168, 128, 0.3);
@@ -3272,8 +3272,8 @@ body.loading-active {
   .scroll-to-top-btn {
     bottom: 20px;
     right: 20px;
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
   }
 
   .quick-inquiry-drawer {
@@ -6087,10 +6087,10 @@ body.loading-active {
   isolation: isolate;
   border-radius: 50% !important;
   background: transparent !important;
-  border: 1px solid rgba(197, 168, 128, 0.3) !important;
+  border: none !important;
   color: var(--accent-gold) !important;
   font-size: 0.85rem !important;
-  box-shadow: 0 0 10px rgba(197, 168, 128, 0.1) !important;
+  box-shadow: none !important;
 }
 
 .scroll-to-top-btn::before,
@@ -6116,17 +6116,16 @@ body.loading-active {
 .scroll-to-top-btn:hover,
 .scroll-to-top-btn:focus-visible {
   background: rgba(197, 168, 128, 0.08) !important;
-  border-color: rgba(197, 168, 128, 0.5) !important;
   color: var(--accent-gold) !important;
-  box-shadow: 0 0 16px rgba(197, 168, 128, 0.22) !important;
+  box-shadow: 0 0 14px rgba(197, 168, 128, 0.18) !important;
   outline: none;
 }
 
 .scroll-to-top-progress {
   position: absolute;
-  inset: -7px;
-  width: calc(100% + 14px);
-  height: calc(100% + 14px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   transform: rotate(-90deg);
   pointer-events: none;
 }
