@@ -131,10 +131,10 @@ export default function MediaCenterClient({
   const reviewPage = reviewsResult?.page || 1;
   const reviewItems = reviewsResult?.reviews || [];
   const tabItems = [
+    ['reviews', labels.customerReviewsTab || 'Customer Reviews'],
+    ['videos', labels.videosTab || 'Virtual Tours'],
     ['news', labels.newsTab || 'News & Press'],
     ['blogs', labels.blogsTab || 'Blogs & Articles'],
-    ['videos', labels.videosTab || 'Virtual Tours'],
-    ['reviews', labels.customerReviewsTab || 'Customer Reviews'],
   ];
 
   const body = (
