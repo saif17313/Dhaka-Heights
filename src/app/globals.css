@@ -3290,44 +3290,6 @@ body.loading-active {
   color: var(--light-gold);
 }
 
-/* --- Page Transition (route change crossfade) ---
-   The outgoing page stays on screen, dissolving away, while the incoming
-   page fades in underneath at the same time - never a blank frame.
-   Deliberately opacity-only: a `transform` here (even translateY(0)) turns
-   this wrapper into the containing block for every position:fixed
-   descendant (Navbar, ScrollToTop, QuickInquiry, modals), breaking them. */
-.page-transition-stack {
-  position: relative;
-}
-
-.page-transition-layer {
-  animation-duration: 0.42s;
-  animation-timing-function: ease;
-  animation-fill-mode: both;
-}
-
-.page-transition-in {
-  animation-name: page-transition-fade-in;
-}
-
-.page-transition-out {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  animation-name: page-transition-fade-out;
-}
-
-@keyframes page-transition-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes page-transition-fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
 /* --- Scroll To Top Button --- */
 .scroll-to-top-btn {
   position: fixed;

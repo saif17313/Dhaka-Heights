@@ -1,7 +1,6 @@
 import "./globals.css";
 import { PublicShellProvider } from '@/components/PublicShellProvider';
 import GlobalImageLightbox from '@/components/GlobalImageLightbox';
-import PageTransition from '@/components/PageTransition';
 import { getPublishedSiteShell } from '@/lib/siteShellRepository';
 
 export const viewport = {
@@ -40,7 +39,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body>
         <PublicShellProvider shell={shell}>
-          <PageTransition>{children}</PageTransition>
+          {children}
           <GlobalImageLightbox />
         </PublicShellProvider>
       </body>
