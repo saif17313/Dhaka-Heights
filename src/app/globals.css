@@ -4242,6 +4242,15 @@ body.loading-active {
   z-index: 1;
 }
 
+.about-hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: -1;
+}
+
 .about-hero-title {
   font-family: var(--font-heading);
   font-size: 4rem;

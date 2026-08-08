@@ -249,8 +249,6 @@ function TeamMemberModal({ member, heading, onClose, returnFocusRef }) {
 }
 
 export default function AboutPageClient({ about, previewMode = false }) {
-  const heroRef = useRef(null);
-  const heroImgRef = useRef(null);
   const overviewRef = useRef(null);
   const overviewBackRef = useRef(null);
   const overviewFrontRef = useRef(null);
@@ -300,11 +298,6 @@ export default function AboutPageClient({ about, previewMode = false }) {
     if (previewMode) return undefined;
     const scroll = () => {
       const vh = window.innerHeight;
-      if (heroRef.current && heroImgRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const progress = Math.max(0, Math.min(1, (vh - rect.top) / (rect.height + vh)));
-        heroImgRef.current.style.transform = `translateY(${(progress - 0.5) * 150}px) scale(1.12)`;
-      }
       if (overviewRef.current) {
         const rect = overviewRef.current.getBoundingClientRect();
         const progress = Math.max(0, Math.min(1, (vh - rect.top) / (rect.height + vh)));
@@ -331,21 +324,11 @@ export default function AboutPageClient({ about, previewMode = false }) {
   const body = (
     <>
       <main style={{ marginTop: previewMode ? 0 : '80px' }}>
-        <section className="about-hero-banner" ref={heroRef}>
+        <section className="about-hero-banner">
           <div
-            ref={heroImgRef}
             className="about-hero-bg-layer"
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
               backgroundImage: `linear-gradient(rgba(11,27,61,.75),rgba(11,27,61,.75)), url("${media.hero?.media?.secureUrl}")`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              zIndex: -1,
-              willChange: 'transform',
             }}
           />
           <h1 className="about-hero-title">{content.hero.title}</h1>
