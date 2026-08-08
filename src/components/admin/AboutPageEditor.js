@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AboutPageClient from '@/components/AboutPageClient';
+import OurTeamPageClient from '@/components/OurTeamPageClient';
 import FontAwesomeIconPicker from './FontAwesomeIconPicker';
 import MediaLibrary from './MediaLibrary';
 import { publishAboutPageDraft, saveAboutPageDraft } from '@/lib/aboutPageActions';
@@ -158,6 +159,7 @@ export default function AboutPageEditor({ initialAbout }) {
   const [about, setAbout] = useState(initial);
   const [baseline, setBaseline] = useState(comparable(initial));
   const [tab, setTab] = useState('Content');
+  const [previewTarget, setPreviewTarget] = useState('about');
   const [busy, setBusy] = useState('');
   const [message, setMessage] = useState('');
   const [tone, setTone] = useState('neutral');
@@ -419,6 +421,13 @@ export default function AboutPageEditor({ initialAbout }) {
             className="rounded-xl border px-4 py-2 text-xs font-bold"
           >
             Saved Preview
+          </Link>
+          <Link
+            href="/admin-preview/about-page/our-team"
+            target="_blank"
+            className="rounded-xl border px-4 py-2 text-xs font-bold"
+          >
+            Our Team Saved Preview
           </Link>
           <button
             type="button"
@@ -749,10 +758,12 @@ export default function AboutPageEditor({ initialAbout }) {
             <div className="rounded-xl border border-[#C5A880]/40 bg-[#C5A880]/5 p-4">
               <h2 className="font-serif text-lg font-bold text-[#0B1B3D]">Our Team section</h2>
               <p className="mt-1 text-xs leading-5 text-slate-500">
-                Categories appear publicly in this exact order. Each category contains its own
-                ordered members. Hiding a category hides every member assigned to it without
-                deleting their information. If a category heading matches the section heading
-                (including “&” versus “and”), the public page shows that heading only once.
+                This content now publishes to its own page at <code>/about/our-team</code> (linked
+                from the About dropdown in the navigation menu), not the main About page. Categories
+                appear publicly in this exact order. Each category contains its own ordered members.
+                Hiding a category hides every member assigned to it without deleting their
+                information. If a category heading matches the section heading (including “&amp;”
+                versus “and”), the public page shows that heading only once.
               </p>
               <div className="mt-4 grid gap-3 md:grid-cols-2">
                 <Field
@@ -1204,8 +1215,30 @@ export default function AboutPageEditor({ initialAbout }) {
         )}
 
         {tab === 'Preview' && (
-          <div className="max-h-[760px] overflow-auto rounded-xl border">
-            <AboutPageClient about={about} previewMode />
+          <div>
+            <div className="mb-3 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setPreviewTarget('about')}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold ${previewTarget === 'about' ? 'bg-[#0B1B3D] text-white' : 'border bg-white text-slate-600'}`}
+              >
+                About page
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreviewTarget('team')}
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold ${previewTarget === 'team' ? 'bg-[#0B1B3D] text-white' : 'border bg-white text-slate-600'}`}
+              >
+                Our Team page
+              </button>
+            </div>
+            <div className="max-h-[760px] overflow-auto rounded-xl border">
+              {previewTarget === 'about' ? (
+                <AboutPageClient about={about} previewMode />
+              ) : (
+                <OurTeamPageClient about={about} previewMode />
+              )}
+            </div>
           </div>
         )}
 

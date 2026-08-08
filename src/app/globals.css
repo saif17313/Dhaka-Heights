@@ -4224,45 +4224,6 @@ body.loading-active {
 /* ==========================================================================
    JCX-Inspired About Page Sections
    ========================================================================== */
-.about-hero-banner {
-  position: relative;
-  height: 480px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.about-hero-bg-layer {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  z-index: -1;
-}
-
-.about-hero-title {
-  font-family: var(--font-heading);
-  font-size: 4rem;
-  font-weight: 300;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.about-hero-subtitle {
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--accent-gold);
-}
-
 /* Section Spacing: 150px padding for premium layout breathing room */
 .about-editorial-section {
   padding: 150px 0;
