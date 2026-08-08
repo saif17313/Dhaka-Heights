@@ -1252,6 +1252,7 @@ body.loading-active {
   background-image: var(--hero-desktop-background);
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   transform: scale(1.08);
   transition: transform 12s cubic-bezier(0.16, 1, 0.3, 1);
 }
