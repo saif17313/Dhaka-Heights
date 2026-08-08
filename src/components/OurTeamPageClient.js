@@ -196,7 +196,7 @@ export default function OurTeamPageClient({ about, previewMode = false }) {
           title="Our Team"
           subtitle={teamSection.intro}
           breadcrumbs={[{ label: 'About', url: '/about' }, { label: 'Our Team' }]}
-          bgImage={media.hero?.media?.secureUrl}
+          bgImage={media.sustainability?.media?.secureUrl || media.hero?.media?.secureUrl}
         />
 
         {(teamGroups.length > 0 || previewMode) && (

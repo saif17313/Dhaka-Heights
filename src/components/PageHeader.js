@@ -5,7 +5,9 @@ import Link from 'next/link';
 
 export default function PageHeader({ title, subtitle, breadcrumbs = [], bgImage }) {
   const bgStyle = bgImage
-    ? { backgroundImage: `linear-gradient(rgba(11, 27, 61, 0.25), rgba(11, 27, 61, 0.55)), url("${bgImage}")` }
+    ? {
+        backgroundImage: `linear-gradient(90deg, rgba(11, 27, 61, 0.85) 0%, rgba(11, 27, 61, 0.55) 40%, rgba(11, 27, 61, 0.15) 75%, rgba(11, 27, 61, 0.32) 100%), linear-gradient(rgba(11, 27, 61, 0.15), rgba(11, 27, 61, 0.5)), url("${bgImage}")`,
+      }
     : {};
 
   return (

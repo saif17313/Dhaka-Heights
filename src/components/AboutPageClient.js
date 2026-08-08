@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
 
 function HighlightedHeading({ heading, highlight }) {
@@ -159,16 +160,12 @@ export default function AboutPageClient({ about, previewMode = false }) {
   const body = (
     <>
       <main style={{ marginTop: previewMode ? 0 : '80px' }}>
-        <section className="about-hero-banner">
-          <div
-            className="about-hero-bg-layer"
-            style={{
-              backgroundImage: `linear-gradient(rgba(11,27,61,.75),rgba(11,27,61,.75)), url("${media.hero?.media?.secureUrl}")`,
-            }}
-          />
-          <h1 className="about-hero-title">{content.hero.title}</h1>
-          <p className="about-hero-subtitle">{content.hero.subtitle}</p>
-        </section>
+        <PageHeader
+          title={content.hero.title}
+          subtitle={content.hero.subtitle}
+          breadcrumbs={[{ label: 'About Us' }]}
+          bgImage={media.hero?.media?.secureUrl}
+        />
 
         <section className="about-editorial-section bg-cream-premium" ref={overviewRef}>
           <div className="container-full about-split-grid">
