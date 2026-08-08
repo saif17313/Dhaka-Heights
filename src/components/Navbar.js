@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePublicShell } from './PublicShellProvider';
@@ -24,8 +24,10 @@ function BrandLockup({ shell, logoUrl }) {
 export default function Navbar() {
   const shell = usePublicShell();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [openMobileKey, setOpenMobileKey] = useState(null);
+  const lastScrollYRef = useRef(0);
   const pathname = usePathname();
   const isSubpage = pathname !== '/';
   const navigation = shell.navigation.filter((item) => item.isVisible);
@@ -33,8 +35,24 @@ export default function Navbar() {
   const logoUrl = shell.brand.logoMedia?.secureUrl;
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    lastScrollYRef.current = window.scrollY;
+
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setIsScrolled(currentY > 50);
+
+      const delta = currentY - lastScrollYRef.current;
+      if (currentY < 120) {
+        setIsHidden(false);
+      } else if (delta > 4) {
+        setIsHidden(true);
+      } else if (delta < -4) {
+        setIsHidden(false);
+      }
+      lastScrollYRef.current = currentY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -55,7 +73,10 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`main-header ${isScrolled || isSubpage ? 'scrolled' : ''}`} id="main-header">
+      <header
+        className={`main-header ${isScrolled || isSubpage ? 'scrolled' : ''} ${isHidden && !isDrawerOpen ? 'nav-hidden' : ''}`}
+        id="main-header"
+      >
         <div className="header-container">
           <Link href="/" onClick={closeDrawer} className="logo-link" id="nav-logo-link">
             <BrandLockup shell={shell} logoUrl={logoUrl} />
