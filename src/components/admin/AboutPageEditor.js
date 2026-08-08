@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AboutPageClient from '@/components/AboutPageClient';
+import FontAwesomeIconPicker from './FontAwesomeIconPicker';
 import MediaLibrary from './MediaLibrary';
 import { publishAboutPageDraft, saveAboutPageDraft } from '@/lib/aboutPageActions';
 
@@ -679,8 +680,7 @@ export default function AboutPageEditor({ initialAbout }) {
                     value={item.title}
                     onChange={(value) => updateRepeated('pillars', index, { title: value })}
                   />
-                  <Field
-                    label="Icon key"
+                  <FontAwesomeIconPicker
                     value={item.iconKey}
                     onChange={(value) => updateRepeated('pillars', index, { iconKey: value })}
                   />
@@ -1155,8 +1155,7 @@ export default function AboutPageEditor({ initialAbout }) {
                     updateRepeated('accreditations', index, { title: value })
                   }
                 />
-                <Field
-                  label="Icon key"
+                <FontAwesomeIconPicker
                   value={item.iconKey}
                   onChange={(value) =>
                     updateRepeated('accreditations', index, { iconKey: value })
