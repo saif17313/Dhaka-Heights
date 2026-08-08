@@ -75,13 +75,29 @@ async function loadPublicShell() {
   fail(assetsError || navError || groupsError || linksError || socialError || concernError, 'The published Site Shell relationships could not be loaded.');
   const byId = new Map((assets || []).map((item) => [item.id, item]));
   const navRows = nav || [];
-  const navigation = navRows.filter((item) => !item.parent_id).map((item) => ({
-    id: item.id, itemKey: item.item_key, label: item.label, mobileLabel: item.mobile_label, url: item.url,
-    target: item.target, mobileMode: item.mobile_mode, sortOrder: item.sort_order, isVisible: item.is_visible,
-    children: item.item_key === 'nav-concern'
-      ? (concerns || []).map((concern, index) => ({ id: concern.id, itemKey: `nav-concern-${concern.slug}`, label: concern.name, mobileLabel: concern.name, url: `/concern/${concern.slug}`, target: '_self', sortOrder: concern.sort_order ?? (index + 1) * 10, isVisible: true }))
-      : navRows.filter((child) => child.parent_id === item.id).map((child) => ({ id: child.id, itemKey: child.item_key, label: child.label, mobileLabel: child.mobile_label, url: child.url, target: child.target, mobileMode: child.mobile_mode, sortOrder: child.sort_order, isVisible: child.is_visible })),
-  }));
+  // nav-about is a fixed two-item dropdown (Our Team, About Us), computed here
+  // rather than stored as navigation_items rows - same pattern nav-concern
+  // already uses for its (dynamic) children below.
+  const ABOUT_DROPDOWN_CHILDREN = [
+    { itemKey: 'nav-about-our-team', label: 'Our Team', mobileLabel: 'Our Team', url: '/about/our-team', target: '_self', sortOrder: 10, isVisible: true },
+    { itemKey: 'nav-about-about-us', label: 'About Us', mobileLabel: 'About Us', url: '/about', target: '_self', sortOrder: 20, isVisible: true },
+  ];
+  const navigation = navRows.filter((item) => !item.parent_id).map((item) => {
+    if (item.item_key === 'nav-about') {
+      return {
+        id: item.id, itemKey: item.item_key, label: item.label, mobileLabel: item.mobile_label, url: '#',
+        target: item.target, mobileMode: 'dropdown', sortOrder: item.sort_order, isVisible: item.is_visible,
+        children: ABOUT_DROPDOWN_CHILDREN.map((child) => ({ id: `${item.id}-${child.itemKey}`, ...child })),
+      };
+    }
+    return {
+      id: item.id, itemKey: item.item_key, label: item.label, mobileLabel: item.mobile_label, url: item.url,
+      target: item.target, mobileMode: item.mobile_mode, sortOrder: item.sort_order, isVisible: item.is_visible,
+      children: item.item_key === 'nav-concern'
+        ? (concerns || []).map((concern, index) => ({ id: concern.id, itemKey: `nav-concern-${concern.slug}`, label: concern.name, mobileLabel: concern.name, url: `/concern/${concern.slug}`, target: '_self', sortOrder: concern.sort_order ?? (index + 1) * 10, isVisible: true }))
+        : navRows.filter((child) => child.parent_id === item.id).map((child) => ({ id: child.id, itemKey: child.item_key, label: child.label, mobileLabel: child.mobile_label, url: child.url, target: child.target, mobileMode: child.mobile_mode, sortOrder: child.sort_order, isVisible: child.is_visible })),
+    };
+  });
   const footerGroups = (groups || []).map((group) => ({ id: group.id, groupKey: group.group_key, title: group.title, sortOrder: group.sort_order, isVisible: group.is_visible, links: (links || []).filter((link) => link.group_id === group.id).map((link) => ({ id: link.id, linkKey: link.link_key, label: link.label, url: link.url, target: link.target, sortOrder: link.sort_order, isVisible: link.is_visible })) }));
   const settings = row.settings || {};
   return normalize({ ...row, ...settings, brand: { ...(settings.brand || {}), logoMediaId: row.logo_asset_id, faviconMediaId: row.favicon_asset_id, logoMedia: media(byId.get(row.logo_asset_id)), faviconMedia: media(byId.get(row.favicon_asset_id)) }, metadata: { ...(settings.metadata || {}), ogImageMediaId: row.seo_og_image_id, ogImageMedia: media(byId.get(row.seo_og_image_id)) }, navigation, footerGroups, socialLinks: (socials || []).map((item) => ({ id: item.id, itemKey: item.item_key, platformName: item.platform_name, url: item.url, iconKey: item.icon_key, target: item.target, sortOrder: item.sort_order, isVisible: item.is_visible })) });

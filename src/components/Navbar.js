@@ -71,6 +71,9 @@ export default function Navbar() {
   const active = (url) =>
     url === '/' ? pathname === '/' : url !== '#' && pathname.startsWith(url.split('?')[0]);
 
+  const dropdownActive = (children) =>
+    children.some((child) => child.url !== '#' && active(child.url));
+
   return (
     <>
       <header
@@ -91,7 +94,7 @@ export default function Navbar() {
                   <li className={`nav-item ${hasChildren ? 'dropdown' : ''}`} key={item.itemKey}>
                     {item.url === '#' ? (
                       <span
-                        className={`nav-link ${active('/concern') ? 'active' : ''}`}
+                        className={`nav-link ${dropdownActive(children) ? 'active' : ''}`}
                         style={{ cursor: 'pointer' }}
                       >
                         {item.label}
