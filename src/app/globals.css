@@ -5229,6 +5229,19 @@ body.loading-active {
 }
 
 /* --- Sister Concern Details Dynamic Styles --- */
+.concern-services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+}
+
+.concern-services-grid .service-capability-card {
+  flex: 0 1 380px;
+  min-width: 280px;
+  max-width: 420px;
+}
+
 .service-capability-card {
   background-color: #0b1b3d !important; /* Premium navy background */
   border: 1px solid rgba(197, 168, 128, 0.15) !important;
