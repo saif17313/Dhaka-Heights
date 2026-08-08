@@ -1,8 +1,7 @@
-import { Suspense } from 'react';
 import "./globals.css";
 import { PublicShellProvider } from '@/components/PublicShellProvider';
 import GlobalImageLightbox from '@/components/GlobalImageLightbox';
-import RouteProgress from '@/components/RouteProgress';
+import RouteLoader from '@/components/RouteLoader';
 import { getPublishedSiteShell } from '@/lib/siteShellRepository';
 
 export const viewport = {
@@ -40,10 +39,11 @@ export default async function RootLayout({ children }) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
       <body>
-        <Suspense fallback={null}>
-          <RouteProgress />
-        </Suspense>
-        <PublicShellProvider shell={shell}>{children}<GlobalImageLightbox /></PublicShellProvider>
+        <PublicShellProvider shell={shell}>
+          <RouteLoader />
+          {children}
+          <GlobalImageLightbox />
+        </PublicShellProvider>
       </body>
     </html>
   );
