@@ -6435,7 +6435,12 @@ body.loading-active {
   position: relative;
   overflow: hidden;
   padding: clamp(78px, 8vw, 118px) 0;
-  background: #fff;
+  background-color: #FAF9F6;
+  background-image: url("/assets/properties_bg_skyline.png");
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .about-team-section::before {
