@@ -171,7 +171,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Smooth scrolling is handled by Lenis (SmoothScroll component); CSS
+     scroll-behavior:smooth here would fight its own RAF-driven scrolling. */
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
 }
