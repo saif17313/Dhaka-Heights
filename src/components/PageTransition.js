@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-const OUT_MS = 120;
+const OUT_MS = 220;
 
 export default function PageTransition({ children }) {
   const pathname = usePathname();

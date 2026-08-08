@@ -3290,19 +3290,20 @@ body.loading-active {
   color: var(--light-gold);
 }
 
-/* --- Page Transition (route change fade) --- */
+/* --- Page Transition (route change fade) ---
+   Deliberately opacity-only: a `transform` here (even translateY(0)) turns
+   this wrapper into the containing block for every position:fixed
+   descendant (Navbar, ScrollToTop, QuickInquiry, modals), breaking them. */
 .page-transition {
-  transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.35s ease;
 }
 
 .page-transition-out {
   opacity: 0;
-  transform: translateY(6px);
 }
 
 .page-transition-in {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* --- Scroll To Top Button --- */
