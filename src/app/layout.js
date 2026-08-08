@@ -1,6 +1,7 @@
 import "./globals.css";
 import { PublicShellProvider } from '@/components/PublicShellProvider';
 import GlobalImageLightbox from '@/components/GlobalImageLightbox';
+import RouteLoader from '@/components/RouteLoader';
 import { getPublishedSiteShell } from '@/lib/siteShellRepository';
 
 export const viewport = {
@@ -39,6 +40,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body>
         <PublicShellProvider shell={shell}>
+          <RouteLoader />
           {children}
           <GlobalImageLightbox />
         </PublicShellProvider>
