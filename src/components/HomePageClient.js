@@ -19,18 +19,33 @@ import { usePublicShell } from './PublicShellProvider';
 export default function HomePageClient({ hero, about, statistics, featuredProjects, commitmentQuote, mediaHighlights, partnersCarousel, contactSection, contactMap }) {
   const shell = usePublicShell();
   const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
   const [modalType, setModalType] = useState(null);
   const [modalTargetId, setModalTargetId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
 
   useEffect(() => {
+    const duration = shell.preloader.durationMs;
+    const startedAt = performance.now();
+    let frame;
+
+    const tick = (now) => {
+      const elapsed = now - startedAt;
+      setProgress(Math.min(100, Math.round((elapsed / duration) * 100)));
+      if (elapsed < duration) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+
     const timer = setTimeout(() => {
       setIsLoading(false);
       document.body.classList.remove('loading-active');
-    }, shell.preloader.durationMs);
+    }, duration);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      cancelAnimationFrame(frame);
+    };
   }, [shell.preloader.durationMs]);
 
   useEffect(() => {
@@ -71,12 +86,20 @@ export default function HomePageClient({ hero, about, statistics, featuredProjec
     <div className={isLoading ? 'loading-active' : ''}>
       {/* PAGE PRELOADER */}
       <div id="preloader" className={`preloader ${!isLoading ? 'fade-out' : ''}`}>
+        <div className="preloader-panel preloader-panel-left"></div>
+        <div className="preloader-panel preloader-panel-right"></div>
         <div className="preloader-content">
+          <span className="preloader-frame preloader-frame-tl"></span>
+          <span className="preloader-frame preloader-frame-tr"></span>
+          <span className="preloader-frame preloader-frame-bl"></span>
+          <span className="preloader-frame preloader-frame-br"></span>
           <div className="preloader-logo-wrapper">
             <img src={shell.brand.logoMedia?.secureUrl} alt={shell.brand.logoAlt} className="preloader-logo" />
           </div>
-          <div className="preloader-line">
-            <div className="preloader-progress"></div>
+          <div className="preloader-dots" role="presentation" aria-hidden="true">
+            {Array.from({ length: 10 }, (_, index) => (
+              <span key={index} className={`preloader-dot ${progress >= (index + 1) * 10 ? 'filled' : ''}`} />
+            ))}
           </div>
           <h2 className="preloader-title">{shell.preloader.title}</h2>
           <p className="preloader-subtitle">{shell.preloader.subtitle}</p>
