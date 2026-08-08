@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Metrics from '@/components/Metrics';
+import FontAwesomeIconPicker from './FontAwesomeIconPicker';
 import { publishHomeStatisticsDraft, saveHomeStatisticsDraft } from '@/lib/homeStatisticsActions';
 
 const INPUT_CLASS = 'w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 outline-none transition focus:border-[#C5A880] focus:ring-2 focus:ring-[#C5A880]/20';
@@ -303,7 +304,7 @@ export default function HomeStatisticsEditor({ initialStatistics, initialError =
                     <div className="grid gap-4 sm:grid-cols-12">
                       <div className="sm:col-span-4"><label className={LABEL_CLASS}>Numeric value</label><input type="number" min="0" max="1000000000" step="0.01" value={metric.value} onChange={(event) => updateMetric(index, { value: event.target.value })} className={INPUT_CLASS} /><FieldError>{errors[`${prefix}.value`]}</FieldError></div>
                       <div className="sm:col-span-2"><label className={LABEL_CLASS}>Suffix</label><input value={metric.suffix} maxLength={10} onChange={(event) => updateMetric(index, { suffix: event.target.value })} className={INPUT_CLASS} /><FieldError>{errors[`${prefix}.suffix`]}</FieldError></div>
-                      <div className="sm:col-span-6"><label className={LABEL_CLASS}>Icon key</label><input value={metric.iconKey} maxLength={63} onChange={(event) => updateMetric(index, { iconKey: event.target.value })} className={`${INPUT_CLASS} font-mono`} /><FieldError>{errors[`${prefix}.iconKey`]}</FieldError></div>
+                      <div className="sm:col-span-6"><FontAwesomeIconPicker value={metric.iconKey} onChange={(value) => updateMetric(index, { iconKey: value })} error={errors[`${prefix}.iconKey`]} /></div>
                       <div className="sm:col-span-6"><label className={LABEL_CLASS}>Label</label><input value={metric.label} maxLength={80} onChange={(event) => updateMetric(index, { label: event.target.value })} className={INPUT_CLASS} /><FieldError>{errors[`${prefix}.label`]}</FieldError></div>
                       <div className="sm:col-span-6"><label className={LABEL_CLASS}>Supporting text</label><input value={metric.supportingText} maxLength={160} onChange={(event) => updateMetric(index, { supportingText: event.target.value })} className={INPUT_CLASS} /><FieldError>{errors[`${prefix}.supportingText`]}</FieldError></div>
                     </div>

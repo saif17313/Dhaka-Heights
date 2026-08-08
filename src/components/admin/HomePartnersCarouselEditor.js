@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PartnersCarousel from '@/components/PartnersCarousel';
 import { publishHomePartnersCarouselDraft, saveHomePartnersCarouselDraft } from '@/lib/homePartnersCarouselActions';
+import FontAwesomeIconPicker from './FontAwesomeIconPicker';
 import MediaLibrary from './MediaLibrary';
 
 const INPUT_CLASS = 'w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 outline-none transition focus:border-[#C5A880] focus:ring-2 focus:ring-[#C5A880]/20';
@@ -291,7 +292,7 @@ export default function HomePartnersCarouselEditor({ initialPartnersCarousel, in
                 </div>
 
                 {partner.iconMode === 'fontawesome' ? (
-                  <div className="mt-4"><label className={LABEL_CLASS}>Font Awesome icon</label><input value={partner.iconKey} maxLength={63} onChange={(event) => updatePartner(index, { iconKey: event.target.value })} className={`${INPUT_CLASS} font-mono`} /><FieldError>{errors[`${prefix}.iconKey`]}</FieldError></div>
+                  <div className="mt-4"><FontAwesomeIconPicker value={partner.iconKey} onChange={(value) => updatePartner(index, { iconKey: value })} error={errors[`${prefix}.iconKey`]} /></div>
                 ) : (
                   <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

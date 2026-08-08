@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ConcernDetailClient from '@/components/ConcernDetailClient';
+import FontAwesomeIconPicker from './FontAwesomeIconPicker';
 import MediaLibrary from './MediaLibrary';
 import { publishConcernsPageDraft, saveConcernsPageDraft } from '@/lib/concernsPageActions';
 
@@ -284,13 +285,7 @@ function ConcernForm({ concern, availableProjects, projectUsage, errors, onChang
           {concern.services.map((service, index) => (
             <div key={index} className="rounded-xl bg-slate-50 p-3">
               <div className="grid gap-3 md:grid-cols-3">
-                <div>
-                  <Field label="Icon class" value={service.icon} onChange={(value) => updateService(index, { icon: value })} error={errors[`services.${index}.icon`]} placeholder="fa-building" />
-                  <div className="mt-2 flex items-center gap-2 text-[10px] text-slate-500">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0B1B3D] text-white"><i className={`fa-solid ${service.icon || 'fa-building'}`} /></span>
-                    Preview
-                  </div>
-                </div>
+                <FontAwesomeIconPicker value={service.icon} onChange={(value) => updateService(index, { icon: value })} error={errors[`services.${index}.icon`]} />
                 <Field label="Service title" value={service.title} onChange={(value) => updateService(index, { title: value })} error={errors[`services.${index}.title`]} />
                 <Field label="Description" value={service.description} onChange={(value) => updateService(index, { description: value })} error={errors[`services.${index}.description`]} multiline />
               </div>
