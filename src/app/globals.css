@@ -575,6 +575,10 @@ body.loading-active {
   overflow: hidden;
 }
 
+.preloader.fade-out {
+  pointer-events: none;
+}
+
 .preloader-panel {
   position: absolute;
   top: 0;
