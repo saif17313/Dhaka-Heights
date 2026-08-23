@@ -20,6 +20,18 @@ async function getPublishedContactMap() {
   }
 }
 
+export const metadata = {
+  title: 'Dhaka Heights Properties Limited | Real Estate in Dhaka',
+  description: 'Dhaka Heights Properties Limited develops premium residential and commercial properties in Dhaka, with a focus on quality, thoughtful design and modern living.',
+  alternates: { canonical: 'https://www.dhakaheights.com/' },
+  openGraph: {
+    title: 'Dhaka Heights Properties Limited | Real Estate in Dhaka',
+    description: 'Dhaka Heights Properties Limited develops premium residential and commercial properties in Dhaka, with a focus on quality, thoughtful design and modern living.',
+    url: 'https://www.dhakaheights.com/',
+    type: 'website',
+  },
+};
+
 export default async function Home() {
   await connection();
   const [hero, about, statistics, featuredProjects, commitmentQuote, mediaHighlights, partnersCarousel, contactSection, contactMap] = await Promise.all([

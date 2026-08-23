@@ -56,7 +56,13 @@ export default function RouteLoader() {
         return;
       }
       if (url.origin !== window.location.origin) return;
-      if (`${url.pathname}${url.search}` === `${window.location.pathname}${window.location.search}`) return;
+      if (anchor.getAttribute('href').startsWith('#')) return;
+      if (`${url.pathname}${url.search}` === `${window.location.pathname}${window.location.search}`) {
+        event.preventDefault();
+        start();
+        setTimeout(() => window.location.reload(), 100);
+        return;
+      }
       start();
     };
 

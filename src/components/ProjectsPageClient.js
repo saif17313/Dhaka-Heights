@@ -2,7 +2,7 @@
 
 import { Suspense, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import PageHeader from './PageHeader';
@@ -44,8 +44,7 @@ function ProjectCard({ project, index }) {
   );
 }
 
-function ProjectsContent({ projectsPage, previewMode = false }) {
-  const searchParams = useSearchParams();
+function ProjectsContent({ projectsPage, previewMode = false, searchParams = {} }) {
   const router = useRouter();
   const listing = projectsPage.content.listing;
   const filterOptions = useMemo(() => normalizeProjectFilterOptions(listing), [listing]);
@@ -55,10 +54,10 @@ function ProjectsContent({ projectsPage, previewMode = false }) {
   );
   const [previewFilters, setPreviewFilters] = useState({ status: 'all', category: 'all', location: 'all', size: 'all' });
   const [currentPage, setCurrentPage] = useState(1);
-  const filterStatus = resolveProjectFilterValue(filterOptions.status, previewMode ? previewFilters.status : searchParams.get('status'));
-  const filterCategory = resolveProjectFilterValue(filterOptions.category, previewMode ? previewFilters.category : searchParams.get('category'));
-  const filterLocation = resolveProjectFilterValue(filterOptions.location, previewMode ? previewFilters.location : searchParams.get('location'));
-  const filterSize = resolveProjectFilterValue(filterOptions.size, previewMode ? previewFilters.size : searchParams.get('size'));
+  const filterStatus = resolveProjectFilterValue(filterOptions.status, previewMode ? previewFilters.status : searchParams?.status);
+  const filterCategory = resolveProjectFilterValue(filterOptions.category, previewMode ? previewFilters.category : searchParams?.category);
+  const filterLocation = resolveProjectFilterValue(filterOptions.location, previewMode ? previewFilters.location : searchParams?.location);
+  const filterSize = resolveProjectFilterValue(filterOptions.size, previewMode ? previewFilters.size : searchParams?.size);
 
   const updateFilter = (key, value) => {
     setCurrentPage(1);
@@ -135,5 +134,5 @@ function ProjectsContent({ projectsPage, previewMode = false }) {
 }
 
 export default function ProjectsPageClient(props) {
-  return <Suspense fallback={<div className="preloader"><div className="preloader-content"><h2 className="preloader-title">{props.projectsPage.content.listing.loadingLabel}</h2></div></div>}><ProjectsContent {...props} /></Suspense>;
+  return <ProjectsContent {...props} />;
 }
