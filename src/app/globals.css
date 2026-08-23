@@ -7783,3 +7783,45 @@ button.video-card-thumbnail-wrapper {
     margin-bottom: 24px;
   }
 }
+
+/* Fix 10: Home Contact Layout */
+.home-contact-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "info form"
+    "map  form";
+  column-gap: 60px;
+}
+.home-contact-layout .contact-info-col {
+  grid-area: info;
+  align-self: end;
+}
+.home-contact-layout .home-contact-map {
+  grid-area: map;
+  align-self: start;
+}
+.home-contact-layout .contact-form-col {
+  grid-area: form;
+  align-self: center;
+}
+@media (max-width: 768px) {
+  .home-contact-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "info"
+      "form"
+      "map";
+    gap: 0;
+  }
+  .home-contact-layout .contact-info-col {
+    align-self: auto;
+  }
+  .home-contact-layout .contact-form-col {
+    align-self: auto;
+    margin-bottom: 40px;
+  }
+  .home-contact-layout .home-contact-map {
+    align-self: auto;
+  }
+}
