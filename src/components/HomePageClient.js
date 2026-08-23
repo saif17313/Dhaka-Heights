@@ -86,8 +86,6 @@ export default function HomePageClient({ hero, about, statistics, featuredProjec
     <div className={isLoading ? 'loading-active' : ''}>
       {/* PAGE PRELOADER */}
       <div id="preloader" className={`preloader ${!isLoading ? 'fade-out' : ''}`}>
-        <div className="preloader-panel preloader-panel-left"></div>
-        <div className="preloader-panel preloader-panel-right"></div>
         <div className="preloader-content">
           <span className="preloader-frame preloader-frame-tl"></span>
           <span className="preloader-frame preloader-frame-tr"></span>
