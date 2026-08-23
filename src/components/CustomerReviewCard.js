@@ -94,7 +94,7 @@ export default function CustomerReviewCard({ review, interactive = true }) {
   return (
     <article className={`customer-review-card ${hasPreview ? 'has-media' : 'text-only'}`}>
       {interactive ? (
-        <Link href={href} prefetch={true} data-route-loader-skip className="customer-review-card-link" aria-label={`Read ${review.customerName}'s customer review`}>
+        <Link href={href} prefetch={true} className="customer-review-card-link" aria-label={`Read ${review.customerName}'s customer review`}>
           {cardContent}
         </Link>
       ) : (
