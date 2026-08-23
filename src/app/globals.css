@@ -6586,7 +6586,10 @@ body.loading-active {
   display: block;
   width: min(1260px, 100%);
   max-height: calc(100vh - clamp(36px, 6vw, 84px));
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid rgba(197, 168, 128, 0.26);
   border-radius: 12px;
   background: #fff;

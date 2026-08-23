@@ -99,7 +99,7 @@ function TeamMemberModal({ member, heading, onClose, returnFocusRef }) {
     .filter(Boolean);
 
   return (
-    <div className="about-team-modal-backdrop" role="presentation" onMouseDown={onClose}>
+    <div className="about-team-modal-backdrop" role="presentation" onMouseDown={onClose} data-lenis-prevent="true">
       <div
         ref={dialogRef}
         className="about-team-modal"
