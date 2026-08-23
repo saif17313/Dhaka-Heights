@@ -253,18 +253,23 @@ export default function MediaCenterClient({
       aria-label={activeVideo.title || labels.virtualToursTab}
       onClick={() => setActiveVideo(null)}
     >
-      <div className="media-video-modal" onClick={(event) => event.stopPropagation()}>
+      <div className="media-video-stage" onClick={(event) => event.stopPropagation()}>
+        <iframe
+          className="media-video-iframe"
+          src={activeVideo.embedUrl}
+          title={activeVideo.title}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
         <button
           type="button"
-          className="media-video-modal-close"
+          className="media-video-floating-close"
           onClick={() => setActiveVideo(null)}
           aria-label={labels.closeVideoLabel || 'Close'}
         >
           <i className="fa-solid fa-xmark" />
         </button>
-        <div className="media-video-player">
-          <iframe src={activeVideo.embedUrl} title={activeVideo.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-        </div>
       </div>
     </div>
   );
