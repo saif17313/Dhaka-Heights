@@ -252,8 +252,41 @@ export default function MediaCenterClient({
       aria-modal="true"
       aria-label={activeVideo.title || labels.virtualToursTab}
       onClick={() => setActiveVideo(null)}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100dvh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        padding: '52px 16px 20px',
+        background: 'rgba(2, 7, 17, 0.94)',
+        backdropFilter: 'blur(10px)',
+        overflow: 'hidden',
+        zIndex: 2000,
+      }}
     >
-      <div className="media-video-stage" onClick={(event) => event.stopPropagation()}>
+      <div
+        className="media-video-stage"
+        onClick={(event) => event.stopPropagation()}
+        style={{
+          position: 'relative',
+          flex: '0 0 auto',
+          width: 'min(92vw, 1280px, 150dvh)',
+          aspectRatio: '16 / 9',
+          margin: 0,
+          padding: 0,
+          background: '#000',
+          border: 0,
+          borderRadius: 0,
+          outline: 0,
+          boxShadow: 'none',
+          overflow: 'visible',
+          lineHeight: 0,
+        }}
+      >
         <iframe
           className="media-video-iframe"
           src={activeVideo.embedUrl}
@@ -261,12 +294,44 @@ export default function MediaCenterClient({
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+          style={{
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            margin: 0,
+            padding: 0,
+            border: 0,
+            borderRadius: 0,
+            outline: 0,
+            boxShadow: 'none',
+            background: '#000',
+          }}
         />
         <button
           type="button"
           className="media-video-floating-close"
           onClick={() => setActiveVideo(null)}
           aria-label={labels.closeVideoLabel || 'Close'}
+          style={{
+            position: 'absolute',
+            top: '-42px',
+            right: 0,
+            zIndex: 4,
+            width: '34px',
+            height: '34px',
+            margin: 0,
+            padding: 0,
+            border: '1px solid rgba(255,255,255,0.22)',
+            borderRadius: '999px',
+            background: 'rgba(5,10,22,0.84)',
+            color: '#fff',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            lineHeight: 1,
+            fontSize: '0.95rem',
+            cursor: 'pointer',
+          }}
         >
           <i className="fa-solid fa-xmark" />
         </button>
