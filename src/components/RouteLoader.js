@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { usePublicShell } from './PublicShellProvider';
 
 const DURATION_MS = 500;
@@ -8,10 +9,18 @@ const SEGMENTS = 4;
 
 export default function RouteLoader() {
   const shell = usePublicShell();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const hideTimeoutRef = useRef(null);
   const frameRef = useRef(null);
+
+  useEffect(() => {
+    // When route changes, hide the loader. Ensure it has been at least some time, 
+    // or just hide immediately. To prevent flash, we can just hide it immediately on route change.
+    setVisible(false);
+  }, [pathname, searchParams]);
 
   useEffect(() => {
     const start = () => {
@@ -24,14 +33,16 @@ export default function RouteLoader() {
       const tick = (now) => {
         const elapsed = now - startedAt;
         setProgress(Math.min(100, Math.round((elapsed / DURATION_MS) * 100)));
-        if (elapsed < DURATION_MS) frameRef.current = requestAnimationFrame(tick);
+        if (elapsed < DURATION_MS) {
+          frameRef.current = requestAnimationFrame(tick);
+        }
       };
       frameRef.current = requestAnimationFrame(tick);
-      hideTimeoutRef.current = setTimeout(() => setVisible(false), DURATION_MS);
+      
+      // Fallback: forcefully hide after 5 seconds just in case navigation fails or is aborted.
+      hideTimeoutRef.current = setTimeout(() => setVisible(false), 5000);
     };
 
-    // Capture phase so this runs before next/link's own click handler
-    // calls preventDefault() and starts the router navigation.
     const handleClick = (event) => {
       if (event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
