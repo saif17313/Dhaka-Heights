@@ -5050,8 +5050,7 @@ body.loading-active {
   font-size: 1.2rem;
   line-height: 1.35;
   color: var(--primary-navy);
-  margin-bottom: 15px;
-  height: 2.7em;
+  margin-bottom: 18px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -5067,6 +5066,7 @@ body.loading-active {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  margin-top: 14px;
   margin-bottom: 25px;
 }
 
@@ -7771,5 +7771,15 @@ button.video-card-thumbnail-wrapper {
   .media-video-stage {
     transition: none;
     transform: none;
+  }
+}
+
+/* Fix 08: Article detail image spacing */
+.article-detail-image-spacing {
+  margin-bottom: 32px;
+}
+@media (max-width: 768px) {
+  .article-detail-image-spacing {
+    margin-bottom: 24px;
   }
 }
