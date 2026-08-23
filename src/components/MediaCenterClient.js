@@ -247,17 +247,15 @@ export default function MediaCenterClient({
 
   const modal = activeVideo && (
     <div className="modal-overlay open" role="dialog" aria-modal="true" onClick={() => setActiveVideo(null)}>
-      <div className="modal-wrapper details-modal-wrapper" onClick={(event) => event.stopPropagation()} style={{ maxWidth: '800px', borderTop: '3px solid var(--accent-gold)' }}>
-        <button type="button" className="modal-close-btn" onClick={() => setActiveVideo(null)} aria-label={labels.closeVideoLabel}>
-          <i className="fa-solid fa-xmark" />
-        </button>
-        <div className="modal-content details-modal-content">
-          <div className="modal-video-content" style={{ padding: '10px 0' }}>
-            <h3 className="modal-project-title" style={{ fontSize: '1.5rem', fontFamily: 'var(--font-playfair)', color: 'var(--primary-navy)', marginBottom: '15px' }}>{activeVideo.title}</h3>
-            <div className="simulated-video-player" style={{ position: 'relative', paddingTop: '56.25%', backgroundColor: '#000', borderRadius: '8px', overflow: 'hidden' }}>
-              <iframe src={activeVideo.embedUrl} title={activeVideo.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
-            </div>
-          </div>
+      <div className="modal-wrapper media-video-modal" onClick={(event) => event.stopPropagation()}>
+        <div className="media-video-modal-header">
+          <h3 className="media-video-modal-title">{activeVideo.title}</h3>
+          <button type="button" className="media-video-modal-close" onClick={() => setActiveVideo(null)} aria-label={labels.closeVideoLabel || 'Close'}>
+            <i className="fa-solid fa-xmark" />
+          </button>
+        </div>
+        <div className="media-video-player">
+          <iframe src={activeVideo.embedUrl} title={activeVideo.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
         </div>
       </div>
     </div>
