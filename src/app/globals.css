@@ -4876,6 +4876,27 @@ body.loading-active {
   background-size: cover;
 }
 
+@keyframes mediaTabPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.media-tab-panel-transition {
+  animation: mediaTabPanelIn 250ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-tab-panel-transition {
+    animation: none;
+  }
+}
+
 /* News List rows */
 .news-premium-list {
   display: flex;

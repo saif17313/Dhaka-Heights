@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from './Navbar';
@@ -80,6 +80,7 @@ export default function MediaCenterClient({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
   const content = mediaPage.content;
   const labels = content.labels;
   const routeTab = tabFromSearchParams(searchParams);
@@ -89,6 +90,7 @@ export default function MediaCenterClient({
   const activeTab = previewMode ? previewTab : routeTab;
 
   const selectTab = (key) => {
+    if (activeTab === key) return;
     setCurrentPage(1);
     if (previewMode) {
       setPreviewTab(key);
@@ -98,7 +100,9 @@ export default function MediaCenterClient({
     const params = new URLSearchParams(searchParams.toString());
     params.set('cat', key);
     params.delete('reviewPage');
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    });
   };
 
   const news = content.articles.filter((item) => item.category === 'Latest News' && item.isVisible !== false);
@@ -119,7 +123,9 @@ export default function MediaCenterClient({
       const params = new URLSearchParams(searchParams.toString());
       params.set('cat', 'reviews');
       params.set('reviewPage', String(value));
-      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+      startTransition(() => {
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+      });
       window.setTimeout(scrollToContent, 60);
       return;
     }
@@ -166,72 +172,74 @@ export default function MediaCenterClient({
       </section>
       <section className="media-content-section" id={`media-panel-${activeTab}`} role="tabpanel">
         <div className="container-full">
-          {activeTab === 'reviews' ? (
-            reviewItems.length ? (
-              <div className="customer-reviews-grid">
-                {reviewItems.map((review) => <CustomerReviewCard key={review.id} review={review} />)}
+          <div key={activeTab} className="media-tab-panel-transition">
+            {activeTab === 'reviews' ? (
+              reviewItems.length ? (
+                <div className="customer-reviews-grid">
+                  {reviewItems.map((review) => <CustomerReviewCard key={review.id} review={review} />)}
+                </div>
+              ) : (
+                <EmptyReviews message={reviewsError} />
+              )
+            ) : activeTab !== 'videos' ? (
+              <div className="blogs-premium-grid">
+                {shown.map((article) => (
+                  <ArticleCard
+                    key={article.postId}
+                    article={article}
+                    readLabel={activeTab === 'news' ? labels.newsReadLabel : labels.blogReadLabel}
+                  />
+                ))}
               </div>
             ) : (
-              <EmptyReviews message={reviewsError} />
-            )
-          ) : activeTab !== 'videos' ? (
-            <div className="blogs-premium-grid">
-              {shown.map((article) => (
-                <ArticleCard
-                  key={article.postId}
-                  article={article}
-                  readLabel={activeTab === 'news' ? labels.newsReadLabel : labels.blogReadLabel}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="videos-premium-grid">
-              {shown.map((video) => (
-                <VideoCard
-                  key={video.videoId}
-                  video={video}
-                  onSelect={setActiveVideo}
-                  formatLabel={labels.videoFormatLabel}
-                />
-              ))}
-            </div>
-          )}
-
-          {activeTab === 'reviews' && reviewPages > 1 && (
-            <div className="pagination-container" style={{ marginTop: '50px' }}>
-              <button type="button" onClick={() => pageTo(Math.max(reviewPage - 1, 1))} disabled={reviewPage === 1} className="pagination-btn pagination-prev">
-                <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
-              </button>
-              <div className="pagination-pages">
-                {Array.from({ length: reviewPages }, (_, index) => (
-                  <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${reviewPage === index + 1 ? 'active' : ''}`}>
-                    {index + 1}
-                  </button>
+              <div className="videos-premium-grid">
+                {shown.map((video) => (
+                  <VideoCard
+                    key={video.videoId}
+                    video={video}
+                    onSelect={setActiveVideo}
+                    formatLabel={labels.videoFormatLabel}
+                  />
                 ))}
               </div>
-              <button type="button" onClick={() => pageTo(Math.min(reviewPage + 1, reviewPages))} disabled={reviewPage === reviewPages} className="pagination-btn pagination-next">
-                {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
-              </button>
-            </div>
-          )}
+            )}
 
-          {activeTab !== 'reviews' && pages > 1 && (
-            <div className="pagination-container" style={{ marginTop: '50px' }}>
-              <button type="button" onClick={() => pageTo(Math.max(currentPage - 1, 1))} disabled={currentPage === 1} className="pagination-btn pagination-prev">
-                <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
-              </button>
-              <div className="pagination-pages">
-                {Array.from({ length: pages }, (_, index) => (
-                  <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${currentPage === index + 1 ? 'active' : ''}`}>
-                    {index + 1}
-                  </button>
-                ))}
+            {activeTab === 'reviews' && reviewPages > 1 && (
+              <div className="pagination-container" style={{ marginTop: '50px' }}>
+                <button type="button" onClick={() => pageTo(Math.max(reviewPage - 1, 1))} disabled={reviewPage === 1} className="pagination-btn pagination-prev">
+                  <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
+                </button>
+                <div className="pagination-pages">
+                  {Array.from({ length: reviewPages }, (_, index) => (
+                    <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${reviewPage === index + 1 ? 'active' : ''}`}>
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={() => pageTo(Math.min(reviewPage + 1, reviewPages))} disabled={reviewPage === reviewPages} className="pagination-btn pagination-next">
+                  {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
+                </button>
               </div>
-              <button type="button" onClick={() => pageTo(Math.min(currentPage + 1, pages))} disabled={currentPage === pages} className="pagination-btn pagination-next">
-                {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
-              </button>
-            </div>
-          )}
+            )}
+
+            {activeTab !== 'reviews' && pages > 1 && (
+              <div className="pagination-container" style={{ marginTop: '50px' }}>
+                <button type="button" onClick={() => pageTo(Math.max(currentPage - 1, 1))} disabled={currentPage === 1} className="pagination-btn pagination-prev">
+                  <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
+                </button>
+                <div className="pagination-pages">
+                  {Array.from({ length: pages }, (_, index) => (
+                    <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${currentPage === index + 1 ? 'active' : ''}`}>
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={() => pageTo(Math.min(currentPage + 1, pages))} disabled={currentPage === pages} className="pagination-btn pagination-next">
+                  {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </main>
