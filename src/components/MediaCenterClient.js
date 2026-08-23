@@ -246,14 +246,22 @@ export default function MediaCenterClient({
   );
 
   const modal = activeVideo && (
-    <div className="modal-overlay open" role="dialog" aria-modal="true" onClick={() => setActiveVideo(null)}>
-      <div className="modal-wrapper media-video-modal" onClick={(event) => event.stopPropagation()}>
-        <div className="media-video-modal-header">
-          <h3 className="media-video-modal-title">{activeVideo.title}</h3>
-          <button type="button" className="media-video-modal-close" onClick={() => setActiveVideo(null)} aria-label={labels.closeVideoLabel || 'Close'}>
-            <i className="fa-solid fa-xmark" />
-          </button>
-        </div>
+    <div
+      className="modal-overlay open media-video-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label={activeVideo.title || labels.virtualToursTab}
+      onClick={() => setActiveVideo(null)}
+    >
+      <div className="media-video-modal" onClick={(event) => event.stopPropagation()}>
+        <button
+          type="button"
+          className="media-video-modal-close"
+          onClick={() => setActiveVideo(null)}
+          aria-label={labels.closeVideoLabel || 'Close'}
+        >
+          <i className="fa-solid fa-xmark" />
+        </button>
         <div className="media-video-player">
           <iframe src={activeVideo.embedUrl} title={activeVideo.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
         </div>
