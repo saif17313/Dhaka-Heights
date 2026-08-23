@@ -3009,11 +3009,18 @@ body.loading-active {
 }
 
 .footer-address {
+  display: block;
+  text-decoration: none;
   font-size: 0.85rem;
   line-height: 1.7;
   color: var(--text-muted-light);
   margin-bottom: 20px;
   font-weight: 300;
+  transition: color 0.2s ease;
+}
+
+.footer-address:hover, .footer-address:focus-visible {
+  color: var(--accent-gold);
 }
 
 .footer-address i {
@@ -3022,10 +3029,17 @@ body.loading-active {
 }
 
 .footer-contact-item {
+  display: block;
+  text-decoration: none;
   font-size: 0.85rem;
   color: var(--text-muted-light);
   margin-bottom: 10px;
   font-weight: 300;
+  transition: color 0.2s ease;
+}
+
+.footer-contact-item:hover, .footer-contact-item:focus-visible {
+  color: var(--accent-gold);
 }
 
 .footer-contact-item i {
