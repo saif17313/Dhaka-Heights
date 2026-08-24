@@ -1,5 +1,6 @@
 import { getPublishedSiteShell } from '@/lib/siteShellRepository';
 import { getPublicProjects } from '@/lib/publicData';
+import { getPublishedCustomerReviews } from '@/lib/customerReviewsRepository';
 
 export default async function sitemap() {
   const baseUrl = 'https://www.dhakaheights.com';
@@ -10,8 +11,11 @@ export default async function sitemap() {
     '/about',
     '/about/our-team',
     '/projects',
-    '/media',
-    '/career'
+    '/media-center',
+    '/career',
+    '/contact',
+    '/contact/buyer',
+    '/contact/landowner'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
@@ -22,6 +26,7 @@ export default async function sitemap() {
   try {
     const shell = await getPublishedSiteShell();
     const projects = await getPublicProjects();
+    const { reviews } = await getPublishedCustomerReviews({ limit: 100 });
 
     const concernRoutes = (shell.navigation || [])
       .flatMap((nav) => nav.children || [])
@@ -41,7 +46,15 @@ export default async function sitemap() {
         priority: 0.9,
       }));
 
-    return [...staticRoutes, ...concernRoutes, ...projectRoutes];
+    const reviewRoutes = (reviews || [])
+      .map((review) => ({
+        url: `${baseUrl}/media-center/customer-reviews/${review.slug}`,
+        lastModified: review.updatedAt || review.createdAt || new Date().toISOString(),
+        changeFrequency: 'monthly',
+        priority: 0.7,
+      }));
+
+    return [...staticRoutes, ...concernRoutes, ...projectRoutes, ...reviewRoutes];
   } catch (error) {
     console.error('Failed to load dynamic sitemap routes:', error);
     return staticRoutes;

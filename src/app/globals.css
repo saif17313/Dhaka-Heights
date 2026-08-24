@@ -693,15 +693,7 @@ body.loading-active {
   align-items: center;
   justify-content: center;
   background: radial-gradient(160% 140% at 50% 40%, #16294f 0%, var(--primary-navy) 55%, #081530 100%);
-  animation: route-loader-fade 0.5s ease both;
   pointer-events: none;
-}
-
-@keyframes route-loader-fade {
-  0% { opacity: 0; }
-  15% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
 }
 
 .route-loader-frame {

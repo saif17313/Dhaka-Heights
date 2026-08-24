@@ -3,7 +3,7 @@ export default function robots() {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin/', '/api/'],
+      disallow: ['/admin/', '/admin-preview/', '/api/'],
     },
     sitemap: 'https://www.dhakaheights.com/sitemap.xml',
   };

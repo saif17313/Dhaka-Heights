@@ -13,25 +13,48 @@ export default function RouteLoader() {
   const searchParams = useSearchParams();
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+  
   const hideTimeoutRef = useRef(null);
   const frameRef = useRef(null);
+  const startedAtRef = useRef(null);
+  const navigationCompleteRef = useRef(true);
 
+  // When route changes, initiate the hiding sequence
   useEffect(() => {
-    // When route changes, hide the loader. Ensure it has been at least some time, 
-    // or just hide immediately. To prevent flash, we can just hide it immediately on route change.
-    setVisible(false);
+    // If we're not currently animating, do nothing
+    if (navigationCompleteRef.current) return;
+    navigationCompleteRef.current = true;
+
+    const hide = () => {
+      // Wait a frame before unmounting to ensure paint
+      frameRef.current = requestAnimationFrame(() => {
+        setVisible(false);
+      });
+    };
+
+    const now = performance.now();
+    const elapsed = now - (startedAtRef.current || now);
+    const remaining = Math.max(0, DURATION_MS - elapsed);
+
+    clearTimeout(hideTimeoutRef.current);
+    if (remaining > 0) {
+      hideTimeoutRef.current = setTimeout(hide, remaining);
+    } else {
+      hide();
+    }
   }, [pathname, searchParams]);
 
   useEffect(() => {
     const start = () => {
+      navigationCompleteRef.current = false;
       clearTimeout(hideTimeoutRef.current);
       cancelAnimationFrame(frameRef.current);
       setProgress(0);
       setVisible(true);
+      startedAtRef.current = performance.now();
 
-      const startedAt = performance.now();
       const tick = (now) => {
-        const elapsed = now - startedAt;
+        const elapsed = now - startedAtRef.current;
         setProgress(Math.min(100, Math.round((elapsed / DURATION_MS) * 100)));
         if (elapsed < DURATION_MS) {
           frameRef.current = requestAnimationFrame(tick);
@@ -39,8 +62,11 @@ export default function RouteLoader() {
       };
       frameRef.current = requestAnimationFrame(tick);
       
-      // Fallback: forcefully hide after 5 seconds just in case navigation fails or is aborted.
-      hideTimeoutRef.current = setTimeout(() => setVisible(false), 5000);
+      // Fallback: forcefully hide after 5 seconds
+      hideTimeoutRef.current = setTimeout(() => {
+        navigationCompleteRef.current = true;
+        setVisible(false);
+      }, 5000);
     };
 
     const handleClick = (event) => {
@@ -57,12 +83,19 @@ export default function RouteLoader() {
       }
       if (url.origin !== window.location.origin) return;
       if (anchor.getAttribute('href').startsWith('#')) return;
+
+      // Handle same-page links
       if (`${url.pathname}${url.search}` === `${window.location.pathname}${window.location.search}`) {
+        // Allow native anchor scrolling if hash is different
+        if (url.hash && url.hash !== window.location.hash) {
+          return;
+        }
         event.preventDefault();
         start();
         setTimeout(() => window.location.reload(), 100);
         return;
       }
+      
       start();
     };
 
