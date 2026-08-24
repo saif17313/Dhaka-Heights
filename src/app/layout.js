@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Suspense } from 'react';
 import { PublicShellProvider } from '@/components/PublicShellProvider';
 import GlobalImageLightbox from '@/components/GlobalImageLightbox';
 import RouteLoader from '@/components/RouteLoader';
@@ -20,7 +21,7 @@ export async function generateMetadata() {
     title: meta.title,
     description: meta.description,
     alternates: { canonical: meta.canonicalUrl },
-    icons: shell.brand.faviconMedia?.secureUrl ? { icon: shell.brand.faviconMedia.secureUrl } : undefined,
+    icons: { icon: '/assets/logo.svg' },
     openGraph: { title: meta.ogTitle, description: meta.ogDescription, images: image ? [image] : [], type: 'website', url: meta.canonicalUrl },
     twitter: { card: 'summary_large_image', title: meta.ogTitle, description: meta.ogDescription, images: image ? [image] : [] },
   };
@@ -42,7 +43,9 @@ export default async function RootLayout({ children }) {
       <body>
         <SmoothScroll />
         <PublicShellProvider shell={shell}>
-          <RouteLoader />
+          <Suspense fallback={null}>
+            <RouteLoader />
+          </Suspense>
           {children}
           <GlobalImageLightbox />
         </PublicShellProvider>

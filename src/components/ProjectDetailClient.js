@@ -57,6 +57,14 @@ export default function ProjectDetailClient({ project, projectsPage, previewMode
       <div className="flex flex-col gap-8">
         <div className="project-spec-card"><h3 className="project-spec-title">{detail.atGlanceTitle}</h3><ul className="project-spec-list">
           <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-building text-gold"></i> {detail.projectNameLabel}</span><span className="project-spec-value">{project.name}</span></li>
+          {project.badgeText && (
+            <li className="project-spec-item">
+              <span className="project-spec-label"><i className="fa-solid fa-circle-info text-gold"></i> Status</span>
+              <span className="project-spec-value">
+                <span className={`project-detail-badge badge-${project.lifecycle}`} style={['ongoing', 'completed', 'upcoming'].includes(project.lifecycle) ? undefined : { backgroundColor: 'var(--primary-navy)' }}>{project.badgeText}</span>
+              </span>
+            </li>
+          )}
           <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-location-dot text-gold"></i> {detail.locationLabel}</span><span className="project-spec-value">{project.detailLocation}</span></li>
           <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-briefcase text-gold"></i> {detail.projectTypeLabel}</span><span className="project-spec-value">{project.projectType}</span></li>
           <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-layer-group text-gold"></i> {detail.floorsLabel}</span><span className="project-spec-value">{project.floors}</span></li>

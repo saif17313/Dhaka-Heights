@@ -79,7 +79,7 @@ export default function ContactForm({ contactSection, mapConfig = null, previewM
 
   return (
     <section id="contact" className={`contact-section scroll-reveal ${previewMode ? 'revealed' : ''}`}>
-      <div className="container grid-2">
+      <div className="container home-contact-layout">
         <div className="contact-info-col">
           <span className="section-tag">{contactSection.tagText}</span>
           <h2 className="section-title">{contactSection.heading}</h2>
@@ -93,19 +93,19 @@ export default function ContactForm({ contactSection, mapConfig = null, previewM
               </div>
             ))}
           </div>
+        </div>
 
-          <div className="map-mockup-wrapper">
-            <iframe
-              src={mapUrl}
-              width="100%"
-              height="260"
-              style={{ border: 0, display: 'block' }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title={mapConfig?.iframeTitle || copy.mapTooltip || 'Dhaka Heights Properties Limited location map'}
-            />
-          </div>
+        <div className="map-mockup-wrapper home-contact-map">
+          <iframe
+            src={mapUrl}
+            width="100%"
+            height="260"
+            style={{ border: 0, display: 'block' }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title={mapConfig?.iframeTitle || copy.mapTooltip || 'Dhaka Heights Properties Limited location map'}
+          />
         </div>
 
         <div className="contact-form-col">

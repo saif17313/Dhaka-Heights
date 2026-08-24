@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from './Navbar';
@@ -80,6 +80,7 @@ export default function MediaCenterClient({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
   const content = mediaPage.content;
   const labels = content.labels;
   const routeTab = tabFromSearchParams(searchParams);
@@ -89,6 +90,7 @@ export default function MediaCenterClient({
   const activeTab = previewMode ? previewTab : routeTab;
 
   const selectTab = (key) => {
+    if (activeTab === key) return;
     setCurrentPage(1);
     if (previewMode) {
       setPreviewTab(key);
@@ -98,7 +100,9 @@ export default function MediaCenterClient({
     const params = new URLSearchParams(searchParams.toString());
     params.set('cat', key);
     params.delete('reviewPage');
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    });
   };
 
   const news = content.articles.filter((item) => item.category === 'Latest News' && item.isVisible !== false);
@@ -119,7 +123,9 @@ export default function MediaCenterClient({
       const params = new URLSearchParams(searchParams.toString());
       params.set('cat', 'reviews');
       params.set('reviewPage', String(value));
-      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+      startTransition(() => {
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+      });
       window.setTimeout(scrollToContent, 60);
       return;
     }
@@ -166,91 +172,169 @@ export default function MediaCenterClient({
       </section>
       <section className="media-content-section" id={`media-panel-${activeTab}`} role="tabpanel">
         <div className="container-full">
-          {activeTab === 'reviews' ? (
-            reviewItems.length ? (
-              <div className="customer-reviews-grid">
-                {reviewItems.map((review) => <CustomerReviewCard key={review.id} review={review} />)}
+          <div key={activeTab} className="media-tab-panel-transition">
+            {activeTab === 'reviews' ? (
+              reviewItems.length ? (
+                <div className="customer-reviews-grid">
+                  {reviewItems.map((review) => <CustomerReviewCard key={review.id} review={review} />)}
+                </div>
+              ) : (
+                <EmptyReviews message={reviewsError} />
+              )
+            ) : activeTab !== 'videos' ? (
+              <div className="blogs-premium-grid">
+                {shown.map((article) => (
+                  <ArticleCard
+                    key={article.postId}
+                    article={article}
+                    readLabel={activeTab === 'news' ? labels.newsReadLabel : labels.blogReadLabel}
+                  />
+                ))}
               </div>
             ) : (
-              <EmptyReviews message={reviewsError} />
-            )
-          ) : activeTab !== 'videos' ? (
-            <div className="blogs-premium-grid">
-              {shown.map((article) => (
-                <ArticleCard
-                  key={article.postId}
-                  article={article}
-                  readLabel={activeTab === 'news' ? labels.newsReadLabel : labels.blogReadLabel}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="videos-premium-grid">
-              {shown.map((video) => (
-                <VideoCard
-                  key={video.videoId}
-                  video={video}
-                  onSelect={setActiveVideo}
-                  formatLabel={labels.videoFormatLabel}
-                />
-              ))}
-            </div>
-          )}
-
-          {activeTab === 'reviews' && reviewPages > 1 && (
-            <div className="pagination-container" style={{ marginTop: '50px' }}>
-              <button type="button" onClick={() => pageTo(Math.max(reviewPage - 1, 1))} disabled={reviewPage === 1} className="pagination-btn pagination-prev">
-                <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
-              </button>
-              <div className="pagination-pages">
-                {Array.from({ length: reviewPages }, (_, index) => (
-                  <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${reviewPage === index + 1 ? 'active' : ''}`}>
-                    {index + 1}
-                  </button>
+              <div className="videos-premium-grid">
+                {shown.map((video) => (
+                  <VideoCard
+                    key={video.videoId}
+                    video={video}
+                    onSelect={setActiveVideo}
+                    formatLabel={labels.videoFormatLabel}
+                  />
                 ))}
               </div>
-              <button type="button" onClick={() => pageTo(Math.min(reviewPage + 1, reviewPages))} disabled={reviewPage === reviewPages} className="pagination-btn pagination-next">
-                {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
-              </button>
-            </div>
-          )}
+            )}
 
-          {activeTab !== 'reviews' && pages > 1 && (
-            <div className="pagination-container" style={{ marginTop: '50px' }}>
-              <button type="button" onClick={() => pageTo(Math.max(currentPage - 1, 1))} disabled={currentPage === 1} className="pagination-btn pagination-prev">
-                <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
-              </button>
-              <div className="pagination-pages">
-                {Array.from({ length: pages }, (_, index) => (
-                  <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${currentPage === index + 1 ? 'active' : ''}`}>
-                    {index + 1}
-                  </button>
-                ))}
+            {activeTab === 'reviews' && reviewPages > 1 && (
+              <div className="pagination-container" style={{ marginTop: '50px' }}>
+                <button type="button" onClick={() => pageTo(Math.max(reviewPage - 1, 1))} disabled={reviewPage === 1} className="pagination-btn pagination-prev">
+                  <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
+                </button>
+                <div className="pagination-pages">
+                  {Array.from({ length: reviewPages }, (_, index) => (
+                    <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${reviewPage === index + 1 ? 'active' : ''}`}>
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={() => pageTo(Math.min(reviewPage + 1, reviewPages))} disabled={reviewPage === reviewPages} className="pagination-btn pagination-next">
+                  {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
+                </button>
               </div>
-              <button type="button" onClick={() => pageTo(Math.min(currentPage + 1, pages))} disabled={currentPage === pages} className="pagination-btn pagination-next">
-                {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
-              </button>
-            </div>
-          )}
+            )}
+
+            {activeTab !== 'reviews' && pages > 1 && (
+              <div className="pagination-container" style={{ marginTop: '50px' }}>
+                <button type="button" onClick={() => pageTo(Math.max(currentPage - 1, 1))} disabled={currentPage === 1} className="pagination-btn pagination-prev">
+                  <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
+                </button>
+                <div className="pagination-pages">
+                  {Array.from({ length: pages }, (_, index) => (
+                    <button type="button" key={index + 1} onClick={() => pageTo(index + 1)} className={`pagination-number ${currentPage === index + 1 ? 'active' : ''}`}>
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+                <button type="button" onClick={() => pageTo(Math.min(currentPage + 1, pages))} disabled={currentPage === pages} className="pagination-btn pagination-next">
+                  {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </main>
   );
 
   const modal = activeVideo && (
-    <div className="modal-overlay open" role="dialog" aria-modal="true" onClick={() => setActiveVideo(null)}>
-      <div className="modal-wrapper details-modal-wrapper" onClick={(event) => event.stopPropagation()} style={{ maxWidth: '800px', borderTop: '3px solid var(--accent-gold)' }}>
-        <button type="button" className="modal-close-btn" onClick={() => setActiveVideo(null)} aria-label={labels.closeVideoLabel}>
+    <div
+      className="modal-overlay open media-video-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label={activeVideo.title || labels.virtualToursTab}
+      onClick={() => setActiveVideo(null)}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100dvh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        padding: '52px 16px 20px',
+        background: 'rgba(2, 7, 17, 0.94)',
+        backdropFilter: 'blur(10px)',
+        overflow: 'hidden',
+        zIndex: 2000,
+      }}
+    >
+      <div
+        className="media-video-stage"
+        onClick={(event) => event.stopPropagation()}
+        style={{
+          position: 'relative',
+          flex: '0 0 auto',
+          width: 'min(92vw, 1280px, 150dvh)',
+          aspectRatio: '16 / 9',
+          margin: 0,
+          padding: 0,
+          background: '#000',
+          border: 0,
+          borderRadius: 0,
+          outline: 0,
+          boxShadow: 'none',
+          overflow: 'visible',
+          lineHeight: 0,
+        }}
+      >
+        <iframe
+          className="media-video-iframe"
+          src={activeVideo.embedUrl}
+          title={activeVideo.title}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            margin: 0,
+            padding: 0,
+            border: 0,
+            borderRadius: 0,
+            outline: 0,
+            boxShadow: 'none',
+            background: '#000',
+          }}
+        />
+        <button
+          type="button"
+          className="media-video-floating-close"
+          onClick={() => setActiveVideo(null)}
+          aria-label={labels.closeVideoLabel || 'Close'}
+          style={{
+            position: 'absolute',
+            top: '-42px',
+            right: 0,
+            zIndex: 4,
+            width: '34px',
+            height: '34px',
+            margin: 0,
+            padding: 0,
+            border: '1px solid rgba(255,255,255,0.22)',
+            borderRadius: '999px',
+            background: 'rgba(5,10,22,0.84)',
+            color: '#fff',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            lineHeight: 1,
+            fontSize: '0.95rem',
+            cursor: 'pointer',
+          }}
+        >
           <i className="fa-solid fa-xmark" />
         </button>
-        <div className="modal-content details-modal-content">
-          <div className="modal-video-content" style={{ padding: '10px 0' }}>
-            <h3 className="modal-project-title" style={{ fontSize: '1.5rem', fontFamily: 'var(--font-playfair)', color: 'var(--primary-navy)', marginBottom: '15px' }}>{activeVideo.title}</h3>
-            <div className="simulated-video-player" style={{ position: 'relative', paddingTop: '56.25%', backgroundColor: '#000', borderRadius: '8px', overflow: 'hidden' }}>
-              <iframe src={activeVideo.embedUrl} title={activeVideo.title} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

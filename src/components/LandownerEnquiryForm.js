@@ -89,13 +89,13 @@ export default function LandownerEnquiryForm({ infoCards = [], map }) {
         <section className="py-20 bg-gray-50 contact-form-map-section" style={{ backgroundColor: '#fcfcfd', borderTop: '1px solid var(--border-light)' }}>
           <div className="container grid-2 gap-10">
             <div className="contact-form-card">
-              <h3 className="text-navy font-serif text-2xl font-bold mb-2">Meet the Professionals</h3>
-              <p className="text-gray-400 text-xs mb-8">Submit your land information below and our land acquisition team will review it for a potential partnership.</p>
+              <h3 className="text-navy font-serif text-2xl font-bold mb-2" style={{ marginBottom: '12px' }}>Meet the Professionals</h3>
+              <p className="text-gray-400 text-xs mb-8" style={{ marginBottom: '30px', lineHeight: 1.6 }}>Submit your land information below and our land acquisition team will review it for a potential partnership.</p>
               <form onSubmit={submit} className="flex flex-col gap-6">
                 <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" value={form.honeypot} onChange={(event) => setField('honeypot', event.target.value)} style={{ position: 'absolute', left: '-10000px' }} />
 
                 <div>
-                  <h4 className="text-navy font-bold text-sm uppercase tracking-wide mb-4">Land Information</h4>
+                  <h4 className="text-navy font-bold text-sm uppercase tracking-wide" style={{ marginBottom: '16px' }}>Land Information</h4>
                   <div className="flex flex-col gap-6">
                     <div className="grid-2 gap-6">
                       <input type="text" placeholder="Locality" maxLength={160} value={form.locality} onChange={(event) => setField('locality', event.target.value)} className="luxury-input-field" />
@@ -116,7 +116,7 @@ export default function LandownerEnquiryForm({ infoCards = [], map }) {
                 </div>
 
                 <div>
-                  <h4 className="text-navy font-bold text-sm uppercase tracking-wide mb-4">Landowners Information</h4>
+                  <h4 className="text-navy font-bold text-sm uppercase tracking-wide" style={{ marginBottom: '16px' }}>Landowners Information</h4>
                   <div className="flex flex-col gap-6">
                     <input type="text" placeholder="Name of the Landowner *" required maxLength={120} value={form.landownerName} onChange={(event) => setField('landownerName', event.target.value)} className="luxury-input-field" />
                     <div className="grid-2 gap-6">

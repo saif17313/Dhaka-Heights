@@ -14,6 +14,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function ProjectsPage() {
-  return <ProjectsPageClient projectsPage={await getPublishedProjectsPage()} />;
+export default async function ProjectsPage({ searchParams }) {
+  const params = await searchParams;
+  return <ProjectsPageClient projectsPage={await getPublishedProjectsPage()} searchParams={params} />;
 }
