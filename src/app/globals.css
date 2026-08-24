@@ -693,7 +693,7 @@ body.loading-active {
   align-items: center;
   justify-content: center;
   background: radial-gradient(160% 140% at 50% 40%, #16294f 0%, var(--primary-navy) 55%, #081530 100%);
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .route-loader-frame {

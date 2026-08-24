@@ -155,6 +155,16 @@ export function getPublishedCustomerReviews({ page = 1, limit = 9 } = {}) {
   return cachedPublishedCustomerReviews(page, limit);
 }
 
+export async function getCustomerReviewSitemapEntries() {
+  const client = publicClient();
+  const { data, error } = await client
+    .from('customer_reviews')
+    .select('slug, updated_at, created_at')
+    .eq('status', 'published');
+  fail(error, 'Could not load customer review sitemap entries.');
+  return data || [];
+}
+
 export async function getPublishedCustomerReview(slug) {
   const client = publicClient();
   const { data: review, error } = await client

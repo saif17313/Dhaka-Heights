@@ -1,6 +1,6 @@
 import { getPublishedSiteShell } from '@/lib/siteShellRepository';
 import { getPublicProjects } from '@/lib/publicData';
-import { getPublishedCustomerReviews } from '@/lib/customerReviewsRepository';
+import { getCustomerReviewSitemapEntries } from '@/lib/customerReviewsRepository';
 
 export default async function sitemap() {
   const baseUrl = 'https://www.dhakaheights.com';
@@ -26,7 +26,7 @@ export default async function sitemap() {
   try {
     const shell = await getPublishedSiteShell();
     const projects = await getPublicProjects();
-    const { reviews } = await getPublishedCustomerReviews({ limit: 100 });
+    const reviews = await getCustomerReviewSitemapEntries();
 
     const concernRoutes = (shell.navigation || [])
       .flatMap((nav) => nav.children || [])

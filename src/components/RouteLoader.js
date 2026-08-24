@@ -69,6 +69,15 @@ export default function RouteLoader() {
       }, 5000);
     };
 
+    // Initial hard load logic
+    if (pathname !== '/') {
+      start();
+      hideTimeoutRef.current = setTimeout(() => {
+        navigationCompleteRef.current = true;
+        setVisible(false);
+      }, DURATION_MS);
+    }
+
     const handleClick = (event) => {
       if (event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -92,7 +101,7 @@ export default function RouteLoader() {
         }
         event.preventDefault();
         start();
-        setTimeout(() => window.location.reload(), 100);
+        setTimeout(() => window.location.reload(), DURATION_MS);
         return;
       }
       
@@ -107,7 +116,7 @@ export default function RouteLoader() {
       clearTimeout(hideTimeoutRef.current);
       cancelAnimationFrame(frameRef.current);
     };
-  }, []);
+  }, []); // Run on initial mount and set up listeners
 
   if (!visible) return null;
 
