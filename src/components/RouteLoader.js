@@ -100,11 +100,21 @@ export default function RouteLoader() {
           return;
         }
         event.preventDefault();
+        
+        if (url.pathname === '/') {
+          window.location.reload();
+          return;
+        }
+
         start();
         setTimeout(() => window.location.reload(), DURATION_MS);
         return;
       }
       
+      if (url.pathname === '/') {
+        return;
+      }
+
       start();
     };
 
