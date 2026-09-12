@@ -1320,7 +1320,7 @@ body.loading-active {
 .slide-title {
   font-family: var(--font-heading);
   font-size: 4.2rem;
-  font-weight: 300; /* Minimal light look - Fortress style */
+  font-weight: 400; /* Minimal light look - Fortress style */
   line-height: 1.15;
   max-width: 850px;
   margin-bottom: 25px;
@@ -1331,7 +1331,7 @@ body.loading-active {
 
 .h1-replica {
   font-size: 4.2rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 @media (max-width: 900px) {
@@ -1348,7 +1348,7 @@ body.loading-active {
 
 .slide-desc {
   font-size: 1.1rem;
-  font-weight: 300;
+  font-weight: 400;
   max-width: 600px;
   margin-bottom: 45px;
   color: rgba(255, 255, 255, 0.75);
