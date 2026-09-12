@@ -15,38 +15,81 @@ import DetailsModal from './DetailsModal';
 import QuickInquiry from './QuickInquiry';
 import ScrollToTop from './ScrollToTop';
 import { usePublicShell } from './PublicShellProvider';
+import { getCloudinaryUrl } from '@/lib/imageOptimization';
 
-export default function HomePageClient({ hero, about, statistics, featuredProjects, commitmentQuote, mediaHighlights, partnersCarousel, contactSection, contactMap }) {
-  const shell = usePublicShell();
-  const [isLoading, setIsLoading] = useState(true);
+function HomePreloader({ shell, onFinished }) {
   const [progress, setProgress] = useState(0);
-  const [modalType, setModalType] = useState(null);
-  const [modalTargetId, setModalTargetId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [isFadeOut, setIsFadeOut] = useState(false);
+  const [isDestroyed, setIsDestroyed] = useState(false);
 
   useEffect(() => {
-    const duration = shell.preloader.durationMs;
+    const targetDuration = Math.min(450, Number(shell?.preloader?.durationMs) || 450);
     const startedAt = performance.now();
     let frame;
 
     const tick = (now) => {
       const elapsed = now - startedAt;
-      setProgress(Math.min(100, Math.round((elapsed / duration) * 100)));
-      if (elapsed < duration) frame = requestAnimationFrame(tick);
+      setProgress(Math.min(100, Math.round((elapsed / targetDuration) * 100)));
+      if (elapsed < targetDuration) {
+        frame = requestAnimationFrame(tick);
+      }
     };
     frame = requestAnimationFrame(tick);
 
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsFadeOut(true);
       document.body.classList.remove('loading-active');
-    }, duration);
+      if (onFinished) onFinished();
+    }, targetDuration);
+
+    const removeTimer = setTimeout(() => {
+      setIsDestroyed(true);
+    }, targetDuration + 600);
 
     return () => {
       clearTimeout(timer);
+      clearTimeout(removeTimer);
       cancelAnimationFrame(frame);
     };
-  }, [shell.preloader.durationMs]);
+  }, [shell?.preloader?.durationMs, onFinished]);
+
+  if (isDestroyed) return null;
+
+  return (
+    <div id="preloader" className={`preloader ${isFadeOut ? 'fade-out' : ''}`}>
+      <div className="preloader-content">
+        <span className="preloader-frame preloader-frame-tl"></span>
+        <span className="preloader-frame preloader-frame-tr"></span>
+        <span className="preloader-frame preloader-frame-bl"></span>
+        <span className="preloader-frame preloader-frame-br"></span>
+        <div className="preloader-logo-wrapper">
+          <img
+            src={getCloudinaryUrl(shell.brand.logoMedia?.secureUrl, { width: 120 })}
+            alt={shell.brand.logoAlt || 'Dhaka Heights Logo'}
+            className="preloader-logo"
+            width={72}
+            height={72}
+          />
+        </div>
+        <div className="preloader-dots" role="presentation" aria-hidden="true">
+          {Array.from({ length: 10 }, (_, index) => (
+            <span key={index} className={`preloader-dot ${progress >= (index + 1) * 10 ? 'filled' : ''}`} />
+          ))}
+        </div>
+        <h2 className="preloader-title">{shell.preloader.title}</h2>
+        <p className="preloader-subtitle">{shell.preloader.subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function HomePageClient({ hero, about, statistics, featuredProjects, commitmentQuote, mediaHighlights, partnersCarousel, contactSection, contactMap }) {
+  const shell = usePublicShell();
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [modalTargetId, setModalTargetId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('all');
 
   useEffect(() => {
     const revealElements = document.querySelectorAll('.scroll-reveal');
@@ -68,7 +111,7 @@ export default function HomePageClient({ hero, about, statistics, featuredProjec
     return () => {
       revealElements.forEach((element) => revealObserver.unobserve(element));
     };
-  }, [isLoading, activeFilter]);
+  }, [activeFilter]);
 
   const handlePlayVideo = () => {
     setModalType('video');
@@ -83,26 +126,10 @@ export default function HomePageClient({ hero, about, statistics, featuredProjec
   };
 
   return (
-    <div className={isLoading ? 'loading-active' : ''}>
+    <div>
       {/* PAGE PRELOADER */}
-      <div id="preloader" className={`preloader ${!isLoading ? 'fade-out' : ''}`}>
-        <div className="preloader-content">
-          <span className="preloader-frame preloader-frame-tl"></span>
-          <span className="preloader-frame preloader-frame-tr"></span>
-          <span className="preloader-frame preloader-frame-bl"></span>
-          <span className="preloader-frame preloader-frame-br"></span>
-          <div className="preloader-logo-wrapper">
-            <img src={shell.brand.logoMedia?.secureUrl} alt={shell.brand.logoAlt} className="preloader-logo" />
-          </div>
-          <div className="preloader-dots" role="presentation" aria-hidden="true">
-            {Array.from({ length: 10 }, (_, index) => (
-              <span key={index} className={`preloader-dot ${progress >= (index + 1) * 10 ? 'filled' : ''}`} />
-            ))}
-          </div>
-          <h2 className="preloader-title">{shell.preloader.title}</h2>
-          <p className="preloader-subtitle">{shell.preloader.subtitle}</p>
-        </div>
-      </div>
+      <HomePreloader shell={shell} onFinished={() => setIsLoading(false)} />
+
 
       {/* HEADER & MOBILE MENU */}
       <Navbar onFilterSelect={setActiveFilter} />

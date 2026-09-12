@@ -1,16 +1,12 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getCloudinaryUrl, getCloudinarySrcSet } from '@/lib/imageOptimization';
 
 function mediaUrl(media) {
   if (!media) return '';
   if (typeof media === 'string') return media;
   return media.secureUrl || media.secure_url || media.url || '';
-}
-
-function cssBackground(imageUrl) {
-  const escapedUrl = String(imageUrl || '').replace(/(["\\])/g, '\\$1');
-  return `linear-gradient(rgba(11, 27, 61, 0.4), rgba(11, 27, 61, 0.75)), url("${escapedUrl}")`;
 }
 
 function linkProps(target) {
@@ -25,9 +21,23 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
   );
   const autoplayMs = Number(hero?.autoplayMs) || 6000;
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [loadedIndices, setLoadedIndices] = useState(() => new Set([0]));
   const timerRef = useRef(null);
   const slideCount = slides.length;
   const activeIndex = slideCount > 0 ? currentSlide % slideCount : 0;
+
+  useEffect(() => {
+    if (slideCount > 0) {
+      setLoadedIndices((prev) => {
+        const next = (activeIndex + 1) % slideCount;
+        if (prev.has(activeIndex) && prev.has(next)) return prev;
+        const updated = new Set(prev);
+        updated.add(activeIndex);
+        updated.add(next);
+        return updated;
+      });
+    }
+  }, [activeIndex, slideCount]);
 
   const startTimer = useCallback(() => {
     clearInterval(timerRef.current);
@@ -117,6 +127,7 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
             const desktopUrl = mediaUrl(slide.desktopMedia) || slide.desktopMediaUrl || '';
             const mobileUrl = mediaUrl(slide.mobileMedia) || slide.mobileMediaUrl || desktopUrl;
             const previewDesktopUrl = previewMode && previewViewport === 'mobile' ? mobileUrl : desktopUrl;
+            const isLoaded = loadedIndices.has(index) || index === 0;
 
             return (
               <div
@@ -128,11 +139,32 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
                   className="slide-bg"
                   role="img"
                   aria-label={slide.imageAlt || ''}
-                  style={{
-                    '--hero-desktop-background': cssBackground(previewDesktopUrl),
-                    '--hero-mobile-background': cssBackground(mobileUrl),
-                  }}
-                ></div>
+                >
+                  <div className="slide-bg-overlay" />
+                  {isLoaded && (
+                    <picture className="slide-bg-picture">
+                      <source
+                        media="(max-width: 768px)"
+                        srcSet={getCloudinarySrcSet(mobileUrl, [360, 480, 768])}
+                        sizes="100vw"
+                      />
+                      <source
+                        media="(min-width: 769px)"
+                        srcSet={getCloudinarySrcSet(previewDesktopUrl, [1080, 1440, 1920])}
+                        sizes="100vw"
+                      />
+                      <img
+                        src={getCloudinaryUrl(previewDesktopUrl, { width: 1440 })}
+                        alt={slide.imageAlt || slide.title || ''}
+                        className="slide-img-cover"
+                        fetchPriority={index === 0 ? 'high' : 'auto'}
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        decoding={index === 0 ? 'sync' : 'async'}
+                      />
+                    </picture>
+                  )}
+                </div>
+
                 <div className="slide-content">
                   <div className="container">
                     <span className="slide-tag">{slide.eyebrow}</span>
