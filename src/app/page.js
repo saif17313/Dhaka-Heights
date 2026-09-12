@@ -8,7 +8,8 @@ import { getPublishedHomeMediaHighlights } from '@/lib/homeMediaHighlightsReposi
 import { getPublishedHomePartnersCarousel } from '@/lib/homePartnersCarouselRepository';
 import { getPublishedHomeContactSection } from '@/lib/homeContactSectionRepository';
 import { getPublishedContactPage } from '@/lib/contactPageRepository';
-import { connection } from 'next/server';
+
+export const revalidate = 3600;
 
 async function getPublishedContactMap() {
   try {
@@ -33,7 +34,6 @@ export const metadata = {
 };
 
 export default async function Home() {
-  await connection();
   const [hero, about, statistics, featuredProjects, commitmentQuote, mediaHighlights, partnersCarousel, contactSection, contactMap] = await Promise.all([
     getPublishedHomeHero(),
     getPublishedHomeAbout(),

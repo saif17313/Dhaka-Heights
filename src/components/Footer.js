@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePublicShell } from './PublicShellProvider';
+import { getCloudinaryUrl } from '@/lib/imageOptimization';
 
 function linkProps(target) { return target === '_blank' ? { target, rel: 'noopener noreferrer' } : { target }; }
 
@@ -23,7 +24,7 @@ export default function Footer() {
     <footer className="main-footer">
       <div className="footer-top-container"><div className="container grid-4">
         <div className="footer-col brand-col">
-          <div className="logo-container"><Link href="/"><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><img src={shell.brand.logoMedia?.secureUrl} alt={shell.brand.logoAlt} className="footer-logo" style={{ height: '54px', width: '54px' }} /><div className="logo-text"><span className="brand-title">{shell.brand.brandTitle}</span><span className="brand-subtitle">{shell.brand.brandSubtitle}</span></div></div></Link></div>
+          <div className="logo-container"><Link href="/"><div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><img src={getCloudinaryUrl(shell.brand.logoMedia?.secureUrl, { width: 120 })} alt={shell.brand.logoAlt || 'Dhaka Heights Logo'} className="footer-logo" width={54} height={54} style={{ height: '54px', width: '54px' }} /><div className="logo-text"><span className="brand-title">{shell.brand.brandTitle}</span><span className="brand-subtitle">{shell.brand.brandSubtitle}</span></div></div></Link></div>
           <p className="footer-brand-desc">{footer.brandDescription}</p>
           <div className="footer-social-links">{socials.map((item) => <a key={item.itemKey} href={item.url} {...linkProps(item.target)} aria-label={item.platformName}><i className={`fa-brands ${item.iconKey}`}></i></a>)}</div>
         </div>

@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { getCloudinaryUrl } from '@/lib/imageOptimization';
 
 function mediaUrl(image) {
   return image?.media?.secureUrl || image?.media?.secure_url || '';
@@ -38,6 +39,8 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
     bottomImgScale: 1.12, bottomImgY: 0,
   });
 
+  const cachedFrameHeights = useRef({ top: 0, bottom: 0 });
+
   const updateTargets = useCallback(() => {
     if (!sectionRef.current) return;
 
@@ -59,10 +62,9 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
 
     // Render each image taller than its clipped frame and keep all movement
     // inside that overscan so the wrapper can never become visible.
-    const topFrameHeight = topImgRef.current?.parentElement?.clientHeight || 0;
-    const bottomFrameHeight = bottomImgRef.current?.parentElement?.clientHeight || 0;
-    const topTravel = Math.min(96, topFrameHeight * 0.12);
-    const bottomTravel = Math.min(96, bottomFrameHeight * 0.12);
+    const frameHeights = cachedFrameHeights.current;
+    const topTravel = Math.min(96, frameHeights.top * 0.12);
+    const bottomTravel = Math.min(96, frameHeights.bottom * 0.12);
 
     if (reduceMotion) {
       tv.topImgScale = 1.04;
@@ -81,10 +83,26 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
     tv.bottomImgY = mapRange(simScroll, 600, 2200, -bottomTravel, bottomTravel);
   }, []);
 
+  const measureFrames = useCallback(() => {
+    cachedFrameHeights.current = {
+      top: topImgRef.current?.parentElement?.clientHeight || 0,
+      bottom: bottomImgRef.current?.parentElement?.clientHeight || 0,
+    };
+  }, []);
+
   useEffect(() => {
     let hashRevealTimer;
-    const onScroll = () => updateTargets();
-    const onResize = () => updateTargets();
+    let isVisible = false;
+    let isTicking = false;
+
+    measureFrames();
+
+    const startAnimationLoop = () => {
+      if (isTicking || !isVisible) return;
+      isTicking = true;
+      rafRef.current = requestAnimationFrame(animationLoop);
+    };
+
     const animationLoop = () => {
       const sv = smoothValues.current;
       const tv = targetValues.current;
@@ -96,18 +114,61 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
       sv.bottomImgY = lerp(sv.bottomImgY, tv.bottomImgY, lerpFactor);
 
       if (topImgRef.current) {
-        topImgRef.current.style.transform = `translate3d(0, ${sv.topImgY}px, 0) scale(${sv.topImgScale})`;
+        topImgRef.current.style.transform = `translate3d(0, ${sv.topImgY.toFixed(2)}px, 0) scale(${sv.topImgScale.toFixed(4)})`;
       }
       if (bottomImgRef.current) {
-        bottomImgRef.current.style.transform = `translate3d(0, ${sv.bottomImgY}px, 0) scale(${sv.bottomImgScale})`;
+        bottomImgRef.current.style.transform = `translate3d(0, ${sv.bottomImgY.toFixed(2)}px, 0) scale(${sv.bottomImgScale.toFixed(4)})`;
       }
 
-      rafRef.current = requestAnimationFrame(animationLoop);
+      const hasSettled =
+        Math.abs(sv.topImgScale - tv.topImgScale) < 0.0005 &&
+        Math.abs(sv.topImgY - tv.topImgY) < 0.1 &&
+        Math.abs(sv.bottomImgScale - tv.bottomImgScale) < 0.0005 &&
+        Math.abs(sv.bottomImgY - tv.bottomImgY) < 0.1;
+
+      if (!hasSettled && isVisible) {
+        rafRef.current = requestAnimationFrame(animationLoop);
+      } else {
+        isTicking = false;
+      }
+    };
+
+    const onScroll = () => {
+      if (!isVisible) return;
+      updateTargets();
+      startAnimationLoop();
+    };
+
+    const onResize = () => {
+      measureFrames();
+      if (!isVisible) return;
+      updateTargets();
+      startAnimationLoop();
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize, { passive: true });
-    updateTargets();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          updateTargets();
+          startAnimationLoop();
+        } else {
+          if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+            isTicking = false;
+          }
+        }
+      },
+      { rootMargin: '200px 0px' }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
     if (window.location.hash === '#about') {
       sectionRef.current
         ?.querySelectorAll('.scroll-reveal')
@@ -119,15 +180,15 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
           .forEach((element) => element.classList.add('revealed'));
       }, 1600);
     }
-    rafRef.current = requestAnimationFrame(animationLoop);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
       if (hashRevealTimer) window.clearTimeout(hashRevealTimer);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [updateTargets]);
+  }, [updateTargets, measureFrames]);
 
   if (!about || about.isVisible === false) return null;
 
@@ -186,9 +247,13 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
           <div className="overview-top-img">
             <img
               ref={topImgRef}
-              src={mediaUrl(about.topImage)}
+              src={getCloudinaryUrl(mediaUrl(about.topImage), { width: 800 })}
               alt={about.topImage?.imageAlt || ''}
               className="parallax-inner-img"
+              loading="lazy"
+              decoding="async"
+              width={560}
+              height={380}
               style={{
                 top: '-16%',
                 height: '132%',
@@ -203,9 +268,13 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
           <div className="overview-bottom-img">
             <img
               ref={bottomImgRef}
-              src={mediaUrl(about.bottomImage)}
+              src={getCloudinaryUrl(mediaUrl(about.bottomImage), { width: 640 })}
               alt={about.bottomImage?.imageAlt || ''}
               className="parallax-inner-img"
+              loading="lazy"
+              decoding="async"
+              width={340}
+              height={440}
               style={{
                 top: '-16%',
                 height: '132%',

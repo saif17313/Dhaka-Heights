@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getCloudinaryUrl } from '@/lib/imageOptimization';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -32,7 +33,15 @@ export default function MediaGrid({ mediaHighlights, previewMode = false }) {
           {articles.map((article) => (
             <article key={article.placementId || article.mediaPostId} className={`media-card scroll-reveal zoom-in${previewMode ? ' revealed' : ''}`}>
               <div className="media-img-wrapper">
-                <img src={article.coverMedia?.secureUrl} alt={article.title} className="media-img" />
+                <img
+                  src={getCloudinaryUrl(article.coverMedia?.secureUrl, { width: 640 })}
+                  alt={article.title}
+                  className="media-img"
+                  loading="lazy"
+                  decoding="async"
+                  width={380}
+                  height={220}
+                />
               </div>
               <div className="media-info">
                 <div className="media-meta-row">

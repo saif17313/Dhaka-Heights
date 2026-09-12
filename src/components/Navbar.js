@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePublicShell } from './PublicShellProvider';
+import { getCloudinaryUrl } from '@/lib/imageOptimization';
 
 function ExternalProps({ target }) {
   return target === '_blank' ? { target, rel: 'noopener noreferrer' } : { target };
@@ -12,7 +13,13 @@ function ExternalProps({ target }) {
 function BrandLockup({ shell, logoUrl }) {
   return (
     <div className="logo-container">
-      <img src={logoUrl} alt={shell.brand.logoAlt} className="header-logo" />
+      <img
+        src={getCloudinaryUrl(logoUrl, { width: 120 })}
+        alt={shell.brand.logoAlt || 'Dhaka Heights'}
+        className="header-logo"
+        width={54}
+        height={54}
+      />
       <div className="logo-text nav-brand-lockup">
         <span className="brand-title nav-brand-title">{shell.brand.brandTitle}</span>
         <span className="brand-subtitle nav-brand-subtitle">{shell.brand.brandSubtitle}</span>

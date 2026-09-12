@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getCloudinaryUrl } from '@/lib/imageOptimization';
 
 const STANDARD_PROJECT_STATUSES = new Set(['ongoing', 'completed', 'upcoming']);
 
@@ -98,9 +99,13 @@ export default function ProjectsGrid({ featuredProjects, activeFilter = 'all', o
             >
               <div className="project-img-wrapper">
                 <img
-                  src={project.coverMedia?.secureUrl}
+                  src={getCloudinaryUrl(project.coverMedia?.secureUrl, { width: 640 })}
                   alt={project.coverMedia?.altText || project.name}
                   className="project-img"
+                  loading="lazy"
+                  decoding="async"
+                  width={380}
+                  height={285}
                 />
                 <div className={`project-badge badge-${project.category}`} style={dynamicBadgeStyle(project.category)}>{project.badgeText}</div>
                 <div className="project-hover-overlay">

@@ -1,10 +1,27 @@
 import "./globals.css";
 import { Suspense } from 'react';
+import { Manrope, Playfair_Display } from 'next/font/google';
 import { PublicShellProvider } from '@/components/PublicShellProvider';
 import GlobalImageLightbox from '@/components/GlobalImageLightbox';
 import RouteLoader from '@/components/RouteLoader';
 import SmoothScroll from '@/components/SmoothScroll';
+import FontAwesomeLoader from '@/components/FontAwesomeLoader';
 import { getPublishedSiteShell } from '@/lib/siteShellRepository';
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-manrope',
+  display: 'swap',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
 
 export const viewport = {
   themeColor: "#0B1B3D",
@@ -30,17 +47,21 @@ export async function generateMetadata() {
 export default async function RootLayout({ children }) {
   const shell = await getPublishedSiteShell();
   return (
-    <html lang="en">
+    <html lang="en" className={`${manrope.variable} ${playfair.variable}`}>
       <head>
-        {/* Google Fonts: Playfair Display and Manrope */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-
-        {/* FontAwesome Icons for UI */}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+        <link
+          rel="preload"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          as="style"
+        />
+        <noscript>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        </noscript>
       </head>
       <body>
+        <FontAwesomeLoader />
         <SmoothScroll />
         <PublicShellProvider shell={shell}>
           <Suspense fallback={null}>

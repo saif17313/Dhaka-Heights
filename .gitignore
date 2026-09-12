@@ -32,6 +32,7 @@ supabase/.temp/
 *.tsbuildinfo
 next-env.d.ts
 .agents/
+.playwright-mcp/
 
 # Logs
 npm-debug.log*
