@@ -55,7 +55,23 @@ function normalize(snapshot) {
   };
 }
 
-async function loadPublicShell() {
+async function withRetry(fn, retries = 3, delayMs = 1000) {
+  let lastError;
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastError = err;
+      if (attempt < retries) {
+        console.warn(`[SiteShell] Attempt ${attempt} failed (${err?.message || err}). Retrying in ${delayMs * attempt}ms...`);
+        await new Promise((resolve) => setTimeout(resolve, delayMs * attempt));
+      }
+    }
+  }
+  throw lastError;
+}
+
+async function loadPublicShellInternal() {
   const supabase = createPublicClient();
   const { data: rows, error } = await supabase.from('site_settings')
     .select('id,status,version_number,settings,logo_asset_id,favicon_asset_id,seo_og_image_id,updated_at,updated_by,published_at,published_by')
@@ -101,6 +117,10 @@ async function loadPublicShell() {
   const footerGroups = (groups || []).map((group) => ({ id: group.id, groupKey: group.group_key, title: group.title, sortOrder: group.sort_order, isVisible: group.is_visible, links: (links || []).filter((link) => link.group_id === group.id).map((link) => ({ id: link.id, linkKey: link.link_key, label: link.label, url: link.url, target: link.target, sortOrder: link.sort_order, isVisible: link.is_visible })) }));
   const settings = row.settings || {};
   return normalize({ ...row, ...settings, brand: { ...(settings.brand || {}), logoMediaId: row.logo_asset_id, faviconMediaId: row.favicon_asset_id, logoMedia: media(byId.get(row.logo_asset_id)), faviconMedia: media(byId.get(row.favicon_asset_id)) }, metadata: { ...(settings.metadata || {}), ogImageMediaId: row.seo_og_image_id, ogImageMedia: media(byId.get(row.seo_og_image_id)) }, navigation, footerGroups, socialLinks: (socials || []).map((item) => ({ id: item.id, itemKey: item.item_key, platformName: item.platform_name, url: item.url, iconKey: item.icon_key, target: item.target, sortOrder: item.sort_order, isVisible: item.is_visible })) });
+}
+
+async function loadPublicShell() {
+  return withRetry(loadPublicShellInternal, 3, 1000);
 }
 
 const cachedPublicShell = unstable_cache(loadPublicShell, ['published-site-shell-v1'], { tags: [SITE_SHELL_CACHE_TAG], revalidate: 3600 });
