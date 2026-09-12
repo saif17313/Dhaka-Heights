@@ -583,6 +583,18 @@ body.loading-active {
   pointer-events: none;
 }
 
+/* Non-blocking initial homepage preloader overlay (Task B - Option A) */
+.preloader.home-preloader {
+  background: transparent !important;
+  pointer-events: none !important;
+  transition: opacity 0.35s ease;
+}
+
+.preloader.home-preloader .preloader-content {
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .preloader-content {
   position: absolute;
   inset: 0;
@@ -1346,6 +1358,16 @@ body.loading-active {
 .slider-slide.active .slide-actions {
   transform: translateY(0);
   opacity: 1;
+}
+
+/* Initial Hero Content Paint Optimization (Task A: immediate paint without delay) */
+.slider-wrapper.slider-initial .slider-slide.active .slide-tag,
+.slider-wrapper.slider-initial .slider-slide.active .slide-title,
+.slider-wrapper.slider-initial .slider-slide.active .slide-desc,
+.slider-wrapper.slider-initial .slider-slide.active .slide-actions {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  transition: none !important;
 }
 
 /* Slider Controls */

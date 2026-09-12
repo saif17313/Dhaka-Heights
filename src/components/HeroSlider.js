@@ -21,21 +21,32 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
   );
   const autoplayMs = Number(hero?.autoplayMs) || 6000;
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isInitial, setIsInitial] = useState(true);
   const [loadedIndices, setLoadedIndices] = useState(() => new Set([0]));
   const timerRef = useRef(null);
   const slideCount = slides.length;
   const activeIndex = slideCount > 0 ? currentSlide % slideCount : 0;
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitial(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     if (slideCount > 0) {
-      setLoadedIndices((prev) => {
-        const next = (activeIndex + 1) % slideCount;
-        if (prev.has(activeIndex) && prev.has(next)) return prev;
-        const updated = new Set(prev);
-        updated.add(activeIndex);
-        updated.add(next);
-        return updated;
+      const raf = requestAnimationFrame(() => {
+        setLoadedIndices((prev) => {
+          const next = (activeIndex + 1) % slideCount;
+          if (prev.has(activeIndex) && prev.has(next)) return prev;
+          const updated = new Set(prev);
+          updated.add(activeIndex);
+          updated.add(next);
+          return updated;
+        });
       });
+      return () => cancelAnimationFrame(raf);
     }
   }, [activeIndex, slideCount]);
 
@@ -56,17 +67,20 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
 
   const handleNext = () => {
     if (!slideCount) return;
+    setIsInitial(false);
     setCurrentSlide((previous) => (previous + 1) % slideCount);
     startTimer();
   };
 
   const handlePrev = () => {
     if (!slideCount) return;
+    setIsInitial(false);
     setCurrentSlide((previous) => (previous - 1 + slideCount) % slideCount);
     startTimer();
   };
 
   const handleDotClick = (index) => {
+    setIsInitial(false);
     setCurrentSlide(index);
     startTimer();
   };
@@ -122,7 +136,7 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
     >
       <div className="slider-container">
         {/* Slider Wrapper */}
-        <div className="slider-wrapper">
+        <div className={`slider-wrapper ${isInitial ? 'slider-initial' : ''}`}>
           {slides.map((slide, index) => {
             const desktopUrl = mediaUrl(slide.desktopMedia) || slide.desktopMediaUrl || '';
             const mobileUrl = mediaUrl(slide.mobileMedia) || slide.mobileMediaUrl || desktopUrl;

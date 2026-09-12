@@ -23,14 +23,14 @@ function HomePreloader({ shell, onFinished }) {
   const [isDestroyed, setIsDestroyed] = useState(false);
 
   useEffect(() => {
-    const targetDuration = Math.min(450, Number(shell?.preloader?.durationMs) || 450);
+    const duration = 100;
     const startedAt = performance.now();
     let frame;
 
     const tick = (now) => {
       const elapsed = now - startedAt;
-      setProgress(Math.min(100, Math.round((elapsed / targetDuration) * 100)));
-      if (elapsed < targetDuration) {
+      setProgress(Math.min(100, Math.round((elapsed / duration) * 100)));
+      if (elapsed < duration) {
         frame = requestAnimationFrame(tick);
       }
     };
@@ -38,25 +38,24 @@ function HomePreloader({ shell, onFinished }) {
 
     const timer = setTimeout(() => {
       setIsFadeOut(true);
-      document.body.classList.remove('loading-active');
       if (onFinished) onFinished();
-    }, targetDuration);
+    }, duration);
 
     const removeTimer = setTimeout(() => {
       setIsDestroyed(true);
-    }, targetDuration + 600);
+    }, duration + 350);
 
     return () => {
       clearTimeout(timer);
       clearTimeout(removeTimer);
       cancelAnimationFrame(frame);
     };
-  }, [shell?.preloader?.durationMs, onFinished]);
+  }, [onFinished]);
 
   if (isDestroyed) return null;
 
   return (
-    <div id="preloader" className={`preloader ${isFadeOut ? 'fade-out' : ''}`}>
+    <div id="preloader" className={`preloader home-preloader ${isFadeOut ? 'fade-out' : ''}`}>
       <div className="preloader-content">
         <span className="preloader-frame preloader-frame-tl"></span>
         <span className="preloader-frame preloader-frame-tr"></span>
