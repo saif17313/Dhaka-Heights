@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import PublicIcon from './PublicIcon';
 
 function formatValue(value, target) {
   const targetText = String(target);
@@ -76,7 +77,7 @@ export default function Metrics({ statistics, previewMode = false }) {
         {metrics.map((metric, idx) => (
           <div key={metric.itemKey} className={`metric-item scroll-reveal zoom-in ${previewMode ? 'revealed' : ''}`}>
             <div className="metric-icon-box">
-              <i className={`fa-solid ${metric.iconKey}`} aria-hidden="true"></i>
+              <PublicIcon iconClass={`fa-solid ${metric.iconKey}`} aria-hidden="true" />
             </div>
             <div className="metric-number-box">
               <span className="metric-number">

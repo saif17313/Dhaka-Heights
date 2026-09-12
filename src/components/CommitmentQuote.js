@@ -1,4 +1,5 @@
 import React from 'react';
+import PublicIcon from './PublicIcon';
 
 export default function CommitmentQuote({ commitmentQuote, previewMode = false }) {
   if (!commitmentQuote || !commitmentQuote.isVisible) return null;
@@ -10,7 +11,7 @@ export default function CommitmentQuote({ commitmentQuote, previewMode = false }
           <div className="quote-decor-line top-left"></div>
           <div className="quote-decor-line bottom-right"></div>
 
-          <i className="fa-solid fa-quote-left quote-icon-main"></i>
+          <PublicIcon iconClass="fa-solid fa-quote-left quote-icon-main" />
 
           <blockquote className="quote-text">
             &quot;{commitmentQuote.quoteText}&quot;

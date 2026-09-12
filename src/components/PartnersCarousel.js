@@ -1,4 +1,5 @@
 import React from 'react';
+import PublicIcon from './PublicIcon';
 
 function optimizedIconUrl(url) {
   if (!url || !url.includes('/upload/')) return url;
@@ -11,7 +12,7 @@ function PartnerCard({ partner, duplicate = false }) {
       <div className="partner-icon-box" style={{ backgroundColor: partner.accentColor }}>
         {partner.iconMode === 'custom' && partner.customIconMedia?.secureUrl
           ? <img src={optimizedIconUrl(partner.customIconMedia.secureUrl)} alt="" className="partner-custom-icon" aria-hidden="true" />
-          : <i className={`fa-solid ${partner.iconKey}`} aria-hidden="true"></i>}
+          : <PublicIcon iconClass={`fa-solid ${partner.iconKey}`} aria-hidden="true" />}
       </div>
       <div className="partner-info-box">
         <span className="partner-name-text">{partner.name}</span>

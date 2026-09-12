@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import PublicIcon from './PublicIcon';
 
 // Specs and details static lookups
 const projectsData = {
@@ -121,7 +122,7 @@ export default function DetailsModal({ isOpen, modalType, targetId, onClose }) {
       <div className="modal-overlay open" role="dialog" aria-modal="true" onClick={handleCloseClick}>
         <div className="modal-wrapper video-modal-wrapper" onClick={(e) => e.stopPropagation()}>
           <button className="modal-close-btn" onClick={handleCloseClick} aria-label="Close Video">
-            <i className="fa-solid fa-xmark"></i>
+            <PublicIcon iconClass="fa-solid fa-xmark" />
           </button>
           <div className="modal-content video-modal-content">
             <div className="simulated-video-player">
@@ -129,14 +130,14 @@ export default function DetailsModal({ isOpen, modalType, targetId, onClose }) {
                 <div className="video-playback-overlay">
                   <div className="playback-controls">
                     <button onClick={() => setIsPlaying(!isPlaying)}>
-                      <i className={`fa-solid ${isPlaying ? 'fa-pause' : 'fa-play'}`}></i>
+                      <PublicIcon iconClass={`fa-solid ${isPlaying ? 'fa-pause' : 'fa-play'}`} />
                     </button>
                     <div className="progress-bar-sim">
                       <div className="progress-filled-sim" style={{ width: `${percent}%` }}></div>
                     </div>
                     <span className="video-timer">{curMin}:{curSecStr} / {totMin}:{totSecStr}</span>
-                    <button><i className="fa-solid fa-volume-high"></i></button>
-                    <button><i className="fa-solid fa-expand"></i></button>
+                    <button><PublicIcon iconClass="fa-solid fa-volume-high" /></button>
+                    <button><PublicIcon iconClass="fa-solid fa-expand" /></button>
                   </div>
                 </div>
               </div>
@@ -156,7 +157,7 @@ export default function DetailsModal({ isOpen, modalType, targetId, onClose }) {
       <div className="modal-overlay open" role="dialog" aria-modal="true" onClick={handleCloseClick}>
         <div className="modal-wrapper details-modal-wrapper" onClick={(e) => e.stopPropagation()}>
           <button className="modal-close-btn" onClick={handleCloseClick} aria-label="Close details">
-            <i className="fa-solid fa-xmark"></i>
+            <PublicIcon iconClass="fa-solid fa-xmark" />
           </button>
           <div className="modal-content details-modal-content">
             <div className="modal-project-content">
@@ -169,20 +170,20 @@ export default function DetailsModal({ isOpen, modalType, targetId, onClose }) {
                 <p className="modal-project-desc">{data.description}</p>
                 
                 <ul className="modal-specs-list">
-                  <li className="modal-spec-item"><i className="fa-solid fa-location-dot"></i> <span><strong>Location:</strong> {data.location}</span></li>
-                  <li className="modal-spec-item"><i className="fa-solid fa-ruler-combined"></i> <span><strong>Floor Unit:</strong> {data.size}</span></li>
-                  <li className="modal-spec-item"><i className="fa-solid fa-building"></i> <span><strong>Structure:</strong> {data.floors}</span></li>
-                  <li className="modal-spec-item"><i className="fa-solid fa-square-parking"></i> <span><strong>Parking:</strong> {data.parking}</span></li>
-                  <li className="modal-spec-item"><i className="fa-solid fa-elevator"></i> <span><strong>Elevators:</strong> {data.elevators}</span></li>
-                  <li className="modal-spec-item"><i className="fa-solid fa-bolt"></i> <span><strong>Electricity:</strong> {data.power}</span></li>
+                  <li className="modal-spec-item"><PublicIcon iconClass="fa-solid fa-location-dot" /> <span><strong>Location:</strong> {data.location}</span></li>
+                  <li className="modal-spec-item"><PublicIcon iconClass="fa-solid fa-ruler-combined" /> <span><strong>Floor Unit:</strong> {data.size}</span></li>
+                  <li className="modal-spec-item"><PublicIcon iconClass="fa-solid fa-building" /> <span><strong>Structure:</strong> {data.floors}</span></li>
+                  <li className="modal-spec-item"><PublicIcon iconClass="fa-solid fa-square-parking" /> <span><strong>Parking:</strong> {data.parking}</span></li>
+                  <li className="modal-spec-item"><PublicIcon iconClass="fa-solid fa-elevator" /> <span><strong>Elevators:</strong> {data.elevators}</span></li>
+                  <li className="modal-spec-item"><PublicIcon iconClass="fa-solid fa-bolt" /> <span><strong>Electricity:</strong> {data.power}</span></li>
                 </ul>
 
                 <div style={{ display: 'flex', gap: '10px', marginTop: '20px', flexWrap: 'wrap' }}>
                   <a href="#contact" onClick={handleScrollToContact} className="btn btn-primary" style={{ flex: '1 1 auto', textAlign: 'center' }}>
-                    <span>Request Layout PDF <i className="fa-solid fa-arrow-right"></i></span>
+                    <span>Request Layout PDF <PublicIcon iconClass="fa-solid fa-arrow-right" /></span>
                   </a>
                   <Link href={`/project/${targetId}`} onClick={handleCloseClick} className="btn btn-secondary" style={{ flex: '1 1 auto', textAlign: 'center', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--accent-gold)' }}>
-                    <span>View Page <i className="fa-solid fa-arrow-up-right-from-square" style={{ marginLeft: '8px' }}></i></span>
+                    <span>View Page <PublicIcon iconClass="fa-solid fa-arrow-up-right-from-square" style={{ marginLeft: '8px' }} /></span>
                   </Link>
                 </div>
               </div>
@@ -202,7 +203,7 @@ export default function DetailsModal({ isOpen, modalType, targetId, onClose }) {
       <div className="modal-overlay open" role="dialog" aria-modal="true" onClick={handleCloseClick}>
         <div className="modal-wrapper details-modal-wrapper" onClick={(e) => e.stopPropagation()}>
           <button className="modal-close-btn" onClick={handleCloseClick} aria-label="Close news details">
-            <i className="fa-solid fa-xmark"></i>
+            <PublicIcon iconClass="fa-solid fa-xmark" />
           </button>
           <div className="modal-content details-modal-content">
             <div className="modal-news-body">

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import PublicIcon from './PublicIcon';
 
 const RADIUS = 24;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -49,7 +50,7 @@ export default function ScrollToTop() {
         />
       </svg>
       <span className="scroll-to-top-arrow" aria-hidden="true">
-        <i className="fa-solid fa-arrow-up" />
+        <PublicIcon iconClass="fa-solid fa-arrow-up" />
       </span>
     </button>
   );

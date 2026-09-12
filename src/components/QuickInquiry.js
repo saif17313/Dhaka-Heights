@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { usePublicShell } from './PublicShellProvider';
+import PublicIcon from './PublicIcon';
 
 export default function QuickInquiry() {
   const { quickInquiry } = usePublicShell();
@@ -25,7 +26,7 @@ export default function QuickInquiry() {
       aria-label={quickInquiry.tabLabel}
     >
       <div className="inquiry-drawer-tab">
-        <i className="fa-solid fa-envelope-open-text tab-icon"></i>
+        <PublicIcon iconClass="fa-solid fa-envelope-open-text tab-icon" />
         <span className="tab-label">{quickInquiry.tabLabel}</span>
       </div>
       <div className="inquiry-drawer-body">
@@ -33,7 +34,7 @@ export default function QuickInquiry() {
         <p>{quickInquiry.phone}</p>
         <div className="drawer-divider"></div>
         <span className="drawer-btn-link">
-          {quickInquiry.ctaLabel} <i className="fa-solid fa-arrow-right"></i>
+          {quickInquiry.ctaLabel} <PublicIcon iconClass="fa-solid fa-arrow-right" />
         </span>
       </div>
     </div>

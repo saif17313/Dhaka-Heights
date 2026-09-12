@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import PublicIcon from './PublicIcon';
 
 export default function PageHeader({ title, subtitle, breadcrumbs = [], bgImage }) {
   const bgStyle = bgImage
@@ -21,7 +22,7 @@ export default function PageHeader({ title, subtitle, breadcrumbs = [], bgImage 
             <Link href="/" className="breadcrumb-link">Home</Link>
             {breadcrumbs.map((crumb, idx) => (
               <React.Fragment key={idx}>
-                <span className="breadcrumb-separator"><i className="fa-solid fa-chevron-right"></i></span>
+                <span className="breadcrumb-separator"><PublicIcon iconClass="fa-solid fa-chevron-right" /></span>
                 {crumb.url ? (
                   <Link href={crumb.url} className="breadcrumb-link">{crumb.label}</Link>
                 ) : (

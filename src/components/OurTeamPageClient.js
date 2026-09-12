@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
+import PublicIcon from './PublicIcon';
 
 function normalizeTeamHeading(value) {
   return String(value || '')
@@ -35,7 +36,7 @@ function TeamCard({ member, onOpen }) {
         />
         <div className="about-team-card-overlay" aria-hidden="true">
           <span className="about-team-card-view">
-            View Profile <i className="fa-solid fa-arrow-right-long" />
+            View Profile <PublicIcon iconClass="fa-solid fa-arrow-right-long" />
           </span>
         </div>
       </div>
@@ -118,7 +119,7 @@ function TeamMemberModal({ member, heading, onClose, returnFocusRef }) {
             onClick={onClose}
             aria-label="Close team member profile"
           >
-            <i className="fa-solid fa-xmark" aria-hidden="true" />
+            <PublicIcon iconClass="fa-solid fa-xmark" aria-hidden="true" />
           </button>
         </header>
         <div className="about-team-modal-rule" />

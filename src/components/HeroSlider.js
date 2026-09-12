@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getCloudinaryUrl, getCloudinarySrcSet } from '@/lib/imageOptimization';
+import PublicIcon from './PublicIcon';
 
 function mediaUrl(media) {
   if (!media) return '';
@@ -201,7 +202,7 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
                           className="btn btn-primary"
                           {...linkProps(slide.primaryCtaTarget)}
                         >
-                          <span>{slide.primaryCtaLabel} <i className="fa-solid fa-arrow-right"></i></span>
+                          <span>{slide.primaryCtaLabel} <PublicIcon iconClass="fa-solid fa-arrow-right" /></span>
                         </a>
                       )}
 
@@ -231,10 +232,10 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
         {/* Navigation buttons */}
         <div className="slider-controls">
           <button className="slider-btn prev-btn" onClick={handlePrev} aria-label="Previous Slide">
-            <i className="fa-solid fa-arrow-left"></i>
+            <PublicIcon iconClass="fa-solid fa-arrow-left" />
           </button>
           <button className="slider-btn next-btn" onClick={handleNext} aria-label="Next Slide">
-            <i className="fa-solid fa-arrow-right"></i>
+            <PublicIcon iconClass="fa-solid fa-arrow-right" />
           </button>
         </div>
 

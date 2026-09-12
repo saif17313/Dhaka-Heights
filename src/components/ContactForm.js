@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { normalizeGoogleMapsEmbedUrl } from '@/lib/googleMaps';
+import PublicIcon from './PublicIcon';
 
 const EMPTY_FORM = { name: '', email: '', phone: '', size: '', message: '', honeypot: '' };
 
@@ -88,7 +89,7 @@ export default function ContactForm({ contactSection, mapConfig = null, previewM
           <div className="contact-details-list">
             {details.map((detail) => (
               <div key={detail.itemKey} className="contact-detail-item">
-                <div className="icon-circle"><i className={`fa-solid ${detail.iconKey}`} aria-hidden="true"></i></div>
+                <div className="icon-circle"><PublicIcon iconClass={`fa-solid ${detail.iconKey}`} aria-hidden="true" /></div>
                 <div className="detail-text"><h4>{detail.label}</h4><p>{detail.value}</p></div>
               </div>
             ))}
@@ -139,7 +140,7 @@ export default function ContactForm({ contactSection, mapConfig = null, previewM
                 </select>
                 <label htmlFor="form-size" className="form-label select-label">{copy.sizeLabel}</label>
                 {errors.size && <span className="error-msg">{copy.sizeError}</span>}
-                <i className="fa-solid fa-angle-down select-caret" aria-hidden="true"></i>
+                <PublicIcon iconClass="fa-solid fa-angle-down select-caret" aria-hidden="true" />
               </div>
               <div className="form-group">
                 <textarea id="form-message" className="form-input form-textarea" value={formData.message} onChange={handleInputChange} placeholder=" " rows="4" maxLength={2000}></textarea>
@@ -147,13 +148,13 @@ export default function ContactForm({ contactSection, mapConfig = null, previewM
               </div>
               {submitError && <p className="error-msg" role="alert">{submitError}</p>}
               <button type="submit" className="btn btn-primary btn-block submit-btn" disabled={isSubmitting || previewMode}>
-                <span>{isSubmitting ? copy.submittingLabel : copy.submitLabel} <i className={`fa-solid ${isSubmitting ? 'fa-spinner fa-spin' : 'fa-paper-plane'}`}></i></span>
+                <span>{isSubmitting ? copy.submittingLabel : copy.submitLabel} <PublicIcon iconClass={`fa-solid ${isSubmitting ? 'fa-spinner fa-spin' : 'fa-paper-plane'}`} /></span>
               </button>
             </form>
 
             <div className={`form-success-banner ${isSubmitted ? 'active' : ''}`} role="alert" aria-hidden={!isSubmitted}>
               <div className="success-banner-content">
-                <div className="success-icon"><i className="fa-solid fa-circle-check"></i></div>
+                <div className="success-icon"><PublicIcon iconClass="fa-solid fa-circle-check" /></div>
                 <h4>{copy.successTitle}</h4>
                 <p>{copy.successBody}</p>
                 <button type="button" className="btn btn-primary btn-sm" onClick={handleCloseSuccess}><span>{copy.closeLabel}</span></button>

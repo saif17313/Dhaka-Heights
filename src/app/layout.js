@@ -5,7 +5,6 @@ import { PublicShellProvider } from '@/components/PublicShellProvider';
 import GlobalImageLightbox from '@/components/GlobalImageLightbox';
 import RouteLoader from '@/components/RouteLoader';
 import SmoothScroll from '@/components/SmoothScroll';
-import FontAwesomeLoader from '@/components/FontAwesomeLoader';
 import { getPublishedSiteShell } from '@/lib/siteShellRepository';
 
 const manrope = Manrope({
@@ -48,20 +47,7 @@ export default async function RootLayout({ children }) {
   const shell = await getPublishedSiteShell();
   return (
     <html lang="en" className={`${manrope.variable} ${playfair.variable}`}>
-      <head>
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
-        <link
-          rel="preload"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          as="style"
-        />
-        <noscript>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        </noscript>
-      </head>
       <body>
-        <FontAwesomeLoader />
         <SmoothScroll />
         <PublicShellProvider shell={shell}>
           <Suspense fallback={null}>

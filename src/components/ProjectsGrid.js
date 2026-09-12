@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { getCloudinaryUrl } from '@/lib/imageOptimization';
+import PublicIcon from './PublicIcon';
 
 const STANDARD_PROJECT_STATUSES = new Set(['ongoing', 'completed', 'upcoming']);
 
@@ -110,21 +111,21 @@ export default function ProjectsGrid({ featuredProjects, activeFilter = 'all', o
                 <div className={`project-badge badge-${project.category}`} style={dynamicBadgeStyle(project.category)}>{project.badgeText}</div>
                 <div className="project-hover-overlay">
                   <span className="explore-icon-wrapper">
-                    <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    <PublicIcon iconClass="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
                   </span>
                 </div>
               </div>
               <div className="project-info">
                 <span className="project-location">
-                  <i className="fa-solid fa-location-dot" aria-hidden="true"></i> {project.location}
+                  <PublicIcon iconClass="fa-solid fa-location-dot" aria-hidden="true" /> {project.location}
                 </span>
                 <h3 className="project-name">{project.name}</h3>
                 <div className="project-details-row">
                   <span className="project-size">
-                    <i className="fa-solid fa-ruler-combined" aria-hidden="true"></i> {project.size}
+                    <PublicIcon iconClass="fa-solid fa-ruler-combined" aria-hidden="true" /> {project.size}
                   </span>
                   <span className="project-type">
-                    <i className="fa-solid fa-briefcase" aria-hidden="true"></i> {project.projectType}
+                    <PublicIcon iconClass="fa-solid fa-briefcase" aria-hidden="true" /> {project.projectType}
                   </span>
                 </div>
               </div>
@@ -141,7 +142,7 @@ export default function ProjectsGrid({ featuredProjects, activeFilter = 'all', o
               disabled={safeCurrentPage === 1}
               aria-label="Previous page"
             >
-              <i className="fa-solid fa-chevron-left" aria-hidden="true"></i>
+              <PublicIcon iconClass="fa-solid fa-chevron-left" aria-hidden="true" />
             </button>
             <div className="pagination-info">
               <span className="pagination-current">{safeCurrentPage}</span>
@@ -155,7 +156,7 @@ export default function ProjectsGrid({ featuredProjects, activeFilter = 'all', o
               disabled={safeCurrentPage === totalPages}
               aria-label="Next page"
             >
-              <i className="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              <PublicIcon iconClass="fa-solid fa-chevron-right" aria-hidden="true" />
             </button>
           </div>
         )}

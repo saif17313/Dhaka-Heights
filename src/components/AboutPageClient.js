@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
+import PublicIcon from './PublicIcon';
 
 function HighlightedHeading({ heading, highlight }) {
   const index = heading.indexOf(highlight);
@@ -71,7 +72,7 @@ function ConcernCard({ concern }) {
       </div>
       <div style={{ position: 'relative', zIndex: 3, marginTop: '15px' }}>
         <span className="concern-card-link-premium">
-          {concern.ctaLabel} <i className="fa-solid fa-arrow-right-long" />
+          {concern.ctaLabel} <PublicIcon iconClass="fa-solid fa-arrow-right-long" />
         </span>
       </div>
     </Link>
@@ -101,7 +102,7 @@ function AccreditationCard({ item }) {
       style={{ transition: 'transform 0.12s ease-out, border-color 0.2s' }}
     >
       <div className="accreditation-icon-gold">
-        <i className={`fa-solid ${item.iconKey}`} />
+        <PublicIcon iconClass={`fa-solid ${item.iconKey}`} />
       </div>
       <span className="accreditation-title-premium">{item.title}</span>
     </div>
@@ -213,7 +214,7 @@ export default function AboutPageClient({ about, previewMode = false }) {
                 />
                 <div className="pillar-card-overlay" />
                 <div className="pillar-card-icon">
-                  <i className={`fa-solid ${item.iconKey}`} />
+                  <PublicIcon iconClass={`fa-solid ${item.iconKey}`} />
                 </div>
                 <h3 className="pillar-card-title">{item.title}</h3>
                 <p className="pillar-card-text">{item.description}</p>
@@ -268,7 +269,7 @@ export default function AboutPageClient({ about, previewMode = false }) {
                 {content.leadership.tag}
               </span>
               <div className="leadership-quote-icon-top">
-                <i className="fa-solid fa-quote-left" />
+                <PublicIcon iconClass="fa-solid fa-quote-left" />
               </div>
               <p className="leadership-quote-editorial">{content.leadership.primaryQuote}</p>
               <p className="leadership-quote-editorial sub-quote">
