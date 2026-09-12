@@ -160,7 +160,7 @@ export default function HeroSlider({ hero, previewMode = false, previewViewport 
                     <picture className="slide-bg-picture">
                       <source
                         media="(max-width: 768px)"
-                        srcSet={getCloudinarySrcSet(mobileUrl, [360, 480, 768])}
+                        srcSet={getCloudinarySrcSet(mobileUrl, [360, 480, 640, 768])}
                         sizes="100vw"
                       />
                       <source

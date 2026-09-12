@@ -9,15 +9,14 @@ import { getPublishedSiteShell } from '@/lib/siteShellRepository';
 
 const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-manrope',
   display: 'swap',
 });
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
+  weight: ['400', '600', '700'],
   variable: '--font-playfair',
   display: 'swap',
 });
@@ -47,6 +46,10 @@ export default async function RootLayout({ children }) {
   const shell = await getPublishedSiteShell();
   return (
     <html lang="en" className={`${manrope.variable} ${playfair.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body>
         <SmoothScroll />
         <PublicShellProvider shell={shell}>
