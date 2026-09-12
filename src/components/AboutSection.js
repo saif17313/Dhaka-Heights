@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { getCloudinaryUrl } from '@/lib/imageOptimization';
+import PublicIcon from './PublicIcon';
 
 function mediaUrl(image) {
   return image?.media?.secureUrl || image?.media?.secure_url || '';
@@ -229,14 +230,14 @@ export default function AboutSection({ about, onPlayVideo, previewMode = false }
               id="btn-about-corporate"
               {...externalLinkProps(about.primaryCtaTarget)}
             >
-              <span>{about.primaryCtaLabel} <i className="fa-solid fa-arrow-right"></i></span>
+              <span>{about.primaryCtaLabel} <PublicIcon iconClass="fa-solid fa-arrow-right" /></span>
             </Link>
             <button
               onClick={onPlayVideo}
               className="btn-premium btn-outline-navy"
               aria-label="Play Corporate Video"
             >
-              <span><i className="fa-solid fa-play" style={{ marginRight: '10px' }}></i> {about.videoButtonLabel}</span>
+              <span><PublicIcon iconClass="fa-solid fa-play" style={{ marginRight: '10px' }} /> {about.videoButtonLabel}</span>
             </button>
           </div>
         </div>

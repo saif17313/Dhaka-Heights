@@ -8,6 +8,7 @@ import Footer from './Footer';
 import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
 import CustomerReviewCard from './CustomerReviewCard';
+import PublicIcon from './PublicIcon';
 
 function tabFromSearchParams(searchParams) {
   const category = searchParams.get('cat');
@@ -31,7 +32,7 @@ function ArticleCard({ article, readLabel }) {
         </div>
         <div className="blog-card-actions">
           <Link href={`/media-center/${article.slug}`} className="btn-blog-read">
-            {readLabel} <i className="fa-solid fa-arrow-right ml-1" />
+            {readLabel} <PublicIcon iconClass="fa-solid fa-arrow-right ml-1" />
           </Link>
         </div>
       </div>
@@ -50,7 +51,7 @@ function VideoCard({ video, onSelect, formatLabel }) {
       >
         <img src={video.thumbnailMedia?.secureUrl} alt={video.thumbnailAlt} className="video-card-thumbnail" />
         <span className="video-card-overlay" />
-        <span className="video-card-play-btn-wrapper"><span className="video-card-play-btn-inner"><i className="fa-solid fa-play" /></span></span>
+        <span className="video-card-play-btn-wrapper"><span className="video-card-play-btn-inner"><PublicIcon iconClass="fa-solid fa-play" /></span></span>
         <span className="video-card-duration">{video.duration}</span>
       </button>
       <div className="video-card-info">
@@ -64,7 +65,7 @@ function VideoCard({ video, onSelect, formatLabel }) {
 function EmptyReviews({ message }) {
   return (
     <div className="customer-reviews-empty">
-      <span aria-hidden="true"><i className="fa-regular fa-comments" /></span>
+      <span aria-hidden="true"><PublicIcon iconClass="fa-regular fa-comments" /></span>
       <h2>Customer stories are being prepared</h2>
       <p>{message || 'Published customer experiences will appear here.'}</p>
     </div>
@@ -207,7 +208,7 @@ export default function MediaCenterClient({
             {activeTab === 'reviews' && reviewPages > 1 && (
               <div className="pagination-container" style={{ marginTop: '50px' }}>
                 <button type="button" onClick={() => pageTo(Math.max(reviewPage - 1, 1))} disabled={reviewPage === 1} className="pagination-btn pagination-prev">
-                  <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
+                  <PublicIcon iconClass="fa-solid fa-chevron-left" /> {labels.previousLabel}
                 </button>
                 <div className="pagination-pages">
                   {Array.from({ length: reviewPages }, (_, index) => (
@@ -217,7 +218,7 @@ export default function MediaCenterClient({
                   ))}
                 </div>
                 <button type="button" onClick={() => pageTo(Math.min(reviewPage + 1, reviewPages))} disabled={reviewPage === reviewPages} className="pagination-btn pagination-next">
-                  {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
+                  {labels.nextLabel} <PublicIcon iconClass="fa-solid fa-chevron-right" />
                 </button>
               </div>
             )}
@@ -225,7 +226,7 @@ export default function MediaCenterClient({
             {activeTab !== 'reviews' && pages > 1 && (
               <div className="pagination-container" style={{ marginTop: '50px' }}>
                 <button type="button" onClick={() => pageTo(Math.max(currentPage - 1, 1))} disabled={currentPage === 1} className="pagination-btn pagination-prev">
-                  <i className="fa-solid fa-chevron-left" /> {labels.previousLabel}
+                  <PublicIcon iconClass="fa-solid fa-chevron-left" /> {labels.previousLabel}
                 </button>
                 <div className="pagination-pages">
                   {Array.from({ length: pages }, (_, index) => (
@@ -235,7 +236,7 @@ export default function MediaCenterClient({
                   ))}
                 </div>
                 <button type="button" onClick={() => pageTo(Math.min(currentPage + 1, pages))} disabled={currentPage === pages} className="pagination-btn pagination-next">
-                  {labels.nextLabel} <i className="fa-solid fa-chevron-right" />
+                  {labels.nextLabel} <PublicIcon iconClass="fa-solid fa-chevron-right" />
                 </button>
               </div>
             )}
@@ -333,7 +334,7 @@ export default function MediaCenterClient({
             cursor: 'pointer',
           }}
         >
-          <i className="fa-solid fa-xmark" />
+          <PublicIcon iconClass="fa-solid fa-xmark" />
         </button>
       </div>
     </div>

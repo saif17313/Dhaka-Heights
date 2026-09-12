@@ -1,4 +1,5 @@
 import React from 'react';
+import PublicIcon from './PublicIcon';
 
 const servicesData = [
   {
@@ -49,7 +50,7 @@ export default function Services() {
           {servicesData.map((service, idx) => (
             <div key={idx} className="service-card">
               <div className="service-icon">
-                <i className={`fa-solid ${service.icon}`}></i>
+                <PublicIcon iconClass={`fa-solid ${service.icon}`} />
               </div>
               <h3 className="service-title">{service.title}</h3>
               <p className="service-text">{service.text}</p>

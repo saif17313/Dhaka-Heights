@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 import PageHeader from '@/components/PageHeader';
+import PublicIcon from '@/components/PublicIcon';
 import { getYouTubeEmbedUrl } from '@/lib/youtube';
 
 function Stars({ rating }) {
@@ -37,7 +38,7 @@ export default function CustomerReviewDetail({ review, mediaPage, previewMode = 
       <article className="customer-review-detail-section">
         <div className="container-full customer-review-detail-shell">
           <Link href="/media-center?cat=reviews" className="customer-review-back-link">
-            <i className="fa-solid fa-arrow-left" /> Back to Customer Reviews
+            <PublicIcon iconClass="fa-solid fa-arrow-left" /> Back to Customer Reviews
           </Link>
 
           <section className="customer-review-detail-intro">
@@ -56,13 +57,13 @@ export default function CustomerReviewDetail({ review, mediaPage, previewMode = 
               <h2>{review.customerName}</h2>
               {review.customerDesignation && <p className="customer-review-detail-designation">{review.customerDesignation}</p>}
               <div className="customer-review-detail-meta">
-                {review.customerType && <span><i className="fa-solid fa-user-check" /> {review.customerType}</span>}
-                {review.reviewCategory && <span><i className="fa-solid fa-tag" /> {review.reviewCategory}</span>}
-                {review.relatedProject && <span><i className="fa-solid fa-building" /> {review.relatedProject}</span>}
-                {review.customerLocation && <span><i className="fa-solid fa-location-dot" /> {review.customerLocation}</span>}
+                {review.customerType && <span><PublicIcon iconClass="fa-solid fa-user-check" /> {review.customerType}</span>}
+                {review.reviewCategory && <span><PublicIcon iconClass="fa-solid fa-tag" /> {review.reviewCategory}</span>}
+                {review.relatedProject && <span><PublicIcon iconClass="fa-solid fa-building" /> {review.relatedProject}</span>}
+                {review.customerLocation && <span><PublicIcon iconClass="fa-solid fa-location-dot" /> {review.customerLocation}</span>}
                 {review.reviewDate && (
                   <time dateTime={review.reviewDate}>
-                    <i className="fa-regular fa-calendar" />{' '}
+                    <PublicIcon iconClass="fa-regular fa-calendar" />{' '}
                     {new Date(`${review.reviewDate}T00:00:00`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                   </time>
                 )}

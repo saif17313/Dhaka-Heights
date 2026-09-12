@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
+import PublicIcon from './PublicIcon';
 import { normalizeProjectFilterOptions, resolveProjectFilterValue } from '@/lib/projectFilterOptions';
 
 const STANDARD_PROJECT_STATUSES = new Set(['ongoing', 'completed', 'upcoming']);
@@ -28,15 +29,15 @@ function ProjectCard({ project, index }) {
           <img src={project.coverMedia?.secureUrl} alt={project.coverAlt} className="project-img" />
           <div className={`project-badge badge-${project.lifecycle}`} style={dynamicBadgeStyle(project.lifecycle)}>{project.badgeText}</div>
           <div className="project-hover-overlay">
-            <span className="explore-icon-wrapper"><i className="fa-solid fa-arrow-up-right-from-square"></i></span>
+            <span className="explore-icon-wrapper"><PublicIcon iconClass="fa-solid fa-arrow-up-right-from-square" /></span>
           </div>
         </div>
         <div className="project-info">
-          <span className="project-location"><i className="fa-solid fa-location-dot"></i> {project.cardLocation}</span>
+          <span className="project-location"><PublicIcon iconClass="fa-solid fa-location-dot" /> {project.cardLocation}</span>
           <h3 className="project-name">{project.name}</h3>
           <div className="project-details-row">
-            <span className="project-size"><i className="fa-solid fa-ruler-combined"></i> {project.cardSize}</span>
-            <span className="project-type"><i className="fa-solid fa-briefcase"></i> {project.projectType}</span>
+            <span className="project-size"><PublicIcon iconClass="fa-solid fa-ruler-combined" /> {project.cardSize}</span>
+            <span className="project-type"><PublicIcon iconClass="fa-solid fa-briefcase" /> {project.projectType}</span>
           </div>
         </div>
       </Link>
@@ -105,7 +106,7 @@ function ProjectsContent({ projectsPage, previewMode = false, searchParams = {} 
           <aside className="projects-sidebar-filter">
             <div className="sidebar-filter-header">
               <span className="sidebar-filter-title">{listing.filterTitle}</span>
-              <button type="button" onClick={resetFilters} className="btn-sidebar-reset">{listing.resetLabel} <i className="fa-solid fa-rotate-right ml-1"></i></button>
+              <button type="button" onClick={resetFilters} className="btn-sidebar-reset">{listing.resetLabel} <PublicIcon iconClass="fa-solid fa-rotate-right ml-1" /></button>
             </div>
             <div className="sidebar-filter-content">
               <div className="filter-dropdown-select"><label className="filter-select-label" htmlFor="project-status-filter">{listing.statusLabel}</label><select id="project-status-filter" value={filterStatus} onChange={(event) => updateFilter('status', event.target.value)} className="luxury-select-field"><option value="all">{listing.allStatusLabel}</option>{filterOptions.status.map((option) => <option value={option.key} key={option.key}>{option.label}</option>)}</select></div>
@@ -119,11 +120,11 @@ function ProjectsContent({ projectsPage, previewMode = false, searchParams = {} 
             {filteredProjects.length > 0 ? <>
               <div className="projects-asymmetric-grid">{paginatedProjects.map((project, index) => <ProjectCard key={project.projectId} project={project} index={index} />)}</div>
               {totalPages > 1 && <div className="pagination-container">
-                <button type="button" onClick={() => { setCurrentPage((page) => Math.max(page - 1, 1)); scrollToGrid(); }} disabled={currentPage === 1} className="pagination-btn pagination-prev"><i className="fa-solid fa-chevron-left"></i> {listing.previousLabel}</button>
+                <button type="button" onClick={() => { setCurrentPage((page) => Math.max(page - 1, 1)); scrollToGrid(); }} disabled={currentPage === 1} className="pagination-btn pagination-prev"><PublicIcon iconClass="fa-solid fa-chevron-left" /> {listing.previousLabel}</button>
                 <div className="pagination-pages">{Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => <button type="button" key={page} onClick={() => { setCurrentPage(page); scrollToGrid(); }} className={`pagination-number ${currentPage === page ? 'active' : ''}`}>{page}</button>)}</div>
-                <button type="button" onClick={() => { setCurrentPage((page) => Math.min(page + 1, totalPages)); scrollToGrid(); }} disabled={currentPage === totalPages} className="pagination-btn pagination-next">{listing.nextLabel} <i className="fa-solid fa-chevron-right"></i></button>
+                <button type="button" onClick={() => { setCurrentPage((page) => Math.min(page + 1, totalPages)); scrollToGrid(); }} disabled={currentPage === totalPages} className="pagination-btn pagination-next">{listing.nextLabel} <PublicIcon iconClass="fa-solid fa-chevron-right" /></button>
               </div>}
-            </> : <div className="no-results-box-sidebar"><div className="no-results-icon"><i className="fa-solid fa-circle-exclamation"></i></div><h3 className="no-results-title">{listing.emptyTitle}</h3><p className="no-results-text">{listing.emptyBody}</p><button type="button" onClick={resetFilters} className="btn-luxury-reset" style={{ marginTop: '10px' }}>{listing.emptyResetLabel}</button></div>}
+            </> : <div className="no-results-box-sidebar"><div className="no-results-icon"><PublicIcon iconClass="fa-solid fa-circle-exclamation" /></div><h3 className="no-results-title">{listing.emptyTitle}</h3><p className="no-results-text">{listing.emptyBody}</p><button type="button" onClick={resetFilters} className="btn-luxury-reset" style={{ marginTop: '10px' }}>{listing.emptyResetLabel}</button></div>}
           </div>
         </div>
       </section>

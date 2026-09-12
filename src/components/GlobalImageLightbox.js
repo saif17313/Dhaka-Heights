@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import PublicIcon from './PublicIcon';
 
 const MIN_WIDTH = 180;
 const MIN_HEIGHT = 120;
@@ -96,7 +97,7 @@ export default function GlobalImageLightbox() {
         onClick={() => setActiveImage(null)}
         aria-label="Close expanded image"
       >
-        <i className="fa-solid fa-xmark" />
+        <PublicIcon iconClass="fa-solid fa-xmark" />
       </button>
 
       <div

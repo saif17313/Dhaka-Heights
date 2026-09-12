@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { getCloudinaryUrl } from '@/lib/imageOptimization';
+import PublicIcon from './PublicIcon';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -52,7 +53,7 @@ export default function MediaGrid({ mediaHighlights, previewMode = false }) {
                 <h3 className="media-title">{article.title}</h3>
                 <p className="media-summary">{article.summary}</p>
                 <Link href={article.ctaUrl} className="read-more-link">
-                  {article.ctaLabel} <i className="fa-solid fa-arrow-right-long"></i>
+                  {article.ctaLabel} <PublicIcon iconClass="fa-solid fa-arrow-right-long" />
                 </Link>
               </div>
             </article>

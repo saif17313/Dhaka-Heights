@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/* --- FontAwesome SVG Core Sizing & Animations --- */
+svg.svg-inline--fa {
+  display: inline-block;
+  height: 1em;
+  width: auto;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+
+@keyframes fa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
 /* --- Executive Admin Shell Required CSS Geometry --- */
 :root {
   --admin-sidebar-width: 256px;
@@ -1093,12 +1111,14 @@ body.loading-active {
   cursor: pointer;
 }
 
-.mobile-dropdown-btn i {
+.mobile-dropdown-btn i,
+.mobile-dropdown-btn svg {
   font-size: 0.75rem;
   transition: var(--transition-fast);
 }
 
-.mobile-dropdown-btn.active i {
+.mobile-dropdown-btn.active i,
+.mobile-dropdown-btn.active svg {
   transform: rotate(180deg);
 }
 
@@ -1627,7 +1647,8 @@ body.loading-active {
   font-weight: 500;
 }
 
-.spec-item i {
+.spec-item i,
+.spec-item svg {
   color: var(--accent-gold);
   font-size: 0.85rem;
 }
@@ -1922,7 +1943,8 @@ body.loading-active {
   letter-spacing: 1px;
 }
 
-.project-location i {
+.project-location i,
+.project-location svg {
   margin-right: 4px;
 }
 
@@ -2200,11 +2222,13 @@ body.loading-active {
   color: var(--accent-gold);
 }
 
-.read-more-link i {
+.read-more-link i,
+.read-more-link svg {
   transition: transform 0.3s ease;
 }
 
-.read-more-link:hover i {
+.read-more-link:hover i,
+.read-more-link:hover svg {
   transform: translateX(4px);
 }
 
@@ -2765,7 +2789,8 @@ body.loading-active {
   font-size: 0.9rem;
 }
 
-.video-loader i {
+.video-loader i,
+.video-loader svg {
   font-size: 2rem;
   color: var(--accent-gold);
   margin-bottom: 10px;
@@ -2901,7 +2926,8 @@ body.loading-active {
   font-size: 0.85rem;
 }
 
-.modal-spec-item i {
+.modal-spec-item i,
+.modal-spec-item svg {
   color: var(--accent-gold);
 }
 
@@ -3058,7 +3084,8 @@ body.loading-active {
   color: var(--accent-gold);
 }
 
-.footer-address i {
+.footer-address i,
+.footer-address svg {
   color: var(--accent-gold);
   flex-shrink: 0;
   margin-top: 5px;
@@ -3083,7 +3110,8 @@ body.loading-active {
   color: var(--accent-gold);
 }
 
-.footer-contact-item i {
+.footer-contact-item i,
+.footer-contact-item svg {
   color: var(--accent-gold);
   flex-shrink: 0;
   margin-top: 5px;
@@ -3659,7 +3687,10 @@ body.loading-active {
   border-bottom: none;
 }
 
-.modal-spec-item i, .specs-card li i {
+.modal-spec-item i,
+.modal-spec-item svg,
+.specs-card li i,
+.specs-card li svg {
   color: var(--accent-gold);
   margin-right: 8px;
 }
@@ -5193,7 +5224,8 @@ body.loading-active {
   transition: transform var(--transition-medium), background-color var(--transition-medium);
 }
 
-.video-card-play-btn-inner i {
+.video-card-play-btn-inner i,
+.video-card-play-btn-inner svg {
   margin-left: 4px;
 }
 
@@ -5926,11 +5958,13 @@ body.loading-active {
   transition: color 0.3s;
 }
 
-.concern-card-link-premium i {
+.concern-card-link-premium i,
+.concern-card-link-premium svg {
   transition: transform 0.3s;
 }
 
-.concern-card-premium:hover .concern-card-link-premium i {
+.concern-card-premium:hover .concern-card-link-premium i,
+.concern-card-premium:hover .concern-card-link-premium svg {
   transform: translateX(5px);
 }
 
@@ -7102,7 +7136,8 @@ body.loading-active {
   transform: translate(-50%, -50%);
   transition: transform .3s, background .3s;
 }
-.customer-review-play i { margin-left: 3px; }
+.customer-review-play i,
+.customer-review-play svg { margin-left: 3px; }
 .customer-review-card:hover .customer-review-play {
   background: var(--accent-gold);
   transform: translate(-50%, -50%) scale(1.08);
@@ -7209,7 +7244,8 @@ body.loading-active {
   color: #5f6c84;
   font-size: .76rem;
 }
-.customer-review-detail-meta i { margin-right: 5px; color: var(--accent-gold); }
+.customer-review-detail-meta i,
+.customer-review-detail-meta svg { margin-right: 5px; color: var(--accent-gold); }
 .customer-review-detail-stars { margin: 22px 0 0; font-size: 1.25rem; }
 .customer-review-detail-quote-mark {
   position: absolute;
@@ -7432,7 +7468,8 @@ button.video-card-thumbnail-wrapper {
   align-items: center;
 }
 
-.admin-login-input-wrap > i:first-child {
+.admin-login-input-wrap > i:first-child,
+.admin-login-input-wrap > svg:first-child {
   position: absolute;
   left: 14px;
   color: rgba(197, 168, 128, 0.65);

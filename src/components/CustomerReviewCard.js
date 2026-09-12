@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import YouTubeThumbnail from '@/components/YouTubeThumbnail';
+import PublicIcon from './PublicIcon';
 
 function Stars({ rating }) {
   if (!rating) return null;
@@ -24,7 +25,7 @@ function Preview({ review }) {
           alt={preview.altText || preview.imageAsset.altText || `${review.customerName} review`}
           loading="lazy"
         />
-        <span className="customer-review-media-label"><i className="fa-regular fa-image" /> Photo Review</span>
+        <span className="customer-review-media-label"><PublicIcon iconClass="fa-regular fa-image" /> Photo Review</span>
       </div>
     );
   }
@@ -34,8 +35,8 @@ function Preview({ review }) {
       <div className="customer-review-card-media customer-review-card-video">
         <YouTubeThumbnail videoId={preview.youtubeVideoId} alt={`${review.customerName} video review`} />
         <span className="customer-review-video-overlay" aria-hidden="true" />
-        <span className="customer-review-play" aria-hidden="true"><i className="fa-solid fa-play" /></span>
-        <span className="customer-review-media-label"><i className="fa-solid fa-circle-play" /> Video Review</span>
+        <span className="customer-review-play" aria-hidden="true"><PublicIcon iconClass="fa-solid fa-play" /></span>
+        <span className="customer-review-media-label"><PublicIcon iconClass="fa-solid fa-circle-play" /> Video Review</span>
       </div>
     );
   }

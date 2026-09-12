@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
+import PublicIcon from './PublicIcon';
 import { getYouTubeEmbedUrl } from '@/lib/youtube';
 
 const EMPTY_FORM = { name: '', phone: '', email: '', message: '', honeypot: '' };
@@ -56,22 +57,22 @@ export default function ProjectDetailClient({ project, projectsPage, previewMode
       </div>
       <div className="flex flex-col gap-8">
         <div className="project-spec-card"><h3 className="project-spec-title">{detail.atGlanceTitle}</h3><ul className="project-spec-list">
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-building text-gold"></i> {detail.projectNameLabel}</span><span className="project-spec-value">{project.name}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-building text-gold" /> {detail.projectNameLabel}</span><span className="project-spec-value">{project.name}</span></li>
           {project.badgeText && (
             <li className="project-spec-item">
-              <span className="project-spec-label"><i className="fa-solid fa-circle-info text-gold"></i> Status</span>
+              <span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-circle-info text-gold" /> Status</span>
               <span className="project-spec-value">
                 <span className={`project-detail-badge badge-${project.lifecycle}`} style={['ongoing', 'completed', 'upcoming'].includes(project.lifecycle) ? undefined : { backgroundColor: 'var(--primary-navy)' }}>{project.badgeText}</span>
               </span>
             </li>
           )}
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-location-dot text-gold"></i> {detail.locationLabel}</span><span className="project-spec-value">{project.detailLocation}</span></li>
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-briefcase text-gold"></i> {detail.projectTypeLabel}</span><span className="project-spec-value">{project.projectType}</span></li>
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-layer-group text-gold"></i> {detail.floorsLabel}</span><span className="project-spec-value">{project.floors}</span></li>
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-ruler-combined text-gold"></i> {detail.landAreaLabel}</span><span className="project-spec-value">{project.landArea}</span></li>
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-up-down text-gold"></i> {detail.heightLabel}</span><span className="project-spec-value">{project.buildingHeight}</span></li>
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-arrows-left-right text-gold"></i> {detail.unitSizesLabel}</span><span className="project-spec-value text-right" style={{ maxWidth: '180px' }}>{project.detailSize}</span></li>
-          <li className="project-spec-item"><span className="project-spec-label"><i className="fa-solid fa-square-parking text-gold"></i> {detail.parkingLabel}</span><span className="project-spec-value text-right" style={{ maxWidth: '180px' }}>{project.parking}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-location-dot text-gold" /> {detail.locationLabel}</span><span className="project-spec-value">{project.detailLocation}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-briefcase text-gold" /> {detail.projectTypeLabel}</span><span className="project-spec-value">{project.projectType}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-layer-group text-gold" /> {detail.floorsLabel}</span><span className="project-spec-value">{project.floors}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-ruler-combined text-gold" /> {detail.landAreaLabel}</span><span className="project-spec-value">{project.landArea}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-up-down text-gold" /> {detail.heightLabel}</span><span className="project-spec-value">{project.buildingHeight}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-arrows-left-right text-gold" /> {detail.unitSizesLabel}</span><span className="project-spec-value text-right" style={{ maxWidth: '180px' }}>{project.detailSize}</span></li>
+          <li className="project-spec-item"><span className="project-spec-label"><PublicIcon iconClass="fa-solid fa-square-parking text-gold" /> {detail.parkingLabel}</span><span className="project-spec-value text-right" style={{ maxWidth: '180px' }}>{project.parking}</span></li>
         </ul></div>
         <div className="project-spec-card"><h3 className="project-spec-title" style={{ marginBottom: '10px' }}>{detail.formTitle}</h3><p className="text-gray-400 text-xs mb-6">{detail.formDescription}</p><form onSubmit={submit} className="flex flex-col gap-4">
           <input aria-hidden="true" tabIndex={-1} autoComplete="off" value={form.honeypot} onChange={(event) => update('honeypot', event.target.value)} style={{ position: 'absolute', left: '-10000px' }} />

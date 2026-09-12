@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import PageHeader from './PageHeader';
 import ScrollToTop from './ScrollToTop';
+import PublicIcon from './PublicIcon';
 import { normalizeGoogleMapsEmbedUrl } from '@/lib/googleMaps';
 
 const CATEGORY_OPTIONS = [
@@ -76,10 +77,10 @@ export default function LandownerEnquiryForm({ infoCards = [], map }) {
             <div className="container grid-4 gap-6">
               {cards.map((card) => (
                 <div className="contact-info-card" key={card.itemId}>
-                  <div className="icon-wrapper"><i className={card.iconClass}></i></div>
+                  <div className="icon-wrapper"><PublicIcon iconClass={card.iconClass} /></div>
                   <h4 className="text-navy font-bold text-base mb-2">{card.title}</h4>
                   <p className={`text-gray-500 text-xs leading-relaxed ${card.ctaLabel ? 'mb-4' : ''}`}><Lines value={card.body} /></p>
-                  {card.ctaLabel && <a href={card.ctaUrl} target={card.ctaTarget} rel={card.ctaTarget === '_blank' ? 'noopener noreferrer' : undefined} className="btn btn-secondary text-xxs inline-block" style={{ padding: '8px 16px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid var(--accent-gold)' }}>{card.ctaLabel}{card.ctaIconClass && <> <i className={`${card.ctaIconClass} ml-1`}></i></>}</a>}
+                  {card.ctaLabel && <a href={card.ctaUrl} target={card.ctaTarget} rel={card.ctaTarget === '_blank' ? 'noopener noreferrer' : undefined} className="btn btn-secondary text-xxs inline-block" style={{ padding: '8px 16px', fontSize: '0.75rem', borderRadius: '4px', border: '1px solid var(--accent-gold)' }}>{card.ctaLabel}{card.ctaIconClass && <> <PublicIcon iconClass={`${card.ctaIconClass} ml-1`} /></>}</a>}
                 </div>
               ))}
             </div>

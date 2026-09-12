@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePublicShell } from './PublicShellProvider';
 import { getCloudinaryUrl } from '@/lib/imageOptimization';
+import PublicIcon from './PublicIcon';
 
 function ExternalProps({ target }) {
   return target === '_blank' ? { target, rel: 'noopener noreferrer' } : { target };
@@ -105,7 +106,7 @@ export default function Navbar() {
                         style={{ cursor: 'pointer' }}
                       >
                         {item.label}
-                        {hasChildren && <i className="fa-solid fa-chevron-down dropdown-icon" />}
+                        {hasChildren && <PublicIcon iconClass="fa-solid fa-chevron-down dropdown-icon" />}
                       </span>
                     ) : (
                       <Link
@@ -114,7 +115,7 @@ export default function Navbar() {
                         className={`nav-link ${item.itemKey === 'nav-contact' ? 'contact-btn-nav ' : ''}${active(item.url) ? 'active' : ''}`}
                       >
                         {item.label}
-                        {hasChildren && <i className="fa-solid fa-chevron-down dropdown-icon" />}
+                        {hasChildren && <PublicIcon iconClass="fa-solid fa-chevron-down dropdown-icon" />}
                       </Link>
                     )}
                     {hasChildren && (
@@ -152,7 +153,7 @@ export default function Navbar() {
         <div className="drawer-header">
           <BrandLockup shell={shell} logoUrl={logoUrl} />
           <button className="drawer-close-btn" onClick={toggleDrawer} aria-label="Close Menu">
-            <i className="fa-solid fa-xmark" />
+            <PublicIcon iconClass="fa-solid fa-xmark" />
           </button>
         </div>
         <nav className="mobile-nav" aria-label="Mobile Navigation">
@@ -166,7 +167,7 @@ export default function Navbar() {
                     className={`mobile-dropdown-btn ${openMobileKey === item.itemKey ? 'active' : ''}`}
                     onClick={() => setOpenMobileKey(openMobileKey === item.itemKey ? null : item.itemKey)}
                   >
-                    {item.mobileLabel || item.label} <i className="fa-solid fa-chevron-down" />
+                    {item.mobileLabel || item.label} <PublicIcon iconClass="fa-solid fa-chevron-down" />
                   </button>
                   <ul className={`mobile-dropdown-menu ${openMobileKey === item.itemKey ? 'open' : ''}`}>
                     {children.map((child) => (
@@ -199,15 +200,15 @@ export default function Navbar() {
           </ul>
           <div className="drawer-footer">
             <p className="drawer-address">
-              <i className="fa-solid fa-location-dot" /> {shell.mobileDrawer.address}
+              <PublicIcon iconClass="fa-solid fa-location-dot" /> {shell.mobileDrawer.address}
             </p>
             <p className="drawer-phone">
-              <i className="fa-solid fa-phone" /> {shell.mobileDrawer.phone}
+              <PublicIcon iconClass="fa-solid fa-phone" /> {shell.mobileDrawer.phone}
             </p>
             <div className="drawer-socials">
               {socials.slice(0, 3).map((item) => (
                 <a key={item.itemKey} href={item.url} {...ExternalProps(item)} aria-label={item.platformName}>
-                  <i className={`fa-brands ${item.iconKey}`} />
+                  <PublicIcon iconClass={`fa-brands ${item.iconKey}`} />
                 </a>
               ))}
             </div>
